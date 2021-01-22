@@ -7,6 +7,11 @@ class UserRepository with ChangeNotifier {
   final CollectionReference _firestoreInstance =
       FirebaseFirestore.instance.collection('users');
 
+  Stream<User> onAuthStateHasData() {
+    notifyListeners();
+    return _authInstance.authStateChanges();
+  }
+
   Future<void> addUserToFirebase(
       String username, String password, String email, bool isLogin) async {
     if (!isLogin) {
