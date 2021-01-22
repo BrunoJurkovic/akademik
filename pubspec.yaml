@@ -16,8 +16,12 @@ dependencies:
   firebase_storage: ^7.0.0
   cloud_firestore: ^0.16.0
   firebase_auth: ^0.20.0+1
+  provider: ^4.3.3
+  auto_route: ^0.6.9
 
 dev_dependencies:
+  auto_route_generator:
+  build_runner:
   flutter_test:
     sdk: flutter
   integration_test:
