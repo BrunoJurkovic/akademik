@@ -1,4 +1,6 @@
+import 'package:akademik/routes/akademik_router.gr.dart';
 import 'package:akademik/screens/home/home.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -11,6 +13,10 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
+      builder: ExtendedNavigator.builder<AkademikRouter>(
+        router: AkademikRouter(),
+      ),
+      onGenerateRoute: AkademikRouter(),
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
