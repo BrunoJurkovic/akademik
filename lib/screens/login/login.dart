@@ -12,26 +12,41 @@ class _AuthScreenState extends State<AuthScreen> {
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
     return Scaffold(
-        body: SafeArea(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
+      body: Column(
+        // mainAxisAlignment: MainAxisAlignment.space,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Center(
             child: Container(
-              width: width * 0.6,
-              height: height * 0.6,
-              child: Image.asset('assets/images/login.png'),
+              decoration: BoxDecoration(
+                color: Colors.deepPurpleAccent.withOpacity(0.8),
+                borderRadius: BorderRadius.only(
+                  bottomLeft: Radius.circular(30),
+                  bottomRight: Radius.circular(30),
+                ),
+              ),
+              padding: EdgeInsets.fromLTRB(15, 25, 15, 0),
+              width: width * 1,
+              height: height * 0.35,
+              child: Image.asset(
+                'assets/images/login.png',
+                alignment: Alignment.center,
+                fit: BoxFit.contain,
+              ),
             ),
           ),
-          Text(
-            'Login',
-            style: GoogleFonts.montserrat(
-              color: Colors.black87,
-              fontWeight: FontWeight.w700,
+          Padding(
+            padding: EdgeInsets.fromLTRB(width * 0.03, width * 0.10, 0, 0),
+            child: Text(
+              'Login',
+              style: GoogleFonts.montserrat(
+                  color: Colors.black87,
+                  fontWeight: FontWeight.w700,
+                  fontSize: height * 0.045),
             ),
-          )
+          ),
         ],
       ),
-    ));
+    );
   }
 }

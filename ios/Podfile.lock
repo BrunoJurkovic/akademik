@@ -328,6 +328,8 @@ PODS:
     - nanopb/encode (= 2.30906.0)
   - nanopb/decode (2.30906.0)
   - nanopb/encode (2.30906.0)
+  - path_provider (0.0.1):
+    - Flutter
   - phone_number (0.6.2):
     - Flutter
     - PhoneNumberKit/PhoneNumberKitCore (~> 3.2.0)
@@ -343,6 +345,7 @@ DEPENDENCIES:
   - flutter_keyboard_visibility (from `.symlinks/plugins/flutter_keyboard_visibility/ios`)
   - image_picker (from `.symlinks/plugins/image_picker/ios`)
   - integration_test (from `.symlinks/plugins/integration_test/ios`)
+  - path_provider (from `.symlinks/plugins/path_provider/ios`)
   - phone_number (from `.symlinks/plugins/phone_number/ios`)
 
 SPEC REPOS:
@@ -382,6 +385,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/image_picker/ios"
   integration_test:
     :path: ".symlinks/plugins/integration_test/ios"
+  path_provider:
+    :path: ".symlinks/plugins/path_provider/ios"
   phone_number:
     :path: ".symlinks/plugins/phone_number/ios"
 
@@ -409,6 +414,7 @@ SPEC CHECKSUMS:
   integration_test: 6eb66a19f7104200dcfdd62bc0077e1b09686e4f
   leveldb-library: 55d93ee664b4007aac644a782d11da33fba316f7
   nanopb: 1bf24dd71191072e120b83dd02d08f3da0d65e53
+  path_provider: abfe2b5c733d04e238b0d8691db0cfd63a27a93c
   phone_number: b545f5b7d9711bec0f020c7df43ae5a82119f4ad
   PhoneNumberKit: df411d46177d1492da84e10b6c093846dd861452
   PromisesObjC: 3113f7f76903778cf4a0586bd1ab89329a0b7b97
