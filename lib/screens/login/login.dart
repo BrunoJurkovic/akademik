@@ -22,7 +22,7 @@ class _AuthScreenState extends State<AuthScreen> {
           Center(
             child: Container(
               decoration: BoxDecoration(
-                color: Colors.deepPurpleAccent.withOpacity(0.8),
+                color: Colors.redAccent,
                 borderRadius: BorderRadius.only(
                   bottomLeft: Radius.circular(30),
                   bottomRight: Radius.circular(30),
@@ -140,6 +140,28 @@ class _AuthScreenState extends State<AuthScreen> {
                     ],
                   ),
                 ],
+              ),
+            ),
+          ),
+          Container(
+            padding: EdgeInsets.symmetric(vertical: 25),
+            alignment: Alignment.center,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.all(
+                Radius.circular(25),
+              ),
+            ),
+            child: FlatButton(
+              minWidth: width * 0.75,
+              color: Colors.redAccent,
+              onPressed: () {},
+              child: Text(
+                'Log in',
+                style: GoogleFonts.montserrat(
+                  color: Colors.white,
+                  fontWeight: FontWeight.w700,
+                  fontSize: height * 0.02,
+                ),
               ),
             ),
           ),
