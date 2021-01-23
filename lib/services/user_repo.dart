@@ -7,9 +7,9 @@ class UserRepository with ChangeNotifier {
   final CollectionReference _firestoreInstance =
       FirebaseFirestore.instance.collection('users');
 
-  Stream<User> onAuthStateHasData() {
-    notifyListeners();
-    return _authInstance.authStateChanges();
+  bool get isUserLoggedIn {
+    print(_authInstance.currentUser.toString());
+    return !(_authInstance.currentUser != null);
   }
 
   Future<void> addUserToFirebase(
