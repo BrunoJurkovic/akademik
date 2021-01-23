@@ -20,6 +20,7 @@ dependencies:
   auto_route: ^0.6.9
   google_fonts: ^1.1.1
   cupertino_icons: ^1.0.1
+  font_awesome_flutter: ^8.11.0
 
 dev_dependencies:
   auto_route_generator:
