@@ -167,7 +167,8 @@ class _AuthScreenState extends State<AuthScreen> {
                     _formKey.currentState.value['password'].toString().trim(),
                   );
                   if (userCredential != null) {
-                    await ExtendedNavigator.of(context).replace('/home-screen');
+                    await ExtendedNavigator.of(context)
+                        .popAndPush('/home-screen');
                   }
                 }
               },

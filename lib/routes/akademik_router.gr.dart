@@ -13,7 +13,7 @@ import '../screens/home/home.dart';
 import '../screens/login/login.dart';
 
 class Routes {
-  static const String authScreen = '/';
+  static const String authScreen = '/auth-screen';
   static const String homeScreen = '/home-screen';
   static const all = <String>{
     authScreen,
