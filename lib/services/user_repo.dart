@@ -12,22 +12,18 @@ class UserRepository with ChangeNotifier {
     return !(_authInstance.currentUser != null);
   }
 
-  Future<void> addUserToFirebase(
-      String username, String password, String email, bool isLogin) async {
-    if (!isLogin) {
-      final userCredential = await _authInstance.createUserWithEmailAndPassword(
-        email: email,
-        password: password,
-      );
-      await _firestoreInstance.doc(userCredential.user.uid).set(
-        {
-          'username': username,
-          'email': email,
-        },
-      );
-    } else {
-      await _authInstance.signInWithEmailAndPassword(
+  Future<UserCredential> signInToFirebase(String email, String password) async {
+    try {
+      UserCredential userCredential;
+      userCredential = await _authInstance.signInWithEmailAndPassword(
           email: email, password: password);
+      return userCredential;
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'user-not-found') {
+        print('No user found for that email.');
+      } else if (e.code == 'wrong-password') {
+        print('Wrong password provided for that user.');
+      }
     }
   }
 }

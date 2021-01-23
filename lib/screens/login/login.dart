@@ -1,7 +1,11 @@
+import 'package:akademik/services/user_repo.dart';
+import 'package:auto_route/auto_route.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 
 class AuthScreen extends StatefulWidget {
   @override
@@ -79,7 +83,6 @@ class _AuthScreenState extends State<AuthScreen> {
                       fontWeight: FontWeight.w500,
                       fontSize: height * 0.02,
                     ),
-                    onChanged: (_) {},
                     decoration: InputDecoration(
                       border: InputBorder.none,
                       labelStyle: GoogleFonts.montserrat(
@@ -121,7 +124,6 @@ class _AuthScreenState extends State<AuthScreen> {
                       fontSize: height * 0.02,
                     ),
                     autofocus: true,
-                    onChanged: (_) {},
                     decoration: InputDecoration(
                       border: InputBorder.none,
                       labelStyle: GoogleFonts.montserrat(
@@ -154,13 +156,27 @@ class _AuthScreenState extends State<AuthScreen> {
             child: FlatButton(
               minWidth: width * 0.75,
               color: Colors.redAccent,
-              onPressed: () {},
+              onPressed: () async {
+                _formKey.currentState.save();
+                if (_formKey.currentState.validate()) {
+                  UserCredential userCredential;
+                  userCredential =
+                      await Provider.of<UserRepository>(context, listen: false)
+                          .signInToFirebase(
+                    _formKey.currentState.value['email'].toString().trim(),
+                    _formKey.currentState.value['password'].toString().trim(),
+                  );
+                  if (userCredential != null) {
+                    await ExtendedNavigator.of(context).replace('/home-screen');
+                  }
+                }
+              },
               child: Text(
                 'Log in',
                 style: GoogleFonts.montserrat(
                   color: Colors.white,
                   fontWeight: FontWeight.w700,
-                  fontSize: height * 0.02,
+                  fontSize: height * 0.025,
                 ),
               ),
             ),
