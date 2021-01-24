@@ -21,6 +21,7 @@ dependencies:
   google_fonts: ^1.1.1
   cupertino_icons: ^1.0.1
   font_awesome_flutter: ^8.11.0
+  flutter_swiper: ^1.1.6
 
 dev_dependencies:
   auto_route_generator:
