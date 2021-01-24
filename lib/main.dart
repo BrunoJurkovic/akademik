@@ -1,6 +1,4 @@
 import 'package:akademik/routes/akademik_router.gr.dart';
-import 'package:akademik/screens/home/home.dart';
-import 'package:akademik/screens/login/login.dart';
 import 'package:akademik/services/user_repo.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:firebase_core/firebase_core.dart';
