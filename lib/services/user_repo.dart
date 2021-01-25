@@ -12,6 +12,10 @@ class UserRepository with ChangeNotifier {
     return !(_authInstance.currentUser != null);
   }
 
+  Future<void> logOutUser() {
+    return _authInstance.signOut();
+  }
+
   Future<UserCredential> signInToFirebase(String email, String password) async {
     try {
       UserCredential userCredential;

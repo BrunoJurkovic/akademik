@@ -1,9 +1,11 @@
+import 'package:akademik/services/user_repo.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:koukicons/notebook.dart';
+import 'package:provider/provider.dart';
 
 class MenuScreen extends StatefulWidget {
   @override
@@ -116,7 +118,35 @@ class _MenuScreenState extends State<MenuScreen> {
                   ],
                 );
               },
-            )
+            ),
+            SizedBox(
+              height: height * 0.03,
+            ),
+            Center(
+              child: InkWell(
+                onTap: () async {
+                  await Provider.of<UserRepository>(context, listen: false)
+                      .logOutUser();
+                  await ExtendedNavigator.of(context)
+                      .popUntil(ModalRoute.withName('/auth-screen'));
+                  await ExtendedNavigator.of(context).push('/auth-screen');
+                },
+                child: Container(
+                  height: height * 0.05,
+                  width: width * 0.3,
+                  alignment: Alignment.center,
+                  child: Text(
+                    'Logout',
+                    style: GoogleFonts.montserrat(
+                      color: Colors.redAccent,
+                      wordSpacing: 5,
+                      fontWeight: FontWeight.w600,
+                      fontSize: height * 0.022,
+                    ),
+                  ),
+                ),
+              ),
+            ),
           ],
         ),
       ),
