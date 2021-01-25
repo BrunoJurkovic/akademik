@@ -81,7 +81,11 @@ class _MenuScreenState extends State<MenuScreen> {
                 mainAxisSpacing: 35,
               ),
               children: [
-                AkademikGridItem(text: 'Dashboard', callback: () {}),
+                AkademikGridItem(
+                    text: 'Dashboard',
+                    callback: () {
+                      ExtendedNavigator.of(context).pop();
+                    }),
                 AkademikGridItem(text: 'Homework', callback: () {}),
                 AkademikGridItem(text: 'Attendance', callback: () {}),
                 AkademikGridItem(text: 'Exams', callback: () {}),
