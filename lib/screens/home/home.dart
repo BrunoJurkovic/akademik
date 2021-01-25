@@ -1,4 +1,3 @@
-import 'package:circular_check_box/circular_check_box.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -84,7 +83,7 @@ class _HomeScreenState extends State<HomeScreen> {
             height: height * 0.5,
             padding: EdgeInsets.all(10),
             child: ListView.builder(
-              itemCount: 5,
+              itemCount: 8,
               itemBuilder: (BuildContext context, int index) {
                 return Column(
                   children: [
