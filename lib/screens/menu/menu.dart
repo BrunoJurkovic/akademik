@@ -56,12 +56,6 @@ class _MenuScreenState extends State<MenuScreen> {
               ],
             ),
           ),
-          // shape: RoundedRectangleBorder(
-          //   borderRadius: BorderRadius.only(
-          //     bottomLeft: Radius.circular(20),
-          //     bottomRight: Radius.circular(20),
-          //   ),
-          // ),
           leading: Row(
             children: [
               Padding(
@@ -79,45 +73,24 @@ class _MenuScreenState extends State<MenuScreen> {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            GridView.builder(
+            GridView(
               shrinkWrap: true,
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 3,
                 crossAxisSpacing: 10.0,
                 mainAxisSpacing: 35,
               ),
-              itemCount: 11,
-              itemBuilder: (ctx, index) {
-                return Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Expanded(
-                      child: GestureDetector(
-                        onTap: () {
-                          print(index);
-                        },
-                        child: Container(
-                            width: width * 0.2,
-                            height: height * 0.2,
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              color: Colors.white.withOpacity(0.9),
-                            ),
-                            child: Image.asset('assets/images/bookmarkC.png')),
-                      ),
-                    ),
-                    Text(
-                      'Reports',
-                      style: GoogleFonts.montserrat(
-                        color: Colors.white,
-                        fontWeight: FontWeight.w400,
-                        fontSize: height * 0.022,
-                      ),
-                    ),
-                  ],
-                );
-              },
+              children: [
+                AkademikGridItem(text: 'Dashboard', callback: () {}),
+                AkademikGridItem(text: 'Homework', callback: () {}),
+                AkademikGridItem(text: 'Attendance', callback: () {}),
+                AkademikGridItem(text: 'Exams', callback: () {}),
+                AkademikGridItem(text: 'Calendar', callback: () {}),
+                AkademikGridItem(text: 'News', callback: () {}),
+                AkademikGridItem(text: 'Grades', callback: () {}),
+                AkademikGridItem(text: 'Notes', callback: () {}),
+                AkademikGridItem(text: 'Profile', callback: () {}),
+              ],
             ),
             SizedBox(
               height: height * 0.03,
@@ -150,6 +123,52 @@ class _MenuScreenState extends State<MenuScreen> {
           ],
         ),
       ),
+    );
+  }
+}
+
+class AkademikGridItem extends StatelessWidget {
+  const AkademikGridItem({
+    Key key,
+    this.text,
+    this.callback,
+  }) : super(key: key);
+
+  final String text;
+  final Function callback;
+
+  @override
+  Widget build(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
+    final height = MediaQuery.of(context).size.height;
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Expanded(
+          child: GestureDetector(
+            onTap: () {
+              callback();
+            },
+            child: Container(
+                width: width * 0.2,
+                height: height * 0.2,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: Colors.white.withOpacity(0.9),
+                ),
+                child: Image.asset('assets/images/bookmarkC.png')),
+          ),
+        ),
+        Text(
+          text,
+          style: GoogleFonts.montserrat(
+            color: Colors.white,
+            fontWeight: FontWeight.w400,
+            fontSize: height * 0.022,
+          ),
+        ),
+      ],
     );
   }
 }
