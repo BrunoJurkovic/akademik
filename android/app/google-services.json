@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "922157731360",
+    "project_id": "akadem-77fc3",
+    "storage_bucket": "akadem-77fc3.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:922157731360:android:0e64e130b6e5615b787645",
+        "android_client_info": {
+          "package_name": "com.remade.akademik"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "922157731360-kiq274bunfbel6sh3qf8l3ed8kh0bkmo.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.remade.akademik",
+            "certificate_hash": "285818d46af6316bf47b8d9ab6e5abdd387dca26"
+          }
+        },
+        {
+          "client_id": "922157731360-sbqcnuva1kporo6e5p8cmarcut00tcgq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAXIQ6yBeKQY0An6tt_vTwI240SELoBmM4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "922157731360-sbqcnuva1kporo6e5p8cmarcut00tcgq.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
