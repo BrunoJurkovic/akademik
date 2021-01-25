@@ -35,25 +35,15 @@ class AppStart extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       builder: ExtendedNavigator.builder<AkademikRouter>(
-          router: AkademikRouter(),
-          initialRoute: Provider.of<UserRepository>(context).isUserLoggedIn
-              ? '/'
-              : '/home-screen'),
+        router: AkademikRouter(),
+        initialRoute: Provider.of<UserRepository>(context).isUserLoggedIn
+            ? '/auth-screen'
+            : '/home-screen',
+      ),
       onGenerateRoute: AkademikRouter(),
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      // home: StreamBuilder(
-      //   stream: Provider.of<UserRepository>(context).onAuthStateHasData,
-      //   builder: (BuildContext ctx, AsyncSnapshot<User> snapshot) {
-      //     if (snapshot.hasData) {
-      //       print(snapshot.data);
-      //       return HomeScreen();
-      //     } else {
-      //       return AuthScreen();
-      //     }
-      //   },
-      // ),
     );
   }
 }
