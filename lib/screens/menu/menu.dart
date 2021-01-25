@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:koukicons/notebook.dart';
 
 class MenuScreen extends StatefulWidget {
   @override
@@ -90,14 +91,18 @@ class _MenuScreenState extends State<MenuScreen> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Expanded(
-                      child: Container(
-                        width: width * 0.2,
-                        height: height * 0.2,
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: Colors.white.withOpacity(0.9),
-                        ),
-                        child: Icon(FontAwesomeIcons.school),
+                      child: GestureDetector(
+                        onTap: () {
+                          print(index);
+                        },
+                        child: Container(
+                            width: width * 0.2,
+                            height: height * 0.2,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: Colors.white.withOpacity(0.9),
+                            ),
+                            child: Image.asset('assets/images/bookmarkC.png')),
                       ),
                     ),
                     Text(
