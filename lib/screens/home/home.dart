@@ -1,8 +1,10 @@
+import 'package:akademik/services/user_repo.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -10,6 +12,16 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  @override
+  void initState() {
+    Future.delayed(Duration.zero, () async {
+      await Provider.of<UserRepository>(context, listen: false)
+          .getCurrentUser();
+    });
+    super.initState();
+  }
+
+  bool _isLoading = false;
   var _isChecked = false;
   @override
   Widget build(BuildContext context) {
@@ -21,7 +33,11 @@ class _HomeScreenState extends State<HomeScreen> {
         child: AppBar(
           actions: [
             Padding(
-              child: CircleAvatar(),
+              child: CircleAvatar(
+                backgroundImage: NetworkImage(
+                  Provider.of<UserRepository>(context).currentUser.pictureUrl,
+                ),
+              ),
               padding: EdgeInsets.only(right: width * 0.03),
             ),
           ],
@@ -32,7 +48,7 @@ class _HomeScreenState extends State<HomeScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Bruno Jurković',
+                  Provider.of<UserRepository>(context).currentUser.name,
                   style: GoogleFonts.montserrat(
                     color: Colors.white,
                     fontWeight: FontWeight.w500,
@@ -40,7 +56,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
                 Text(
-                  '3.C Razred',
+                  '${Provider.of<UserRepository>(context).currentUser.year}th grade',
                   style: GoogleFonts.montserrat(
                     color: Colors.white,
                     fontWeight: FontWeight.w400,

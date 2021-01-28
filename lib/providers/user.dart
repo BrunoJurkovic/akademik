@@ -9,6 +9,7 @@ class AkademikUser with ChangeNotifier {
   final String pictureUrl;
 
   factory AkademikUser.fromDocument(DocumentSnapshot doc) {
+    print(doc.toString());
     return AkademikUser(
       email: doc['email'] as String,
       name: doc['name'] as String,

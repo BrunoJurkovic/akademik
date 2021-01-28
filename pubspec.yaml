@@ -23,6 +23,7 @@ dependencies:
   font_awesome_flutter: ^8.11.0
   flutter_swiper: ^1.1.6
   koukicons: ^2.0.3
+  intl:
 
 dev_dependencies:
   auto_route_generator:
