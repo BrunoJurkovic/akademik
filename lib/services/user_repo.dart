@@ -21,6 +21,7 @@ class UserRepository with ChangeNotifier {
         .where('email', isEqualTo: _authInstance.currentUser.email)
         .get();
     _currentUser = AkademikUser.fromDocument(query.docs[0]);
+    notifyListeners();
   }
 
   bool get isUserLoggedIn {
@@ -29,6 +30,7 @@ class UserRepository with ChangeNotifier {
   }
 
   Future<void> logOutUser() {
+    notifyListeners();
     return _authInstance.signOut();
   }
 

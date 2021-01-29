@@ -1,3 +1,5 @@
+import 'package:akademik/providers/homework.dart';
+import 'package:akademik/services/homework_repo.dart';
 import 'package:akademik/services/user_repo.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
@@ -12,17 +14,30 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  bool _isLoading = false;
+  var _isChecked = false;
+  List<AkademikHomework> todaysHomework = [];
+
   @override
   void initState() {
     Future.delayed(Duration.zero, () async {
+      setState(() {
+        _isLoading = true;
+      });
       await Provider.of<UserRepository>(context, listen: false)
           .getCurrentUser();
+      await Provider.of<HomeworkRepository>(context, listen: false)
+          .getHomeworkList();
+      todaysHomework = Provider.of<HomeworkRepository>(context, listen: false)
+          .getTodayHomework;
+      print(todaysHomework);
+      setState(() {
+        _isLoading = false;
+      });
     });
     super.initState();
   }
 
-  bool _isLoading = false;
-  var _isChecked = false;
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
@@ -44,27 +59,29 @@ class _HomeScreenState extends State<HomeScreen> {
           backgroundColor: Colors.deepPurpleAccent.withOpacity(0.85),
           title: Transform(
             transform: Matrix4.translationValues(-(width * 0.15), 0.0, 0.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  Provider.of<UserRepository>(context).currentUser.name,
-                  style: GoogleFonts.montserrat(
-                    color: Colors.white,
-                    fontWeight: FontWeight.w500,
-                    fontSize: height * 0.025,
+            child: _isLoading
+                ? CircularProgressIndicator()
+                : Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        Provider.of<UserRepository>(context).currentUser.name,
+                        style: GoogleFonts.montserrat(
+                          color: Colors.white,
+                          fontWeight: FontWeight.w500,
+                          fontSize: height * 0.025,
+                        ),
+                      ),
+                      Text(
+                        '${Provider.of<UserRepository>(context).currentUser.year}th grade',
+                        style: GoogleFonts.montserrat(
+                          color: Colors.white,
+                          fontWeight: FontWeight.w400,
+                          fontSize: height * 0.02,
+                        ),
+                      ),
+                    ],
                   ),
-                ),
-                Text(
-                  '${Provider.of<UserRepository>(context).currentUser.year}th grade',
-                  style: GoogleFonts.montserrat(
-                    color: Colors.white,
-                    fontWeight: FontWeight.w400,
-                    fontSize: height * 0.02,
-                  ),
-                ),
-              ],
-            ),
           ),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.only(
@@ -102,8 +119,9 @@ class _HomeScreenState extends State<HomeScreen> {
             height: height * 0.5,
             padding: EdgeInsets.all(10),
             child: ListView.builder(
-              itemCount: 8,
+              itemCount: todaysHomework.length,
               itemBuilder: (BuildContext context, int index) {
+                print(todaysHomework);
                 return Column(
                   children: [
                     Container(
@@ -130,7 +148,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  'Read page 54 and answer the questions.',
+                                  todaysHomework[index].assignment,
                                   overflow: TextOverflow.fade,
                                   style: GoogleFonts.montserrat(
                                     color: Colors.black87,
@@ -141,14 +159,23 @@ class _HomeScreenState extends State<HomeScreen> {
                                 SizedBox(
                                   height: height * 0.0075,
                                 ),
-                                Text(
-                                  'English',
-                                  style: GoogleFonts.montserrat(
-                                    color: Colors.black38,
-                                    fontWeight: FontWeight.w500,
-                                    fontSize: height * 0.013,
-                                  ),
-                                ),
+                                todaysHomework.isNotEmpty
+                                    ? Text(
+                                        todaysHomework[index].aclass,
+                                        style: GoogleFonts.montserrat(
+                                          color: Colors.black38,
+                                          fontWeight: FontWeight.w500,
+                                          fontSize: height * 0.013,
+                                        ),
+                                      )
+                                    : Text(
+                                        'There is no homework today.',
+                                        style: GoogleFonts.montserrat(
+                                          color: Colors.black38,
+                                          fontWeight: FontWeight.w500,
+                                          fontSize: height * 0.013,
+                                        ),
+                                      ),
                               ],
                             ),
                           ),
