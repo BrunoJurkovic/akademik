@@ -12,7 +12,12 @@ class UserRepository with ChangeNotifier {
   AkademikUser get currentUser {
     return _currentUser ??
         AkademikUser(
-            name: '', email: '', pictureUrl: '', username: '', year: 0);
+            name: '',
+            email: '',
+            pictureUrl:
+                'https://upload.wikimedia.org/wikipedia/commons/9/99/Sample_User_Icon.png',
+            username: '',
+            year: 0);
   }
 
   Future<void> getCurrentUser() async {
