@@ -1,4 +1,6 @@
 import 'package:akademik/routes/akademik_router.gr.dart';
+import 'package:akademik/services/homework_repo.dart';
+import 'package:akademik/services/news_repo.dart';
 import 'package:akademik/services/user_repo.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -18,6 +20,12 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(
           create: (ctx) => UserRepository(),
+        ),
+        ChangeNotifierProvider(
+          create: (ctx) => HomeworkRepository(),
+        ),
+        ChangeNotifierProvider(
+          create: (ctx) => NewsRepository(),
         ),
       ],
       child: const AppStart(),

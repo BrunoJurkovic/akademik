@@ -1,7 +1,16 @@
+import 'package:akademik/providers/homework.dart';
+import 'package:akademik/providers/news.dart';
+import 'package:akademik/services/homework_repo.dart';
+import 'package:akademik/services/news_repo.dart';
+import 'package:akademik/services/user_repo.dart';
+import 'package:auto_route/auto_route.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -9,7 +18,34 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  bool _isLoading = false;
   var _isChecked = false;
+  List<AkademikHomework> todaysHomework = [];
+  List<AkademikNews> news = [];
+
+  @override
+  void initState() {
+    Future.delayed(Duration.zero, () async {
+      setState(() {
+        _isLoading = true;
+      });
+      await Provider.of<UserRepository>(context, listen: false)
+          .getCurrentUser();
+      await Provider.of<NewsRepository>(context, listen: false).getNews();
+      await Provider.of<HomeworkRepository>(context, listen: false)
+          .getHomeworkList();
+      todaysHomework = Provider.of<HomeworkRepository>(context, listen: false)
+          .getTodayHomework;
+      news = Provider.of<NewsRepository>(context, listen: false).news;
+      print(todaysHomework);
+      print(news.toString());
+      setState(() {
+        _isLoading = false;
+      });
+    });
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
@@ -20,34 +56,40 @@ class _HomeScreenState extends State<HomeScreen> {
         child: AppBar(
           actions: [
             Padding(
-              child: CircleAvatar(),
+              child: CircleAvatar(
+                backgroundImage: CachedNetworkImageProvider(
+                  Provider.of<UserRepository>(context).currentUser.pictureUrl,
+                ),
+              ),
               padding: EdgeInsets.only(right: width * 0.03),
             ),
           ],
           backgroundColor: Colors.deepPurpleAccent.withOpacity(0.85),
           title: Transform(
             transform: Matrix4.translationValues(-(width * 0.15), 0.0, 0.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Bruno Jurković',
-                  style: GoogleFonts.montserrat(
-                    color: Colors.white,
-                    fontWeight: FontWeight.w500,
-                    fontSize: height * 0.025,
+            child: _isLoading
+                ? CircularProgressIndicator()
+                : Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        Provider.of<UserRepository>(context).currentUser.name,
+                        style: GoogleFonts.montserrat(
+                          color: Colors.white,
+                          fontWeight: FontWeight.w500,
+                          fontSize: height * 0.025,
+                        ),
+                      ),
+                      Text(
+                        '${Provider.of<UserRepository>(context).currentUser.year}th grade',
+                        style: GoogleFonts.montserrat(
+                          color: Colors.white,
+                          fontWeight: FontWeight.w400,
+                          fontSize: height * 0.02,
+                        ),
+                      ),
+                    ],
                   ),
-                ),
-                Text(
-                  '3.C Razred',
-                  style: GoogleFonts.montserrat(
-                    color: Colors.white,
-                    fontWeight: FontWeight.w400,
-                    fontSize: height * 0.02,
-                  ),
-                ),
-              ],
-            ),
           ),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.only(
@@ -59,7 +101,9 @@ class _HomeScreenState extends State<HomeScreen> {
             icon: Icon(
               FontAwesomeIcons.bars,
             ),
-            onPressed: () {},
+            onPressed: () {
+              ExtendedNavigator.of(context).push('/menu-screen');
+            },
           ),
         ),
       ),
@@ -72,7 +116,7 @@ class _HomeScreenState extends State<HomeScreen> {
               text: 'News',
             ),
           ),
-          SwiperCarousel(width: width, height: height),
+          SwiperCarousel(width: width, height: height, news: news),
           Padding(
             padding: EdgeInsets.fromLTRB(width * 0.03, width * 0.05, 0, 0),
             child: TitleWidget(
@@ -81,68 +125,95 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           Container(
             height: height * 0.5,
-            padding: EdgeInsets.all(10),
-            child: ListView.builder(
-              itemCount: 8,
-              itemBuilder: (BuildContext context, int index) {
-                return Column(
-                  children: [
-                    Container(
-                      width: width * 0.9,
-                      height: height * 0.075,
-                      padding: EdgeInsets.fromLTRB(15, 0, 0, 0),
-                      decoration: BoxDecoration(
-                        color: Colors.redAccent.withOpacity(0.3),
+            padding: EdgeInsets.fromLTRB(10, 30, 10, 10),
+            child: todaysHomework.isEmpty
+                ? Column(
+                    children: [
+                      Text(
+                        'There is no homework due today.',
+                        textAlign: TextAlign.left,
+                        style: GoogleFonts.montserrat(
+                          color: Colors.black.withOpacity(0.9),
+                          fontWeight: FontWeight.w500,
+                          fontSize: height * 0.0225,
+                        ),
                       ),
-                      child: Row(
+                      Image.asset('assets/images/homework.png')
+                    ],
+                  )
+                : ListView.builder(
+                    itemCount: todaysHomework.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      print(todaysHomework);
+                      return Column(
                         children: [
-                          Checkbox(
-                            activeColor: Colors.deepPurpleAccent.withOpacity(
-                              0.9,
-                            ),
-                            value: _isChecked,
-                            onChanged: (check) {
-                              //
-                            },
-                          ),
                           Container(
-                            padding: EdgeInsets.fromLTRB(20, 15, 0, 3),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
+                            width: width * 0.9,
+                            height: height * 0.075,
+                            padding: EdgeInsets.fromLTRB(15, 0, 0, 0),
+                            decoration: BoxDecoration(
+                              color: Colors.redAccent.withOpacity(0.3),
+                            ),
+                            child: Row(
                               children: [
-                                Text(
-                                  'Read page 54 and answer the questions.',
-                                  overflow: TextOverflow.fade,
-                                  style: GoogleFonts.montserrat(
-                                    color: Colors.black87,
-                                    fontWeight: FontWeight.w500,
-                                    fontSize: height * 0.015,
+                                Checkbox(
+                                  activeColor:
+                                      Colors.deepPurpleAccent.withOpacity(
+                                    0.9,
                                   ),
+                                  value: _isChecked,
+                                  onChanged: (check) {
+                                    //
+                                  },
                                 ),
-                                SizedBox(
-                                  height: height * 0.0075,
-                                ),
-                                Text(
-                                  'English',
-                                  style: GoogleFonts.montserrat(
-                                    color: Colors.black38,
-                                    fontWeight: FontWeight.w500,
-                                    fontSize: height * 0.013,
+                                Container(
+                                  padding: EdgeInsets.fromLTRB(20, 15, 0, 3),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        todaysHomework[index].assignment,
+                                        overflow: TextOverflow.fade,
+                                        style: GoogleFonts.montserrat(
+                                          color: Colors.black87,
+                                          fontWeight: FontWeight.w500,
+                                          fontSize: height * 0.015,
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        height: height * 0.0075,
+                                      ),
+                                      todaysHomework.isNotEmpty
+                                          ? Text(
+                                              todaysHomework[index].aclass,
+                                              style: GoogleFonts.montserrat(
+                                                color: Colors.black38,
+                                                fontWeight: FontWeight.w500,
+                                                fontSize: height * 0.013,
+                                              ),
+                                            )
+                                          : Text(
+                                              'There is no homework today.',
+                                              style: GoogleFonts.montserrat(
+                                                color: Colors.black38,
+                                                fontWeight: FontWeight.w500,
+                                                fontSize: height * 0.013,
+                                              ),
+                                            ),
+                                    ],
                                   ),
                                 ),
                               ],
                             ),
                           ),
+                          SizedBox(
+                            height: height * 0.010,
+                          ),
                         ],
-                      ),
-                    ),
-                    SizedBox(
-                      height: height * 0.010,
-                    ),
-                  ],
-                );
-              },
-            ),
+                      );
+                    },
+                  ),
           ),
         ],
       ),
@@ -150,32 +221,39 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 }
 
-class SwiperCarousel extends StatelessWidget {
+class SwiperCarousel extends StatefulWidget {
   const SwiperCarousel({
     Key key,
     @required this.width,
     @required this.height,
+    @required this.news,
   }) : super(key: key);
 
   final double width;
   final double height;
+  final List<AkademikNews> news;
 
+  @override
+  _SwiperCarouselState createState() => _SwiperCarouselState();
+}
+
+class _SwiperCarouselState extends State<SwiperCarousel> {
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.fromLTRB(20, 20, 0, 0),
       child: Container(
-        width: width * 0.80,
-        height: width * 0.45,
+        width: widget.width,
+        height: widget.width * 0.45,
         child: Swiper(
-          itemCount: 10,
+          itemCount: 3, //fix
           viewportFraction: 0.8,
           scale: 0.9,
           outer: true,
           itemBuilder: (ctx, index) {
             return Container(
               decoration: BoxDecoration(
-                color: Colors.lightBlue.withOpacity(0.25),
+                color: Color(widget.news[index].color).withOpacity(0.25),
                 borderRadius: BorderRadius.all(
                   Radius.circular(20),
                 ),
@@ -184,40 +262,41 @@ class SwiperCarousel extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Container(
-                    height: height * 0.09,
-                    width: width * 0.25,
+                    height: widget.height * 0.09,
+                    width: widget.width * 0.25,
                     padding: EdgeInsets.fromLTRB(15, 10, 0, 0),
                     child: ClipRRect(
                       borderRadius: BorderRadius.all(Radius.circular(20)),
-                      child: Image.asset(
-                        'assets/images/stock.jpg',
+                      child: CachedNetworkImage(
+                        imageUrl: widget.news[index].imageUrl,
                         fit: BoxFit.fill,
                       ),
                     ),
                   ),
                   Container(
-                    width: width * 0.55,
+                    width: widget.width * 0.55,
                     padding: EdgeInsets.fromLTRB(15, 5, 0, 0),
                     child: Text(
-                      'School is shutting down!',
+                      widget.news[index].name,
                       textAlign: TextAlign.left,
                       style: GoogleFonts.montserrat(
                         color: Colors.black.withOpacity(0.9),
                         fontWeight: FontWeight.w500,
-                        fontSize: height * 0.023,
+                        fontSize: widget.height * 0.023,
                       ),
                     ),
                   ),
                   Container(
-                    width: width * 0.55,
+                    width: widget.width * 0.55,
                     padding: EdgeInsets.fromLTRB(15, 10, 0, 0),
                     child: Text(
-                      '14.1.2021',
+                      DateFormat('dd-MM-yyyy')
+                          .format(widget.news[index].timestamp),
                       textAlign: TextAlign.left,
                       style: GoogleFonts.montserrat(
                         color: Colors.black.withOpacity(0.4),
                         fontWeight: FontWeight.w700,
-                        fontSize: height * 0.017,
+                        fontSize: widget.height * 0.017,
                       ),
                     ),
                   ),
