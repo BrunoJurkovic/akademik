@@ -1,11 +1,14 @@
 import 'package:akademik/providers/homework.dart';
+import 'package:akademik/providers/news.dart';
 import 'package:akademik/services/homework_repo.dart';
+import 'package:akademik/services/news_repo.dart';
 import 'package:akademik/services/user_repo.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -17,6 +20,7 @@ class _HomeScreenState extends State<HomeScreen> {
   bool _isLoading = false;
   var _isChecked = false;
   List<AkademikHomework> todaysHomework = [];
+  List<AkademikNews> news = [];
 
   @override
   void initState() {
@@ -26,11 +30,14 @@ class _HomeScreenState extends State<HomeScreen> {
       });
       await Provider.of<UserRepository>(context, listen: false)
           .getCurrentUser();
+      await Provider.of<NewsRepository>(context, listen: false).getNews();
       await Provider.of<HomeworkRepository>(context, listen: false)
           .getHomeworkList();
       todaysHomework = Provider.of<HomeworkRepository>(context, listen: false)
           .getTodayHomework;
+      news = Provider.of<NewsRepository>(context, listen: false).news;
       print(todaysHomework);
+      print(news.toString());
       setState(() {
         _isLoading = false;
       });
@@ -196,32 +203,39 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 }
 
-class SwiperCarousel extends StatelessWidget {
+class SwiperCarousel extends StatefulWidget {
   const SwiperCarousel({
     Key key,
     @required this.width,
     @required this.height,
+    @required this.news,
   }) : super(key: key);
 
   final double width;
   final double height;
+  final List<AkademikNews> news;
 
+  @override
+  _SwiperCarouselState createState() => _SwiperCarouselState();
+}
+
+class _SwiperCarouselState extends State<SwiperCarousel> {
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.fromLTRB(20, 20, 0, 0),
       child: Container(
-        width: width * 0.80,
-        height: width * 0.45,
+        width: widget.width * 0.80,
+        height: widget.width * 0.45,
         child: Swiper(
-          itemCount: 10,
+          itemCount: widget.news?.length ?? 0,
           viewportFraction: 0.8,
           scale: 0.9,
           outer: true,
           itemBuilder: (ctx, index) {
             return Container(
               decoration: BoxDecoration(
-                color: Colors.lightBlue.withOpacity(0.25),
+                color: Color(widget.news[index].color).withOpacity(0.25),
                 borderRadius: BorderRadius.all(
                   Radius.circular(20),
                 ),
@@ -230,40 +244,41 @@ class SwiperCarousel extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Container(
-                    height: height * 0.09,
-                    width: width * 0.25,
+                    height: widget.height * 0.09,
+                    width: widget.width * 0.25,
                     padding: EdgeInsets.fromLTRB(15, 10, 0, 0),
                     child: ClipRRect(
                       borderRadius: BorderRadius.all(Radius.circular(20)),
-                      child: Image.asset(
-                        'assets/images/stock.jpg',
+                      child: Image.network(
+                        widget.news[index].imageUrl,
                         fit: BoxFit.fill,
                       ),
                     ),
                   ),
                   Container(
-                    width: width * 0.55,
+                    width: widget.width * 0.55,
                     padding: EdgeInsets.fromLTRB(15, 5, 0, 0),
                     child: Text(
-                      'School is shutting down!',
+                      widget.news[index].name,
                       textAlign: TextAlign.left,
                       style: GoogleFonts.montserrat(
                         color: Colors.black.withOpacity(0.9),
                         fontWeight: FontWeight.w500,
-                        fontSize: height * 0.023,
+                        fontSize: widget.height * 0.023,
                       ),
                     ),
                   ),
                   Container(
-                    width: width * 0.55,
+                    width: widget.width * 0.55,
                     padding: EdgeInsets.fromLTRB(15, 10, 0, 0),
                     child: Text(
-                      '14.1.2021',
+                      DateFormat('dd-MM-yyyy')
+                          .format(widget.news[index].timestamp),
                       textAlign: TextAlign.left,
                       style: GoogleFonts.montserrat(
                         color: Colors.black.withOpacity(0.4),
                         fontWeight: FontWeight.w700,
-                        fontSize: height * 0.017,
+                        fontSize: widget.height * 0.017,
                       ),
                     ),
                   ),
