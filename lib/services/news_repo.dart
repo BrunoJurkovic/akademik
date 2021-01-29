@@ -8,7 +8,7 @@ class NewsRepository with ChangeNotifier {
       FirebaseFirestore.instance.collection('news');
 
   List<AkademikNews> get news {
-    return _news;
+    return _news ?? [];
   }
 
   Future<void> getNews() async {

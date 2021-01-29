@@ -4,6 +4,7 @@ import 'package:akademik/services/homework_repo.dart';
 import 'package:akademik/services/news_repo.dart';
 import 'package:akademik/services/user_repo.dart';
 import 'package:auto_route/auto_route.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -56,7 +57,7 @@ class _HomeScreenState extends State<HomeScreen> {
           actions: [
             Padding(
               child: CircleAvatar(
-                backgroundImage: NetworkImage(
+                backgroundImage: CachedNetworkImageProvider(
                   Provider.of<UserRepository>(context).currentUser.pictureUrl,
                 ),
               ),
@@ -115,7 +116,7 @@ class _HomeScreenState extends State<HomeScreen> {
               text: 'News',
             ),
           ),
-          SwiperCarousel(width: width, height: height),
+          SwiperCarousel(width: width, height: height, news: news),
           Padding(
             padding: EdgeInsets.fromLTRB(width * 0.03, width * 0.05, 0, 0),
             child: TitleWidget(
@@ -124,78 +125,95 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           Container(
             height: height * 0.5,
-            padding: EdgeInsets.all(10),
-            child: ListView.builder(
-              itemCount: todaysHomework.length,
-              itemBuilder: (BuildContext context, int index) {
-                print(todaysHomework);
-                return Column(
-                  children: [
-                    Container(
-                      width: width * 0.9,
-                      height: height * 0.075,
-                      padding: EdgeInsets.fromLTRB(15, 0, 0, 0),
-                      decoration: BoxDecoration(
-                        color: Colors.redAccent.withOpacity(0.3),
+            padding: EdgeInsets.fromLTRB(10, 30, 10, 10),
+            child: todaysHomework.isEmpty
+                ? Column(
+                    children: [
+                      Text(
+                        'There is no homework due today.',
+                        textAlign: TextAlign.left,
+                        style: GoogleFonts.montserrat(
+                          color: Colors.black.withOpacity(0.9),
+                          fontWeight: FontWeight.w500,
+                          fontSize: height * 0.0225,
+                        ),
                       ),
-                      child: Row(
+                      Image.asset('assets/images/homework.png')
+                    ],
+                  )
+                : ListView.builder(
+                    itemCount: todaysHomework.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      print(todaysHomework);
+                      return Column(
                         children: [
-                          Checkbox(
-                            activeColor: Colors.deepPurpleAccent.withOpacity(
-                              0.9,
-                            ),
-                            value: _isChecked,
-                            onChanged: (check) {
-                              //
-                            },
-                          ),
                           Container(
-                            padding: EdgeInsets.fromLTRB(20, 15, 0, 3),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
+                            width: width * 0.9,
+                            height: height * 0.075,
+                            padding: EdgeInsets.fromLTRB(15, 0, 0, 0),
+                            decoration: BoxDecoration(
+                              color: Colors.redAccent.withOpacity(0.3),
+                            ),
+                            child: Row(
                               children: [
-                                Text(
-                                  todaysHomework[index].assignment,
-                                  overflow: TextOverflow.fade,
-                                  style: GoogleFonts.montserrat(
-                                    color: Colors.black87,
-                                    fontWeight: FontWeight.w500,
-                                    fontSize: height * 0.015,
+                                Checkbox(
+                                  activeColor:
+                                      Colors.deepPurpleAccent.withOpacity(
+                                    0.9,
                                   ),
+                                  value: _isChecked,
+                                  onChanged: (check) {
+                                    //
+                                  },
                                 ),
-                                SizedBox(
-                                  height: height * 0.0075,
-                                ),
-                                todaysHomework.isNotEmpty
-                                    ? Text(
-                                        todaysHomework[index].aclass,
+                                Container(
+                                  padding: EdgeInsets.fromLTRB(20, 15, 0, 3),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        todaysHomework[index].assignment,
+                                        overflow: TextOverflow.fade,
                                         style: GoogleFonts.montserrat(
-                                          color: Colors.black38,
+                                          color: Colors.black87,
                                           fontWeight: FontWeight.w500,
-                                          fontSize: height * 0.013,
-                                        ),
-                                      )
-                                    : Text(
-                                        'There is no homework today.',
-                                        style: GoogleFonts.montserrat(
-                                          color: Colors.black38,
-                                          fontWeight: FontWeight.w500,
-                                          fontSize: height * 0.013,
+                                          fontSize: height * 0.015,
                                         ),
                                       ),
+                                      SizedBox(
+                                        height: height * 0.0075,
+                                      ),
+                                      todaysHomework.isNotEmpty
+                                          ? Text(
+                                              todaysHomework[index].aclass,
+                                              style: GoogleFonts.montserrat(
+                                                color: Colors.black38,
+                                                fontWeight: FontWeight.w500,
+                                                fontSize: height * 0.013,
+                                              ),
+                                            )
+                                          : Text(
+                                              'There is no homework today.',
+                                              style: GoogleFonts.montserrat(
+                                                color: Colors.black38,
+                                                fontWeight: FontWeight.w500,
+                                                fontSize: height * 0.013,
+                                              ),
+                                            ),
+                                    ],
+                                  ),
+                                ),
                               ],
                             ),
                           ),
+                          SizedBox(
+                            height: height * 0.010,
+                          ),
                         ],
-                      ),
-                    ),
-                    SizedBox(
-                      height: height * 0.010,
-                    ),
-                  ],
-                );
-              },
-            ),
+                      );
+                    },
+                  ),
           ),
         ],
       ),
@@ -225,10 +243,10 @@ class _SwiperCarouselState extends State<SwiperCarousel> {
     return Padding(
       padding: const EdgeInsets.fromLTRB(20, 20, 0, 0),
       child: Container(
-        width: widget.width * 0.80,
+        width: widget.width,
         height: widget.width * 0.45,
         child: Swiper(
-          itemCount: widget.news?.length ?? 0,
+          itemCount: 3, //fix
           viewportFraction: 0.8,
           scale: 0.9,
           outer: true,
@@ -249,8 +267,8 @@ class _SwiperCarouselState extends State<SwiperCarousel> {
                     padding: EdgeInsets.fromLTRB(15, 10, 0, 0),
                     child: ClipRRect(
                       borderRadius: BorderRadius.all(Radius.circular(20)),
-                      child: Image.network(
-                        widget.news[index].imageUrl,
+                      child: CachedNetworkImage(
+                        imageUrl: widget.news[index].imageUrl,
                         fit: BoxFit.fill,
                       ),
                     ),

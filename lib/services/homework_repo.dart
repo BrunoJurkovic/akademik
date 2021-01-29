@@ -16,6 +16,7 @@ class HomeworkRepository with ChangeNotifier {
     var list = _homeworkList.where((final homework) {
       return homework.timeDue.isAfter(DateUtil.getTodaysDate());
     }).toList();
+    print('TODAY: $list');
     return list;
   }
 
