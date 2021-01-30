@@ -88,7 +88,9 @@ class _MenuScreenState extends State<MenuScreen> {
                     }),
                 AkademikGridItem(
                     text: 'Homework',
-                    callback: () {},
+                    callback: () {
+                      ExtendedNavigator.of(context).push('/homework-screen');
+                    },
                     iconPath: 'assets/images/homework_icon.png'),
                 AkademikGridItem(text: 'Attendance', callback: () {}),
                 AkademikGridItem(text: 'Exams', callback: () {}),
