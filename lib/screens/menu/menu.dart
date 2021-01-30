@@ -86,7 +86,10 @@ class _MenuScreenState extends State<MenuScreen> {
                     callback: () {
                       ExtendedNavigator.of(context).pop();
                     }),
-                AkademikGridItem(text: 'Homework', callback: () {}),
+                AkademikGridItem(
+                    text: 'Homework',
+                    callback: () {},
+                    iconPath: 'assets/images/homework_icon.png'),
                 AkademikGridItem(text: 'Attendance', callback: () {}),
                 AkademikGridItem(text: 'Exams', callback: () {}),
                 AkademikGridItem(text: 'Calendar', callback: () {}),
@@ -132,14 +135,12 @@ class _MenuScreenState extends State<MenuScreen> {
 }
 
 class AkademikGridItem extends StatelessWidget {
-  const AkademikGridItem({
-    Key key,
-    this.text,
-    this.callback,
-  }) : super(key: key);
+  const AkademikGridItem({Key key, this.text, this.callback, this.iconPath})
+      : super(key: key);
 
   final String text;
   final Function callback;
+  final String iconPath;
 
   @override
   Widget build(BuildContext context) {
@@ -161,7 +162,14 @@ class AkademikGridItem extends StatelessWidget {
                   shape: BoxShape.circle,
                   color: Colors.white.withOpacity(0.9),
                 ),
-                child: Image.asset('assets/images/bookmarkC.png')),
+                child: Container(
+                  width: width * 0.1,
+                  height: height * 0.1,
+                  child: Image.asset(
+                    iconPath ?? 'assets/images/bookmarkC.png',
+                    fit: BoxFit.scaleDown,
+                  ),
+                )),
           ),
         ),
         Text(
