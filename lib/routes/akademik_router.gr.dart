@@ -8,6 +8,7 @@
 
 import 'package:auto_route/auto_route.dart';
 
+import '../screens/attendance/attendance.dart';
 import '../screens/home/home.dart';
 import '../screens/homework/homework.dart';
 import '../screens/login/login.dart';
@@ -18,11 +19,13 @@ class Routes {
   static const String homeScreen = '/home-screen';
   static const String menuScreen = '/menu-screen';
   static const String homeworkScreen = '/homework-screen';
+  static const String attendanceScreen = '/attendance-screen';
   static const all = <String>{
     authScreen,
     homeScreen,
     menuScreen,
     homeworkScreen,
+    attendanceScreen,
   };
 }
 
@@ -34,6 +37,7 @@ class AkademikRouter extends RouterBase {
     RouteDef(Routes.homeScreen, page: HomeScreen),
     RouteDef(Routes.menuScreen, page: MenuScreen),
     RouteDef(Routes.homeworkScreen, page: HomeworkScreen),
+    RouteDef(Routes.attendanceScreen, page: AttendanceScreen),
   ];
   @override
   Map<Type, AutoRouteFactory> get pagesMap => _pagesMap;
@@ -59,6 +63,12 @@ class AkademikRouter extends RouterBase {
     HomeworkScreen: (data) {
       return buildAdaptivePageRoute<dynamic>(
         builder: (context) => HomeworkScreen(),
+        settings: data,
+      );
+    },
+    AttendanceScreen: (data) {
+      return buildAdaptivePageRoute<dynamic>(
+        builder: (context) => AttendanceScreen(),
         settings: data,
       );
     },
