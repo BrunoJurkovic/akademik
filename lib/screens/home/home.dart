@@ -1,4 +1,5 @@
 import 'package:akademik/components/homework_list.dart';
+import 'package:akademik/components/title_widget.dart';
 import 'package:akademik/providers/homework.dart';
 import 'package:akademik/providers/news.dart';
 import 'package:akademik/services/homework_repo.dart';
@@ -235,29 +236,6 @@ class _SwiperCarouselState extends State<SwiperCarousel> {
             );
           },
         ),
-      ),
-    );
-  }
-}
-
-class TitleWidget extends StatelessWidget {
-  const TitleWidget({
-    Key key,
-    this.text,
-  }) : super(key: key);
-
-  final String text;
-
-  @override
-  Widget build(BuildContext context) {
-    final height = MediaQuery.of(context).size.height;
-    return Text(
-      text ?? '',
-      textAlign: TextAlign.left,
-      style: GoogleFonts.montserrat(
-        color: Colors.deepPurpleAccent.withOpacity(0.9),
-        fontWeight: FontWeight.w700,
-        fontSize: height * 0.033,
       ),
     );
   }
