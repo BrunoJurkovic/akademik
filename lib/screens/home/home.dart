@@ -1,3 +1,5 @@
+import 'package:akademik/components/homework_list.dart';
+import 'package:akademik/components/title_widget.dart';
 import 'package:akademik/providers/homework.dart';
 import 'package:akademik/providers/news.dart';
 import 'package:akademik/services/homework_repo.dart';
@@ -141,79 +143,8 @@ class _HomeScreenState extends State<HomeScreen> {
                       Image.asset('assets/images/homework.png')
                     ],
                   )
-                : ListView.builder(
-                    itemCount: todaysHomework.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      print(todaysHomework);
-                      return Column(
-                        children: [
-                          Container(
-                            width: width * 0.9,
-                            height: height * 0.075,
-                            padding: EdgeInsets.fromLTRB(15, 0, 0, 0),
-                            decoration: BoxDecoration(
-                              color: Colors.redAccent.withOpacity(0.3),
-                            ),
-                            child: Row(
-                              children: [
-                                Checkbox(
-                                  activeColor:
-                                      Colors.deepPurpleAccent.withOpacity(
-                                    0.9,
-                                  ),
-                                  value: _isChecked,
-                                  onChanged: (check) {
-                                    //
-                                  },
-                                ),
-                                Container(
-                                  padding: EdgeInsets.fromLTRB(20, 15, 0, 3),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        todaysHomework[index].assignment,
-                                        overflow: TextOverflow.fade,
-                                        style: GoogleFonts.montserrat(
-                                          color: Colors.black87,
-                                          fontWeight: FontWeight.w500,
-                                          fontSize: height * 0.015,
-                                        ),
-                                      ),
-                                      SizedBox(
-                                        height: height * 0.0075,
-                                      ),
-                                      todaysHomework.isNotEmpty
-                                          ? Text(
-                                              todaysHomework[index].aclass,
-                                              style: GoogleFonts.montserrat(
-                                                color: Colors.black38,
-                                                fontWeight: FontWeight.w500,
-                                                fontSize: height * 0.013,
-                                              ),
-                                            )
-                                          : Text(
-                                              'There is no homework today.',
-                                              style: GoogleFonts.montserrat(
-                                                color: Colors.black38,
-                                                fontWeight: FontWeight.w500,
-                                                fontSize: height * 0.013,
-                                              ),
-                                            ),
-                                    ],
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          SizedBox(
-                            height: height * 0.010,
-                          ),
-                        ],
-                      );
-                    },
-                  ),
+                : HomeworkList(
+                    homeworkList: todaysHomework, width: width, height: height),
           ),
         ],
       ),
@@ -305,29 +236,6 @@ class _SwiperCarouselState extends State<SwiperCarousel> {
             );
           },
         ),
-      ),
-    );
-  }
-}
-
-class TitleWidget extends StatelessWidget {
-  const TitleWidget({
-    Key key,
-    this.text,
-  }) : super(key: key);
-
-  final String text;
-
-  @override
-  Widget build(BuildContext context) {
-    final height = MediaQuery.of(context).size.height;
-    return Text(
-      text ?? '',
-      textAlign: TextAlign.left,
-      style: GoogleFonts.montserrat(
-        color: Colors.deepPurpleAccent.withOpacity(0.9),
-        fontWeight: FontWeight.w700,
-        fontSize: height * 0.033,
       ),
     );
   }

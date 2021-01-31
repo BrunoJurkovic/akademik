@@ -14,9 +14,27 @@ class HomeworkRepository with ChangeNotifier {
 
   List<AkademikHomework> get getTodayHomework {
     var list = _homeworkList.where((final homework) {
-      return homework.timeDue.isAfter(DateUtil.getTodaysDate());
+      return homework.timeDue.isAfter(DateUtil.getTodaysDate()) &
+          homework.timeDue.isBefore(DateUtil.getTomorrowsDate());
     }).toList();
     print('TODAY: $list');
+    return list;
+  }
+
+  List<AkademikHomework> get getTomorrowHomework {
+    var list = _homeworkList.where((final homework) {
+      return homework.timeDue.isAfter(DateUtil.getTomorrowsDate()) &
+          homework.timeDue.isBefore(DateUtil.getDayAfterTomorrowsDate());
+    }).toList();
+    print('TOMORROW: $list');
+    return list;
+  }
+
+  List<AkademikHomework> get getOtherHomework {
+    var list = _homeworkList.where((final homework) {
+      return !homework.timeDue.isAfter(DateUtil.getDayAfterTomorrowsDate());
+    }).toList();
+    print('OTHER: $list');
     return list;
   }
 
