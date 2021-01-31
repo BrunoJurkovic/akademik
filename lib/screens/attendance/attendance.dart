@@ -29,6 +29,11 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
           ),
         ),
       ),
+      body: SingleChildScrollView(
+        child: Column(
+          children: [],
+        ),
+      ),
     );
   }
 }
