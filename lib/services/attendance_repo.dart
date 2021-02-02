@@ -8,8 +8,10 @@ class AttendanceRepository with ChangeNotifier {
   final List<AkademikAttendance> _attendanceList = [];
 
   Future<void> fetchAttendance(String userId) async {
-    final query =
-        await _attendanceReference.where('userId', isEqualTo: userId).get();
+    final query = await _attendanceReference
+        .where('userId', isEqualTo: userId)
+        .orderBy('timestamp')
+        .get();
     query.docs.forEach((doc) {
       _attendanceList.add(AkademikAttendance.fromDocument(doc));
     });

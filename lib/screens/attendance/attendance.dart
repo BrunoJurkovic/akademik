@@ -64,76 +64,165 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
             ),
             Container(
               width: width,
-              height: height * 0.7,
-              child: ListView.builder(
-                itemCount: attendance.length,
-                itemBuilder: (ctx, index) {
-                  return Center(
-                    child: Container(
-                      width: width,
-                      height: height * 0.05,
-                      decoration: BoxDecoration(color: Colors.black12),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          Padding(
-                            padding: EdgeInsets.fromLTRB(10, 0, 5, 0),
-                            child: Text(
-                              DateFormat.yMMMd()
-                                  .format(attendance[index].timestamp),
-                              style: GoogleFonts.montserrat(
-                                color: Colors.black,
-                                fontWeight: FontWeight.w500,
-                                fontSize: height * 0.015,
-                              ),
-                            ),
-                          ),
-                          Padding(
-                            padding: EdgeInsets.fromLTRB(10, 0, 5, 0),
-                            child: Text(
-                              '${attendance[index].classTime}',
-                              style: GoogleFonts.montserrat(
-                                color: Colors.black,
-                                fontWeight: FontWeight.w500,
-                                fontSize: height * 0.015,
-                              ),
-                            ),
-                          ),
-                          Padding(
-                            padding: EdgeInsets.fromLTRB(10, 0, 5, 0),
-                            child: Text(
-                              attendance[index].aclass,
-                              style: GoogleFonts.montserrat(
-                                color: Colors.black,
-                                fontWeight: FontWeight.w500,
-                                fontSize: height * 0.015,
-                              ),
-                            ),
-                          ),
-                          Padding(
-                            padding: EdgeInsets.fromLTRB(10, 0, 5, 0),
-                            child: IndicatorWidget(color: Colors.red, text: ''),
-                          ),
-                          Padding(
-                            padding: EdgeInsets.fromLTRB(10, 0, 5, 0),
-                            child: Text(
-                              attendance[index].reason,
-                              style: GoogleFonts.montserrat(
-                                color: Colors.black,
-                                fontWeight: FontWeight.w500,
-                                fontSize: height * 0.015,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  );
-                },
+              height: height * 0.75,
+              child: Table(
+                border: TableBorder.all(color: Colors.black54),
+                children: [
+                  buildInitalTableRow(height),
+                  TableRow(),
+                ],
               ),
-            )
+            ),
           ],
         ),
+      ),
+    );
+  }
+
+  TableRow buildInitalTableRow(double height) {
+    return TableRow(
+      children: [
+        Padding(
+          padding: EdgeInsets.fromLTRB(10, 0, 5, 0),
+          child: Text(
+            'Date',
+            style: GoogleFonts.montserrat(
+              color: Colors.black,
+              fontWeight: FontWeight.w700,
+              fontSize: height * 0.019,
+            ),
+          ),
+        ),
+        Padding(
+          padding: EdgeInsets.fromLTRB(10, 0, 5, 0),
+          child: Text(
+            'Class',
+            style: GoogleFonts.montserrat(
+              color: Colors.black,
+              fontWeight: FontWeight.w700,
+              fontSize: height * 0.019,
+            ),
+          ),
+        ),
+        Padding(
+          padding: EdgeInsets.fromLTRB(10, 0, 5, 0),
+          child: Text(
+            'Subject',
+            style: GoogleFonts.montserrat(
+              color: Colors.black,
+              fontWeight: FontWeight.w700,
+              fontSize: height * 0.019,
+            ),
+          ),
+        ),
+        Padding(
+          padding: EdgeInsets.fromLTRB(10, 0, 5, 0),
+          child: Text(
+            'Reason',
+            style: GoogleFonts.montserrat(
+              color: Colors.black,
+              fontWeight: FontWeight.w700,
+              fontSize: height * 0.019,
+            ),
+          ),
+        ),
+        Padding(
+          padding: EdgeInsets.fromLTRB(10, 0, 5, 0),
+          child: Text(
+            'Status',
+            style: GoogleFonts.montserrat(
+              color: Colors.black,
+              fontWeight: FontWeight.w700,
+              fontSize: height * 0.019,
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class BackupItem extends StatelessWidget {
+  const BackupItem({
+    Key key,
+    @required this.width,
+    @required this.height,
+    @required this.attendance,
+  }) : super(key: key);
+
+  final double width;
+  final double height;
+  final List<AkademikAttendance> attendance;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: width,
+      height: height * 0.7,
+      child: ListView.builder(
+        itemCount: attendance.length,
+        itemBuilder: (ctx, index) {
+          return Center(
+            child: Container(
+              width: width,
+              height: height * 0.05,
+              decoration: BoxDecoration(color: Colors.black12),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Padding(
+                    padding: EdgeInsets.fromLTRB(10, 0, 5, 0),
+                    child: Text(
+                      DateFormat.yMMMd().format(attendance[index].timestamp),
+                      style: GoogleFonts.montserrat(
+                        color: Colors.black,
+                        fontWeight: FontWeight.w500,
+                        fontSize: height * 0.015,
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.fromLTRB(10, 0, 5, 0),
+                    child: Text(
+                      '${attendance[index].classTime}',
+                      style: GoogleFonts.montserrat(
+                        color: Colors.black,
+                        fontWeight: FontWeight.w500,
+                        fontSize: height * 0.015,
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.fromLTRB(10, 0, 5, 0),
+                    child: Text(
+                      attendance[index].aclass,
+                      style: GoogleFonts.montserrat(
+                        color: Colors.black,
+                        fontWeight: FontWeight.w500,
+                        fontSize: height * 0.015,
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.fromLTRB(10, 0, 5, 0),
+                    child: IndicatorWidget(color: Colors.red, text: ''),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.fromLTRB(10, 0, 5, 0),
+                    child: Text(
+                      attendance[index].reason,
+                      style: GoogleFonts.montserrat(
+                        color: Colors.black,
+                        fontWeight: FontWeight.w500,
+                        fontSize: height * 0.015,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          );
+        },
       ),
     );
   }
