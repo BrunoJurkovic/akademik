@@ -69,7 +69,13 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
                 border: TableBorder.all(color: Colors.black54),
                 children: [
                   buildInitalTableRow(height),
-                  ...[buildTableRowFromList(attendance)],
+                  ...[
+                    buildTableRowFromList(
+                      attendanceList: attendance,
+                      height: height,
+                      width: width,
+                    )
+                  ],
                 ],
               ),
             ),
@@ -79,11 +85,25 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
     );
   }
 
-  Color getStatusColor(String status) {}
+  Color getStatusColor(String status) {
+    switch (status) {
+      case 'waiting':
+        return Colors.grey;
+        break;
+      case 'approved':
+        return Colors.greenAccent;
+        break;
+      case 'unapproved':
+        return Colors.redAccent;
+        break;
+      default:
+        return Colors.grey;
+    }
+  }
 
   TableRow buildTableRowFromList(
       {List<AkademikAttendance> attendanceList, double height, double width}) {
-    List<TableRow> returnable = [];
+    var returnable = [];
     attendanceList.forEach((element) {
       returnable.add(
         TableRow(
@@ -134,7 +154,8 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
             ),
             Padding(
               padding: EdgeInsets.fromLTRB(10, 0, 5, 0),
-              child: IndicatorWidget(color: null, text: null),
+              child: IndicatorWidget(
+                  color: getStatusColor(element.status), text: ''),
             ),
           ],
         ),
