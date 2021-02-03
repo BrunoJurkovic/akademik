@@ -69,7 +69,7 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
                 border: TableBorder.all(color: Colors.black54),
                 children: [
                   buildInitalTableRow(height),
-                  TableRow(),
+                  ...[buildTableRowFromList(attendance)],
                 ],
               ),
             ),
@@ -77,6 +77,69 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
         ),
       ),
     );
+  }
+
+  Color getStatusColor(String status) {}
+
+  TableRow buildTableRowFromList(
+      {List<AkademikAttendance> attendanceList, double height, double width}) {
+    List<TableRow> returnable = [];
+    attendanceList.forEach((element) {
+      returnable.add(
+        TableRow(
+          children: [
+            Padding(
+              padding: EdgeInsets.fromLTRB(10, 0, 5, 0),
+              child: Text(
+                DateFormat.yMMMd().format(element.timestamp),
+                style: GoogleFonts.montserrat(
+                  color: Colors.black,
+                  fontWeight: FontWeight.w700,
+                  fontSize: height * 0.019,
+                ),
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.fromLTRB(10, 0, 5, 0),
+              child: Text(
+                '${element.classTime}',
+                style: GoogleFonts.montserrat(
+                  color: Colors.black,
+                  fontWeight: FontWeight.w700,
+                  fontSize: height * 0.019,
+                ),
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.fromLTRB(10, 0, 5, 0),
+              child: Text(
+                element.aclass,
+                style: GoogleFonts.montserrat(
+                  color: Colors.black,
+                  fontWeight: FontWeight.w700,
+                  fontSize: height * 0.019,
+                ),
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.fromLTRB(10, 0, 5, 0),
+              child: Text(
+                element.reason,
+                style: GoogleFonts.montserrat(
+                  color: Colors.black,
+                  fontWeight: FontWeight.w700,
+                  fontSize: height * 0.019,
+                ),
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.fromLTRB(10, 0, 5, 0),
+              child: IndicatorWidget(color: null, text: null),
+            ),
+          ],
+        ),
+      );
+    });
   }
 
   TableRow buildInitalTableRow(double height) {
