@@ -100,7 +100,11 @@ class _MenuScreenState extends State<MenuScreen> {
                     callback: () {
                       ExtendedNavigator.of(context).push('/exams-screen');
                     }),
-                AkademikGridItem(text: 'News', callback: () {}),
+                AkademikGridItem(
+                    text: 'News',
+                    callback: () {
+                      ExtendedNavigator.of(context).push('/news-screen');
+                    }),
                 AkademikGridItem(text: 'Grades', callback: () {}),
                 AkademikGridItem(text: 'Study', callback: () {}),
                 AkademikGridItem(text: 'Notes', callback: () {}),
