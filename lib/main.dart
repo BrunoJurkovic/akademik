@@ -1,5 +1,6 @@
 import 'package:akademik/routes/akademik_router.gr.dart';
 import 'package:akademik/services/attendance_repo.dart';
+import 'package:akademik/services/exams_repo.dart';
 import 'package:akademik/services/homework_repo.dart';
 import 'package:akademik/services/news_repo.dart';
 import 'package:akademik/services/user_repo.dart';
@@ -30,6 +31,9 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider(
           create: (ctx) => AttendanceRepository(),
+        ),
+        ChangeNotifierProvider(
+          create: (ctx) => ExamsRepository(),
         ),
       ],
       child: const AppStart(),

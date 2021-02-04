@@ -8,6 +8,7 @@ class AkademikUser with ChangeNotifier {
   final String name;
   final String pictureUrl;
   final String userId;
+  final String classId;
 
   factory AkademikUser.fromDocument(DocumentSnapshot doc) {
     print(doc.toString());
@@ -18,6 +19,7 @@ class AkademikUser with ChangeNotifier {
       username: doc['username'] as String,
       year: doc['year'] as int,
       userId: doc.id,
+      classId: doc['classId'] as String,
     );
   }
 
@@ -31,11 +33,13 @@ class AkademikUser with ChangeNotifier {
     };
   }
 
-  AkademikUser(
-      {this.year,
-      this.name,
-      this.pictureUrl,
-      this.email,
-      this.username,
-      this.userId});
+  AkademikUser({
+    this.year,
+    this.name,
+    this.pictureUrl,
+    this.email,
+    this.username,
+    this.userId,
+    this.classId,
+  });
 }

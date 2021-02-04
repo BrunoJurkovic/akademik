@@ -24,6 +24,7 @@ dependencies:
   flutter_swiper: ^1.1.6
   koukicons: ^2.0.3
   cached_network_image: ^2.5.0
+  table_calendar: ^2.3.3
   intl:
 
 dev_dependencies:
