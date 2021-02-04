@@ -1,5 +1,8 @@
+import 'package:akademik/providers/exams.dart';
+import 'package:akademik/services/exams_repo.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 class ExamsScreen extends StatefulWidget {
@@ -9,10 +12,15 @@ class ExamsScreen extends StatefulWidget {
 
 class _ExamsScreenState extends State<ExamsScreen> {
   CalendarController _calendarController;
+  List<AkademikExams> examList = [];
 
   @override
   void initState() {
     _calendarController = CalendarController();
+    Future.delayed(Duration.zero, () async {
+      examList = Provider.of<ExamsRepository>(context, listen: false).examList;
+      print(examList);
+    });
     super.initState();
   }
 

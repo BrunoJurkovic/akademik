@@ -7,14 +7,17 @@ class ExamsRepository with ChangeNotifier {
       FirebaseFirestore.instance.collection('exams');
   final List<AkademikExams> _examList = [];
 
+  List<AkademikExams> get examList {
+    print('examList $_examList');
+    return _examList;
+  }
+
   Future<void> fetchExamList(String classId) async {
-    final query = await _reference
-        .where('classId', isEqualTo: classId)
-        .orderBy('timestamp')
-        .get();
+    final query = await _reference.where('classId', isEqualTo: classId).get();
     query.docs.forEach((doc) {
       _examList.add(AkademikExams.fromDocument(doc));
     });
+    print('fetchExamList $_examList');
     notifyListeners();
   }
 }
