@@ -6,8 +6,10 @@ class AkademikExams with ChangeNotifier {
   final DateTime date;
   final String description;
   final String classId;
+  final String examId;
 
-  AkademikExams({this.className, this.date, this.description, this.classId});
+  AkademikExams(
+      {this.className, this.date, this.description, this.classId, this.examId});
 
   factory AkademikExams.fromDocument(DocumentSnapshot doc) {
     return AkademikExams(
@@ -15,6 +17,7 @@ class AkademikExams with ChangeNotifier {
       className: doc['className'] as String,
       description: doc['description'] as String,
       date: DateTime.fromMillisecondsSinceEpoch(doc['date'] as int),
+      examId: doc.id,
     );
   }
 }

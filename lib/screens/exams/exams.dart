@@ -13,6 +13,8 @@ class ExamsScreen extends StatefulWidget {
 class _ExamsScreenState extends State<ExamsScreen> {
   CalendarController _calendarController;
   List<AkademikExams> examList = [];
+  Map<DateTime, List<dynamic>> eventMap = {};
+  List _selectedEvents = [];
 
   @override
   void initState() {
@@ -20,6 +22,7 @@ class _ExamsScreenState extends State<ExamsScreen> {
     Future.delayed(Duration.zero, () async {
       examList = Provider.of<ExamsRepository>(context, listen: false).examList;
       print(examList);
+      buildEventMap();
     });
     super.initState();
   }
@@ -32,39 +35,6 @@ class _ExamsScreenState extends State<ExamsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    Widget _buildEventsMarker(DateTime date, List events) {
-      return AnimatedContainer(
-        duration: const Duration(milliseconds: 300),
-        decoration: BoxDecoration(
-          shape: BoxShape.rectangle,
-          color: _calendarController.isSelected(date)
-              ? Colors.brown[500]
-              : _calendarController.isToday(date)
-                  ? Colors.brown[300]
-                  : Colors.blue[400],
-        ),
-        width: 16.0,
-        height: 16.0,
-        child: Center(
-          child: Text(
-            '${events.length}',
-            style: TextStyle().copyWith(
-              color: Colors.white,
-              fontSize: 12.0,
-            ),
-          ),
-        ),
-      );
-    }
-
-    Widget _buildHolidaysMarker() {
-      return Icon(
-        Icons.add_box,
-        size: 20.0,
-        color: Colors.blueGrey[800],
-      );
-    }
-
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
     return Scaffold(
@@ -89,12 +59,57 @@ class _ExamsScreenState extends State<ExamsScreen> {
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           TableCalendar(
+            onDaySelected: (DateTime day, List events, _) => {
+              setState(() {
+                _selectedEvents = events;
+              })
+            },
+            events: eventMap,
             calendarController: _calendarController,
             initialCalendarFormat: CalendarFormat.month,
             startingDayOfWeek: StartingDayOfWeek.monday,
           ),
+          Expanded(
+            child: ListView.builder(
+              itemCount: _selectedEvents.length,
+              itemBuilder: (ctx, index) {
+                return Container(
+                  width: width,
+                  height: height * 0.075,
+                  child: Card(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Text(
+                          'aaaaaa',
+                          style: GoogleFonts.montserrat(
+                            color: Colors.black,
+                            fontWeight: FontWeight.w600,
+                            fontSize: height * 0.02,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                );
+              },
+            ),
+          ),
         ],
       ),
     );
+  }
+
+  void buildEventMap() {
+    var returnable = <DateTime, List<dynamic>>{};
+
+    examList.forEach((element) {
+      returnable.putIfAbsent(element.date, () => [element.examId]);
+    });
+    print('RETURNABLE: $returnable');
+
+    setState(() {
+      eventMap = returnable;
+    });
   }
 }

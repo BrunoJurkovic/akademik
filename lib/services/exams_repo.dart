@@ -12,6 +12,10 @@ class ExamsRepository with ChangeNotifier {
     return _examList;
   }
 
+  AkademikExams getExamById(String id) {
+    return _examList.firstWhere((examItem) => examItem.examId == id);
+  }
+
   Future<void> fetchExamList(String classId) async {
     final query = await _reference.where('classId', isEqualTo: classId).get();
     query.docs.forEach((doc) {
