@@ -71,20 +71,141 @@ class _ExamsScreenState extends State<ExamsScreen> {
             initialCalendarFormat: CalendarFormat.month,
             startingDayOfWeek: StartingDayOfWeek.monday,
           ),
-          Expanded(
-            child: ListView.builder(
-              itemCount: _selectedEvents.length,
-              itemBuilder: (ctx, index) {
-                return EventItem(
-                  index: index,
-                  key: Key(index.toString()),
-                  selectedEvents: _selectedEvents,
-                );
-              },
-            ),
+          Container(
+            width: width,
+            height: height * 0.5,
+            child: _selectedEvents.isEmpty
+                ? Column(
+                    children: [
+                      SizedBox(
+                        height: 50,
+                      ),
+                      Text(
+                        'There are no exams on the selected day.',
+                        textAlign: TextAlign.left,
+                        style: GoogleFonts.montserrat(
+                          color: Colors.black.withOpacity(0.9),
+                          fontWeight: FontWeight.w500,
+                          fontSize: height * 0.0225,
+                        ),
+                      ),
+                      Image.asset('assets/images/homework.png')
+                    ],
+                  )
+                : Table(
+                    defaultVerticalAlignment: TableCellVerticalAlignment.middle,
+                    columnWidths: {
+                      0: FractionColumnWidth(0.1),
+                      1: FractionColumnWidth(0.2),
+                      2: FractionColumnWidth(0.1),
+                    },
+                    border: TableBorder.all(color: Colors.black38),
+                    children: [
+                      buildInitalTableRow(height),
+                      ...buildTableRowFromList(
+                        height: height,
+                        width: width,
+                      ),
+                    ],
+                  ),
           ),
         ],
       ),
+    );
+  }
+
+  List<TableRow> buildTableRowFromList({double height, double width}) {
+    List<TableRow> returnable = [];
+    var examList = [];
+    _selectedEvents.forEach((element) {
+      examList.add(Provider.of<ExamsRepository>(context, listen: false)
+          .getExamById(element));
+    });
+    examList.forEach(
+      (element) {
+        returnable.add(
+          TableRow(
+            children: [
+              Padding(
+                padding: EdgeInsets.fromLTRB(10, 0, 5, 0),
+                child: Text(
+                  element.className,
+                  style: GoogleFonts.montserrat(
+                    color: Colors.black,
+                    fontWeight: FontWeight.w500,
+                    fontSize: height * 0.019,
+                  ),
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.fromLTRB(10, 0, 5, 0),
+                child: Text(
+                  element.description,
+                  style: GoogleFonts.montserrat(
+                    color: Colors.black,
+                    fontWeight: FontWeight.w500,
+                    fontSize: height * 0.019,
+                  ),
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.fromLTRB(10, 0, 5, 0),
+                child: Text(
+                  DateFormat.MMMd().format(element.date),
+                  style: GoogleFonts.montserrat(
+                    color: Colors.black,
+                    fontWeight: FontWeight.w500,
+                    fontSize: height * 0.019,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+    return returnable;
+  }
+
+  TableRow buildInitalTableRow(double height) {
+    return TableRow(
+      decoration:
+          BoxDecoration(color: Colors.deepPurpleAccent.withOpacity(0.5)),
+      children: [
+        Padding(
+          padding: EdgeInsets.fromLTRB(10, 0, 5, 0),
+          child: Text(
+            'Class',
+            style: GoogleFonts.montserrat(
+              color: Colors.black,
+              fontWeight: FontWeight.w700,
+              fontSize: height * 0.019,
+            ),
+          ),
+        ),
+        Padding(
+          padding: EdgeInsets.fromLTRB(10, 0, 5, 0),
+          child: Text(
+            'Description',
+            style: GoogleFonts.montserrat(
+              color: Colors.black,
+              fontWeight: FontWeight.w700,
+              fontSize: height * 0.019,
+            ),
+          ),
+        ),
+        Padding(
+          padding: EdgeInsets.fromLTRB(10, 0, 5, 0),
+          child: Text(
+            'Date',
+            style: GoogleFonts.montserrat(
+              color: Colors.black,
+              fontWeight: FontWeight.w700,
+              fontSize: height * 0.019,
+            ),
+          ),
+        ),
+      ],
     );
   }
 
@@ -102,66 +223,76 @@ class _ExamsScreenState extends State<ExamsScreen> {
   }
 }
 
-class EventItem extends StatefulWidget {
-  final List selectedEvents;
-  final int index;
+// class EventItem extends StatefulWidget {
+//   final List selectedEvents;
+//   final int index;
 
-  const EventItem({Key key, this.selectedEvents, this.index}) : super(key: key);
-  @override
-  _EventItemState createState() => _EventItemState();
-}
+//   const EventItem({Key key, this.selectedEvents, this.index}) : super(key: key);
+//   @override
+//   _EventItemState createState() => _EventItemState();
+// }
 
-class _EventItemState extends State<EventItem> {
-  bool _isExpanded = false;
-  @override
-  Widget build(BuildContext context) {
-    final width = MediaQuery.of(context).size.width;
-    final height = MediaQuery.of(context).size.height;
-    return Container(
-      width: width,
-      height: _isExpanded ? height * 0.2 : height * 0.075,
-      child: InkWell(
-        onTap: () {
-          print('tapp');
-          setState(() {
-            _isExpanded = !_isExpanded;
-          });
-        },
-        child: Card(
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              Padding(
-                padding: EdgeInsets.fromLTRB(15, 0, 0, 0),
-                child: Text(
-                  DateFormat.MMMEd().format(
-                      Provider.of<ExamsRepository>(context, listen: false)
-                          .getExamById(widget.selectedEvents[widget.index])
-                          .date),
-                  style: GoogleFonts.montserrat(
-                    color: Colors.black,
-                    fontWeight: FontWeight.w500,
-                    fontSize: height * 0.017,
-                  ),
-                ),
-              ),
-              SizedBox(
-                width: width * 0.19,
-              ),
-              Text(
-                Provider.of<ExamsRepository>(context, listen: false)
-                    .getExamById(widget.selectedEvents[widget.index])
-                    .className,
-                style: GoogleFonts.montserrat(
-                  color: Colors.black,
-                  fontWeight: FontWeight.w600,
-                  fontSize: height * 0.02,
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
+// class _EventItemState extends State<EventItem> {
+//   bool _isExpanded = false;
+//   @override
+//   Widget build(BuildContext context) {
+//     final width = MediaQuery.of(context).size.width;
+//     final height = MediaQuery.of(context).size.height;
+//     return Container(
+//       width: width,
+//       height: _isExpanded ? height * 0.2 : height * 0.075,
+//       child: InkWell(
+//         onTap: () {
+//           print('tapp');
+//           setState(() {
+//             _isExpanded = !_isExpanded;
+//           });
+//         },
+//         child: Card(
+//           child: Column(
+//             children: [
+//               Row(
+//                 mainAxisAlignment: MainAxisAlignment.start,
+//                 children: [
+//                   Padding(
+//                     padding: EdgeInsets.fromLTRB(15, 0, 0, 0),
+//                     child: Text(
+//                       DateFormat.MMMEd().format(
+//                           Provider.of<ExamsRepository>(context, listen: false)
+//                               .getExamById(widget.selectedEvents[widget.index])
+//                               .date),
+//                       style: GoogleFonts.montserrat(
+//                         color: Colors.black,
+//                         fontWeight: FontWeight.w500,
+//                         fontSize: height * 0.017,
+//                       ),
+//                     ),
+//                   ),
+//                   SizedBox(
+//                     width: width * 0.19,
+//                   ),
+//                   Text(
+//                     Provider.of<ExamsRepository>(context, listen: false)
+//                         .getExamById(widget.selectedEvents[widget.index])
+//                         .className,
+//                     style: GoogleFonts.montserrat(
+//                       color: Colors.black,
+//                       fontWeight: FontWeight.w600,
+//                       fontSize: height * 0.02,
+//                     ),
+//                   ),
+//                 ],
+//               ),
+//               Visibility(
+//                 visible: _isExpanded,
+//                 child: Row(
+//                   children: [],
+//                 ),
+//               )
+//             ],
+//           ),
+//         ),
+//       ),
+//     );
+//   }
+// }
