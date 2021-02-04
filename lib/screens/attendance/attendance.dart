@@ -21,8 +21,10 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
           .fetchAttendance(Provider.of<UserRepository>(context, listen: false)
               .currentUser
               .userId);
-      attendance = Provider.of<AttendanceRepository>(context, listen: false)
-          .getAttendanceList;
+      setState(() {
+        attendance = Provider.of<AttendanceRepository>(context, listen: false)
+            .getAttendanceList;
+      });
       print(attendance.toString());
     });
     super.initState();
@@ -66,16 +68,21 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
               width: width,
               height: height * 0.75,
               child: Table(
+                defaultVerticalAlignment: TableCellVerticalAlignment.middle,
+                columnWidths: {
+                  0: FractionColumnWidth(0.12),
+                  1: FractionColumnWidth(0.2),
+                  2: FractionColumnWidth(0.3),
+                  3: FractionColumnWidth(0.12),
+                },
                 border: TableBorder.all(color: Colors.black54),
                 children: [
                   buildInitalTableRow(height),
-                  ...[
-                    buildTableRowFromList(
-                      attendanceList: attendance,
-                      height: height,
-                      width: width,
-                    )
-                  ],
+                  ...buildTableRowFromList(
+                    attendanceList: attendance,
+                    height: height,
+                    width: width,
+                  ),
                 ],
               ),
             ),
@@ -101,82 +108,87 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
     }
   }
 
-  TableRow buildTableRowFromList(
+  List<TableRow> buildTableRowFromList(
       {List<AkademikAttendance> attendanceList, double height, double width}) {
-    var returnable = [];
-    attendanceList.forEach((element) {
-      returnable.add(
-        TableRow(
-          children: [
-            Padding(
-              padding: EdgeInsets.fromLTRB(10, 0, 5, 0),
-              child: Text(
-                DateFormat.yMMMd().format(element.timestamp),
-                style: GoogleFonts.montserrat(
-                  color: Colors.black,
-                  fontWeight: FontWeight.w700,
-                  fontSize: height * 0.019,
+    List<TableRow> returnable = [];
+    attendanceList.forEach(
+      (element) {
+        returnable.add(
+          TableRow(
+            children: [
+              // Padding(
+              //   padding: EdgeInsets.fromLTRB(10, 0, 5, 0),
+              //   child: Text(
+              //     DateFormat.yMMMd().format(element.timestamp),
+              //     style: GoogleFonts.montserrat(
+              //       color: Colors.black,
+              //       fontWeight: FontWeight.w700,
+              //       fontSize: height * 0.019,
+              //     ),
+              //   ),
+              // ),
+              Padding(
+                padding: EdgeInsets.fromLTRB(10, 0, 5, 0),
+                child: Text(
+                  '${element.classTime}',
+                  style: GoogleFonts.montserrat(
+                    color: Colors.black,
+                    fontWeight: FontWeight.w700,
+                    fontSize: height * 0.019,
+                  ),
                 ),
               ),
-            ),
-            Padding(
-              padding: EdgeInsets.fromLTRB(10, 0, 5, 0),
-              child: Text(
-                '${element.classTime}',
-                style: GoogleFonts.montserrat(
-                  color: Colors.black,
-                  fontWeight: FontWeight.w700,
-                  fontSize: height * 0.019,
+              Padding(
+                padding: EdgeInsets.fromLTRB(10, 0, 5, 0),
+                child: Text(
+                  element.aclass,
+                  style: GoogleFonts.montserrat(
+                    color: Colors.black,
+                    fontWeight: FontWeight.w700,
+                    fontSize: height * 0.019,
+                  ),
                 ),
               ),
-            ),
-            Padding(
-              padding: EdgeInsets.fromLTRB(10, 0, 5, 0),
-              child: Text(
-                element.aclass,
-                style: GoogleFonts.montserrat(
-                  color: Colors.black,
-                  fontWeight: FontWeight.w700,
-                  fontSize: height * 0.019,
+              Padding(
+                padding: EdgeInsets.fromLTRB(10, 0, 5, 0),
+                child: Text(
+                  element.reason,
+                  style: GoogleFonts.montserrat(
+                    color: Colors.black,
+                    fontWeight: FontWeight.w700,
+                    fontSize: height * 0.019,
+                  ),
                 ),
               ),
-            ),
-            Padding(
-              padding: EdgeInsets.fromLTRB(10, 0, 5, 0),
-              child: Text(
-                element.reason,
-                style: GoogleFonts.montserrat(
-                  color: Colors.black,
-                  fontWeight: FontWeight.w700,
-                  fontSize: height * 0.019,
+              Padding(
+                padding: EdgeInsets.fromLTRB(10, 0, 5, 0),
+                child: Center(
+                  child: IndicatorWidget(
+                      color: getStatusColor(element.status), text: ''),
                 ),
               ),
-            ),
-            Padding(
-              padding: EdgeInsets.fromLTRB(10, 0, 5, 0),
-              child: IndicatorWidget(
-                  color: getStatusColor(element.status), text: ''),
-            ),
-          ],
-        ),
-      );
-    });
+            ],
+          ),
+        );
+      },
+    );
+    return returnable;
   }
 
   TableRow buildInitalTableRow(double height) {
     return TableRow(
       children: [
-        Padding(
-          padding: EdgeInsets.fromLTRB(10, 0, 5, 0),
-          child: Text(
-            'Date',
-            style: GoogleFonts.montserrat(
-              color: Colors.black,
-              fontWeight: FontWeight.w700,
-              fontSize: height * 0.019,
-            ),
-          ),
-        ),
+        // Padding(
+        //   padding: EdgeInsets.fromLTRB(10, 0, 5, 0),
+        //   child: Text(
+        //     'Date',
+        //     style: GoogleFonts.montserrat(
+        //       color: Colors.black,
+        //       fontWeight: FontWeight.w700,
+        //       fontSize: height * 0.019,
+        //     ),
+        //   ),
+        // ),
         Padding(
           padding: EdgeInsets.fromLTRB(10, 0, 5, 0),
           child: Text(
