@@ -24,6 +24,39 @@ class _ExamsScreenState extends State<ExamsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    Widget _buildEventsMarker(DateTime date, List events) {
+      return AnimatedContainer(
+        duration: const Duration(milliseconds: 300),
+        decoration: BoxDecoration(
+          shape: BoxShape.rectangle,
+          color: _calendarController.isSelected(date)
+              ? Colors.brown[500]
+              : _calendarController.isToday(date)
+                  ? Colors.brown[300]
+                  : Colors.blue[400],
+        ),
+        width: 16.0,
+        height: 16.0,
+        child: Center(
+          child: Text(
+            '${events.length}',
+            style: TextStyle().copyWith(
+              color: Colors.white,
+              fontSize: 12.0,
+            ),
+          ),
+        ),
+      );
+    }
+
+    Widget _buildHolidaysMarker() {
+      return Icon(
+        Icons.add_box,
+        size: 20.0,
+        color: Colors.blueGrey[800],
+      );
+    }
+
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
     return Scaffold(
@@ -47,7 +80,11 @@ class _ExamsScreenState extends State<ExamsScreen> {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          TableCalendar(calendarController: _calendarController),
+          TableCalendar(
+            calendarController: _calendarController,
+            initialCalendarFormat: CalendarFormat.month,
+            startingDayOfWeek: StartingDayOfWeek.monday,
+          ),
         ],
       ),
     );
