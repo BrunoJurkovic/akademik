@@ -4,6 +4,7 @@ import 'package:akademik/screens/home/home.dart';
 import 'package:akademik/screens/homework/homework.dart';
 import 'package:akademik/screens/login/login.dart';
 import 'package:akademik/screens/menu/menu.dart';
+import 'package:akademik/screens/news/news.dart';
 import 'package:auto_route/auto_route_annotations.dart';
 
 @AdaptiveAutoRouter(routes: <AutoRoute>[
@@ -13,5 +14,6 @@ import 'package:auto_route/auto_route_annotations.dart';
   AdaptiveRoute(page: HomeworkScreen),
   AdaptiveRoute(page: AttendanceScreen),
   AdaptiveRoute(page: ExamsScreen),
+  AdaptiveRoute(page: NewsScreen),
 ])
 class $AkademikRouter {}
