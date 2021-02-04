@@ -75,7 +75,7 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
                   2: FractionColumnWidth(0.3),
                   3: FractionColumnWidth(0.12),
                 },
-                border: TableBorder.all(color: Colors.black54),
+                border: TableBorder.all(color: Colors.black38),
                 children: [
                   buildInitalTableRow(height),
                   ...buildTableRowFromList(
@@ -177,6 +177,8 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
 
   TableRow buildInitalTableRow(double height) {
     return TableRow(
+      decoration:
+          BoxDecoration(color: Colors.deepPurpleAccent.withOpacity(0.5)),
       children: [
         // Padding(
         //   padding: EdgeInsets.fromLTRB(10, 0, 5, 0),
