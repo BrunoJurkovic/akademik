@@ -95,10 +95,14 @@ class _MenuScreenState extends State<MenuScreen> {
                     callback: () {
                       ExtendedNavigator.of(context).push('/attendance-screen');
                     }),
-                AkademikGridItem(text: 'Exams', callback: () {}),
-                AkademikGridItem(text: 'Calendar', callback: () {}),
+                AkademikGridItem(
+                    text: 'Exams',
+                    callback: () {
+                      ExtendedNavigator.of(context).push('/exams-screen');
+                    }),
                 AkademikGridItem(text: 'News', callback: () {}),
                 AkademikGridItem(text: 'Grades', callback: () {}),
+                AkademikGridItem(text: 'Study', callback: () {}),
                 AkademikGridItem(text: 'Notes', callback: () {}),
                 AkademikGridItem(text: 'Profile', callback: () {}),
               ],
