@@ -7,7 +7,9 @@
 // ignore_for_file: public_member_api_docs
 
 import 'package:auto_route/auto_route.dart';
+import 'package:flutter/material.dart';
 
+import '../providers/news.dart';
 import '../screens/attendance/attendance.dart';
 import '../screens/exams/exams.dart';
 import '../screens/home/home.dart';
@@ -15,6 +17,7 @@ import '../screens/homework/homework.dart';
 import '../screens/login/login.dart';
 import '../screens/menu/menu.dart';
 import '../screens/news/news.dart';
+import '../screens/news/news_item_screen/news_item_screen.dart';
 
 class Routes {
   static const String authScreen = '/auth-screen';
@@ -24,6 +27,7 @@ class Routes {
   static const String attendanceScreen = '/attendance-screen';
   static const String examsScreen = '/exams-screen';
   static const String newsScreen = '/news-screen';
+  static const String newsItemScreen = '/news-item-screen';
   static const all = <String>{
     authScreen,
     homeScreen,
@@ -32,6 +36,7 @@ class Routes {
     attendanceScreen,
     examsScreen,
     newsScreen,
+    newsItemScreen,
   };
 }
 
@@ -46,6 +51,7 @@ class AkademikRouter extends RouterBase {
     RouteDef(Routes.attendanceScreen, page: AttendanceScreen),
     RouteDef(Routes.examsScreen, page: ExamsScreen),
     RouteDef(Routes.newsScreen, page: NewsScreen),
+    RouteDef(Routes.newsItemScreen, page: NewsItemScreen),
   ];
   @override
   Map<Type, AutoRouteFactory> get pagesMap => _pagesMap;
@@ -92,5 +98,28 @@ class AkademikRouter extends RouterBase {
         settings: data,
       );
     },
+    NewsItemScreen: (data) {
+      final args = data.getArgs<NewsItemScreenArguments>(
+        orElse: () => NewsItemScreenArguments(),
+      );
+      return buildAdaptivePageRoute<dynamic>(
+        builder: (context) => NewsItemScreen(
+          key: args.key,
+          newsItem: args.newsItem,
+        ),
+        settings: data,
+      );
+    },
   };
+}
+
+/// ************************************************************************
+/// Arguments holder classes
+/// *************************************************************************
+
+/// NewsItemScreen arguments holder class
+class NewsItemScreenArguments {
+  final Key key;
+  final AkademikNews newsItem;
+  NewsItemScreenArguments({this.key, this.newsItem});
 }

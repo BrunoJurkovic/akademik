@@ -15,7 +15,6 @@ class NewsItemScreen extends StatefulWidget {
 class _NewsItemScreenState extends State<NewsItemScreen> {
   @override
   Widget build(BuildContext context) {
-    RouteData.of(context).arguments;
     return Scaffold();
   }
 }
