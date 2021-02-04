@@ -2,6 +2,7 @@ import 'package:akademik/providers/exams.dart';
 import 'package:akademik/services/exams_repo.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:table_calendar/table_calendar.dart';
 
@@ -15,6 +16,7 @@ class _ExamsScreenState extends State<ExamsScreen> {
   List<AkademikExams> examList = [];
   Map<DateTime, List<dynamic>> eventMap = {};
   List _selectedEvents = [];
+  var _isExpanded = false;
 
   @override
   void initState() {
@@ -73,24 +75,10 @@ class _ExamsScreenState extends State<ExamsScreen> {
             child: ListView.builder(
               itemCount: _selectedEvents.length,
               itemBuilder: (ctx, index) {
-                return Container(
-                  width: width,
-                  height: height * 0.075,
-                  child: Card(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Text(
-                          'aaaaaa',
-                          style: GoogleFonts.montserrat(
-                            color: Colors.black,
-                            fontWeight: FontWeight.w600,
-                            fontSize: height * 0.02,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
+                return EventItem(
+                  index: index,
+                  key: Key(index.toString()),
+                  selectedEvents: _selectedEvents,
                 );
               },
             ),
@@ -111,5 +99,69 @@ class _ExamsScreenState extends State<ExamsScreen> {
     setState(() {
       eventMap = returnable;
     });
+  }
+}
+
+class EventItem extends StatefulWidget {
+  final List selectedEvents;
+  final int index;
+
+  const EventItem({Key key, this.selectedEvents, this.index}) : super(key: key);
+  @override
+  _EventItemState createState() => _EventItemState();
+}
+
+class _EventItemState extends State<EventItem> {
+  bool _isExpanded = false;
+  @override
+  Widget build(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
+    final height = MediaQuery.of(context).size.height;
+    return Container(
+      width: width,
+      height: _isExpanded ? height * 0.2 : height * 0.075,
+      child: InkWell(
+        onTap: () {
+          print('tapp');
+          setState(() {
+            _isExpanded = !_isExpanded;
+          });
+        },
+        child: Card(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Padding(
+                padding: EdgeInsets.fromLTRB(15, 0, 0, 0),
+                child: Text(
+                  DateFormat.MMMEd().format(
+                      Provider.of<ExamsRepository>(context, listen: false)
+                          .getExamById(widget.selectedEvents[widget.index])
+                          .date),
+                  style: GoogleFonts.montserrat(
+                    color: Colors.black,
+                    fontWeight: FontWeight.w500,
+                    fontSize: height * 0.017,
+                  ),
+                ),
+              ),
+              SizedBox(
+                width: width * 0.19,
+              ),
+              Text(
+                Provider.of<ExamsRepository>(context, listen: false)
+                    .getExamById(widget.selectedEvents[widget.index])
+                    .className,
+                style: GoogleFonts.montserrat(
+                  color: Colors.black,
+                  fontWeight: FontWeight.w600,
+                  fontSize: height * 0.02,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 }
