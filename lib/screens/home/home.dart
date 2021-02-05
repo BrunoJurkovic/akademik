@@ -1,5 +1,10 @@
+import 'package:akademik/components/homework_list.dart';
+import 'package:akademik/components/title_widget.dart';
 import 'package:akademik/providers/homework.dart';
 import 'package:akademik/providers/news.dart';
+import 'package:akademik/routes/akademik_router.gr.dart';
+import 'package:akademik/screens/news/news_item_screen/news_item_screen.dart';
+import 'package:akademik/services/exams_repo.dart';
 import 'package:akademik/services/homework_repo.dart';
 import 'package:akademik/services/news_repo.dart';
 import 'package:akademik/services/user_repo.dart';
@@ -34,6 +39,10 @@ class _HomeScreenState extends State<HomeScreen> {
       await Provider.of<NewsRepository>(context, listen: false).getNews();
       await Provider.of<HomeworkRepository>(context, listen: false)
           .getHomeworkList();
+      await Provider.of<ExamsRepository>(context, listen: false).fetchExamList(
+          Provider.of<UserRepository>(context, listen: false)
+              .currentUser
+              .classId);
       todaysHomework = Provider.of<HomeworkRepository>(context, listen: false)
           .getTodayHomework;
       news = Provider.of<NewsRepository>(context, listen: false).news;
@@ -141,79 +150,8 @@ class _HomeScreenState extends State<HomeScreen> {
                       Image.asset('assets/images/homework.png')
                     ],
                   )
-                : ListView.builder(
-                    itemCount: todaysHomework.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      print(todaysHomework);
-                      return Column(
-                        children: [
-                          Container(
-                            width: width * 0.9,
-                            height: height * 0.075,
-                            padding: EdgeInsets.fromLTRB(15, 0, 0, 0),
-                            decoration: BoxDecoration(
-                              color: Colors.redAccent.withOpacity(0.3),
-                            ),
-                            child: Row(
-                              children: [
-                                Checkbox(
-                                  activeColor:
-                                      Colors.deepPurpleAccent.withOpacity(
-                                    0.9,
-                                  ),
-                                  value: _isChecked,
-                                  onChanged: (check) {
-                                    //
-                                  },
-                                ),
-                                Container(
-                                  padding: EdgeInsets.fromLTRB(20, 15, 0, 3),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        todaysHomework[index].assignment,
-                                        overflow: TextOverflow.fade,
-                                        style: GoogleFonts.montserrat(
-                                          color: Colors.black87,
-                                          fontWeight: FontWeight.w500,
-                                          fontSize: height * 0.015,
-                                        ),
-                                      ),
-                                      SizedBox(
-                                        height: height * 0.0075,
-                                      ),
-                                      todaysHomework.isNotEmpty
-                                          ? Text(
-                                              todaysHomework[index].aclass,
-                                              style: GoogleFonts.montserrat(
-                                                color: Colors.black38,
-                                                fontWeight: FontWeight.w500,
-                                                fontSize: height * 0.013,
-                                              ),
-                                            )
-                                          : Text(
-                                              'There is no homework today.',
-                                              style: GoogleFonts.montserrat(
-                                                color: Colors.black38,
-                                                fontWeight: FontWeight.w500,
-                                                fontSize: height * 0.013,
-                                              ),
-                                            ),
-                                    ],
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          SizedBox(
-                            height: height * 0.010,
-                          ),
-                        ],
-                      );
-                    },
-                  ),
+                : HomeworkList(
+                    homeworkList: todaysHomework, width: width, height: height),
           ),
         ],
       ),
@@ -251,83 +189,67 @@ class _SwiperCarouselState extends State<SwiperCarousel> {
           scale: 0.9,
           outer: true,
           itemBuilder: (ctx, index) {
-            return Container(
-              decoration: BoxDecoration(
-                color: Color(widget.news[index].color).withOpacity(0.25),
-                borderRadius: BorderRadius.all(
-                  Radius.circular(20),
+            return InkWell(
+              onTap: () {
+                ExtendedNavigator.root.push(Routes.newsItemScreen,
+                    arguments:
+                        NewsItemScreenArguments(newsItem: widget.news[index]));
+              },
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Color(widget.news[index].color).withOpacity(0.25),
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(20),
+                  ),
                 ),
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Container(
-                    height: widget.height * 0.09,
-                    width: widget.width * 0.25,
-                    padding: EdgeInsets.fromLTRB(15, 10, 0, 0),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.all(Radius.circular(20)),
-                      child: CachedNetworkImage(
-                        imageUrl: widget.news[index].imageUrl,
-                        fit: BoxFit.fill,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Container(
+                      height: widget.height * 0.09,
+                      width: widget.width * 0.25,
+                      padding: EdgeInsets.fromLTRB(15, 10, 0, 0),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.all(Radius.circular(20)),
+                        child: CachedNetworkImage(
+                          imageUrl: widget.news[index].imageUrl,
+                          fit: BoxFit.fill,
+                        ),
                       ),
                     ),
-                  ),
-                  Container(
-                    width: widget.width * 0.55,
-                    padding: EdgeInsets.fromLTRB(15, 5, 0, 0),
-                    child: Text(
-                      widget.news[index].name,
-                      textAlign: TextAlign.left,
-                      style: GoogleFonts.montserrat(
-                        color: Colors.black.withOpacity(0.9),
-                        fontWeight: FontWeight.w500,
-                        fontSize: widget.height * 0.023,
+                    Container(
+                      width: widget.width * 0.55,
+                      padding: EdgeInsets.fromLTRB(15, 5, 0, 0),
+                      child: Text(
+                        widget.news[index].name,
+                        textAlign: TextAlign.left,
+                        style: GoogleFonts.montserrat(
+                          color: Colors.black.withOpacity(0.9),
+                          fontWeight: FontWeight.w500,
+                          fontSize: widget.height * 0.023,
+                        ),
                       ),
                     ),
-                  ),
-                  Container(
-                    width: widget.width * 0.55,
-                    padding: EdgeInsets.fromLTRB(15, 10, 0, 0),
-                    child: Text(
-                      DateFormat('dd-MM-yyyy')
-                          .format(widget.news[index].timestamp),
-                      textAlign: TextAlign.left,
-                      style: GoogleFonts.montserrat(
-                        color: Colors.black.withOpacity(0.4),
-                        fontWeight: FontWeight.w700,
-                        fontSize: widget.height * 0.017,
+                    Container(
+                      width: widget.width * 0.55,
+                      padding: EdgeInsets.fromLTRB(15, 10, 0, 0),
+                      child: Text(
+                        DateFormat('dd-MM-yyyy')
+                            .format(widget.news[index].timestamp),
+                        textAlign: TextAlign.left,
+                        style: GoogleFonts.montserrat(
+                          color: Colors.black.withOpacity(0.4),
+                          fontWeight: FontWeight.w700,
+                          fontSize: widget.height * 0.017,
+                        ),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             );
           },
         ),
-      ),
-    );
-  }
-}
-
-class TitleWidget extends StatelessWidget {
-  const TitleWidget({
-    Key key,
-    this.text,
-  }) : super(key: key);
-
-  final String text;
-
-  @override
-  Widget build(BuildContext context) {
-    final height = MediaQuery.of(context).size.height;
-    return Text(
-      text ?? '',
-      textAlign: TextAlign.left,
-      style: GoogleFonts.montserrat(
-        color: Colors.deepPurpleAccent.withOpacity(0.9),
-        fontWeight: FontWeight.w700,
-        fontSize: height * 0.033,
       ),
     );
   }
