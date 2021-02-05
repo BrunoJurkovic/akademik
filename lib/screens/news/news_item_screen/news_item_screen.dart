@@ -99,7 +99,7 @@ class _NewsItemScreenState extends State<NewsItemScreen> {
                     Share.share('''
                     ${widget.newsItem.name}
                     ${widget.newsItem.description}
-                    ''');
+                    ''', subject: widget.newsItem.name);
                   },
                   child: Text(
                     'SHARE',
