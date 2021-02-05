@@ -2,6 +2,8 @@ import 'package:akademik/components/homework_list.dart';
 import 'package:akademik/components/title_widget.dart';
 import 'package:akademik/providers/homework.dart';
 import 'package:akademik/providers/news.dart';
+import 'package:akademik/routes/akademik_router.gr.dart';
+import 'package:akademik/screens/news/news_item_screen/news_item_screen.dart';
 import 'package:akademik/services/exams_repo.dart';
 import 'package:akademik/services/homework_repo.dart';
 import 'package:akademik/services/news_repo.dart';
@@ -187,56 +189,63 @@ class _SwiperCarouselState extends State<SwiperCarousel> {
           scale: 0.9,
           outer: true,
           itemBuilder: (ctx, index) {
-            return Container(
-              decoration: BoxDecoration(
-                color: Color(widget.news[index].color).withOpacity(0.25),
-                borderRadius: BorderRadius.all(
-                  Radius.circular(20),
+            return InkWell(
+              onTap: () {
+                ExtendedNavigator.root.push(Routes.newsItemScreen,
+                    arguments:
+                        NewsItemScreenArguments(newsItem: widget.news[index]));
+              },
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Color(widget.news[index].color).withOpacity(0.25),
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(20),
+                  ),
                 ),
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Container(
-                    height: widget.height * 0.09,
-                    width: widget.width * 0.25,
-                    padding: EdgeInsets.fromLTRB(15, 10, 0, 0),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.all(Radius.circular(20)),
-                      child: CachedNetworkImage(
-                        imageUrl: widget.news[index].imageUrl,
-                        fit: BoxFit.fill,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Container(
+                      height: widget.height * 0.09,
+                      width: widget.width * 0.25,
+                      padding: EdgeInsets.fromLTRB(15, 10, 0, 0),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.all(Radius.circular(20)),
+                        child: CachedNetworkImage(
+                          imageUrl: widget.news[index].imageUrl,
+                          fit: BoxFit.fill,
+                        ),
                       ),
                     ),
-                  ),
-                  Container(
-                    width: widget.width * 0.55,
-                    padding: EdgeInsets.fromLTRB(15, 5, 0, 0),
-                    child: Text(
-                      widget.news[index].name,
-                      textAlign: TextAlign.left,
-                      style: GoogleFonts.montserrat(
-                        color: Colors.black.withOpacity(0.9),
-                        fontWeight: FontWeight.w500,
-                        fontSize: widget.height * 0.023,
+                    Container(
+                      width: widget.width * 0.55,
+                      padding: EdgeInsets.fromLTRB(15, 5, 0, 0),
+                      child: Text(
+                        widget.news[index].name,
+                        textAlign: TextAlign.left,
+                        style: GoogleFonts.montserrat(
+                          color: Colors.black.withOpacity(0.9),
+                          fontWeight: FontWeight.w500,
+                          fontSize: widget.height * 0.023,
+                        ),
                       ),
                     ),
-                  ),
-                  Container(
-                    width: widget.width * 0.55,
-                    padding: EdgeInsets.fromLTRB(15, 10, 0, 0),
-                    child: Text(
-                      DateFormat('dd-MM-yyyy')
-                          .format(widget.news[index].timestamp),
-                      textAlign: TextAlign.left,
-                      style: GoogleFonts.montserrat(
-                        color: Colors.black.withOpacity(0.4),
-                        fontWeight: FontWeight.w700,
-                        fontSize: widget.height * 0.017,
+                    Container(
+                      width: widget.width * 0.55,
+                      padding: EdgeInsets.fromLTRB(15, 10, 0, 0),
+                      child: Text(
+                        DateFormat('dd-MM-yyyy')
+                            .format(widget.news[index].timestamp),
+                        textAlign: TextAlign.left,
+                        style: GoogleFonts.montserrat(
+                          color: Colors.black.withOpacity(0.4),
+                          fontWeight: FontWeight.w700,
+                          fontSize: widget.height * 0.017,
+                        ),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             );
           },
