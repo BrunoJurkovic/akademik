@@ -338,6 +338,8 @@ PODS:
     - PhoneNumberKit/PhoneNumberKitCore (~> 3.2.0)
   - PhoneNumberKit/PhoneNumberKitCore (3.2.0)
   - PromisesObjC (1.2.12)
+  - share (0.0.1):
+    - Flutter
   - sqflite (0.0.2):
     - Flutter
     - FMDB (>= 2.7.5)
@@ -353,6 +355,7 @@ DEPENDENCIES:
   - integration_test (from `.symlinks/plugins/integration_test/ios`)
   - path_provider (from `.symlinks/plugins/path_provider/ios`)
   - phone_number (from `.symlinks/plugins/phone_number/ios`)
+  - share (from `.symlinks/plugins/share/ios`)
   - sqflite (from `.symlinks/plugins/sqflite/ios`)
 
 SPEC REPOS:
@@ -397,6 +400,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/path_provider/ios"
   phone_number:
     :path: ".symlinks/plugins/phone_number/ios"
+  share:
+    :path: ".symlinks/plugins/share/ios"
   sqflite:
     :path: ".symlinks/plugins/sqflite/ios"
 
@@ -429,6 +434,7 @@ SPEC CHECKSUMS:
   phone_number: b545f5b7d9711bec0f020c7df43ae5a82119f4ad
   PhoneNumberKit: df411d46177d1492da84e10b6c093846dd861452
   PromisesObjC: 3113f7f76903778cf4a0586bd1ab89329a0b7b97
+  share: 0b2c3e82132f5888bccca3351c504d0003b3b410
   sqflite: 6d358c025f5b867b29ed92fc697fd34924e11904
 
 PODFILE CHECKSUM: fe0e1ee7f3d1f7d00b11b474b62dd62134535aea
