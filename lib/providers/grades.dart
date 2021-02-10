@@ -6,9 +6,14 @@ class AkademikGrades with ChangeNotifier {
   final String description;
   final String className;
   final DateTime timestamp;
+  final int grade;
 
   AkademikGrades(
-      {this.userId, this.description, this.className, this.timestamp});
+      {this.userId,
+      this.description,
+      this.className,
+      this.timestamp,
+      this.grade});
 
   factory AkademikGrades.fromDocument(DocumentSnapshot doc) {
     return AkademikGrades(
@@ -16,6 +21,7 @@ class AkademikGrades with ChangeNotifier {
       description: doc['description'],
       className: doc['className'],
       timestamp: DateTime.fromMillisecondsSinceEpoch(doc['timestamp'] as int),
+      grade: doc['grade'] as int,
     );
   }
 }
