@@ -5,6 +5,7 @@ import 'package:akademik/providers/news.dart';
 import 'package:akademik/routes/akademik_router.gr.dart';
 import 'package:akademik/screens/news/news_item_screen/news_item_screen.dart';
 import 'package:akademik/services/exams_repo.dart';
+import 'package:akademik/services/grades_repo.dart';
 import 'package:akademik/services/homework_repo.dart';
 import 'package:akademik/services/news_repo.dart';
 import 'package:akademik/services/user_repo.dart';
@@ -34,6 +35,7 @@ class _HomeScreenState extends State<HomeScreen> {
       setState(() {
         _isLoading = true;
       });
+
       await Provider.of<UserRepository>(context, listen: false)
           .getCurrentUser();
       await Provider.of<NewsRepository>(context, listen: false).getNews();
@@ -43,6 +45,10 @@ class _HomeScreenState extends State<HomeScreen> {
           Provider.of<UserRepository>(context, listen: false)
               .currentUser
               .classId);
+      await Provider.of<GradeRepository>(context, listen: false).fetchGrades(
+          Provider.of<UserRepository>(context, listen: false)
+              .currentUser
+              .userId);
       todaysHomework = Provider.of<HomeworkRepository>(context, listen: false)
           .getTodayHomework;
       news = Provider.of<NewsRepository>(context, listen: false).news;
