@@ -20,6 +20,7 @@ class GradeRepository with ChangeNotifier {
     query.docs.forEach((doc) {
       _grades.add(AkademikGrades.fromDocument(doc));
     });
+    print('GRADES: $_grades');
     notifyListeners();
   }
 }

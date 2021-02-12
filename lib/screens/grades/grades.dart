@@ -14,18 +14,19 @@ class GradesScreen extends StatefulWidget {
 class _GradesScreenState extends State<GradesScreen> {
   List<AkademikGrades> grades = [];
 
-  @override
-  void initState() {
-    Future.delayed(Duration.zero, () async {
-      grades = Provider.of<GradeRepository>(context, listen: false).grades;
-    });
-    super.initState();
-  }
+  // @override
+  // void initState() {
+  //   Future.delayed(Duration.zero, () async {
+  //     grades = Provider.of<GradeRepository>(context, listen: false).grades;
+  //   });
+  //   super.initState();
+  // }
 
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
+    grades = Provider.of<GradeRepository>(context, listen: false).grades;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.deepPurpleAccent.withOpacity(0.85),
@@ -79,7 +80,7 @@ class _GradesScreenState extends State<GradesScreen> {
 
   List<TableRow> buildTableRowFromList(
       {List<AkademikGrades> gradesList, double height, double width}) {
-    List<TableRow> returnable = [];
+    var returnable = <TableRow>[];
     gradesList.forEach(
       (element) {
         returnable.add(

@@ -35,10 +35,7 @@ class _HomeScreenState extends State<HomeScreen> {
       setState(() {
         _isLoading = true;
       });
-      await Provider.of<GradeRepository>(context, listen: false).fetchGrades(
-          Provider.of<UserRepository>(context, listen: false)
-              .currentUser
-              .userId);
+
       await Provider.of<UserRepository>(context, listen: false)
           .getCurrentUser();
       await Provider.of<NewsRepository>(context, listen: false).getNews();
@@ -48,6 +45,10 @@ class _HomeScreenState extends State<HomeScreen> {
           Provider.of<UserRepository>(context, listen: false)
               .currentUser
               .classId);
+      await Provider.of<GradeRepository>(context, listen: false).fetchGrades(
+          Provider.of<UserRepository>(context, listen: false)
+              .currentUser
+              .userId);
       todaysHomework = Provider.of<HomeworkRepository>(context, listen: false)
           .getTodayHomework;
       news = Provider.of<NewsRepository>(context, listen: false).news;
