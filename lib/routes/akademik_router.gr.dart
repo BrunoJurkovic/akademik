@@ -19,6 +19,7 @@ import '../screens/login/login.dart';
 import '../screens/menu/menu.dart';
 import '../screens/news/news.dart';
 import '../screens/news/news_item_screen/news_item_screen.dart';
+import '../screens/notes/notes_list.dart';
 
 class Routes {
   static const String authScreen = '/auth-screen';
@@ -30,6 +31,7 @@ class Routes {
   static const String newsScreen = '/news-screen';
   static const String newsItemScreen = '/news-item-screen';
   static const String gradesScreen = '/grades-screen';
+  static const String notesListScreen = '/notes-list-screen';
   static const all = <String>{
     authScreen,
     homeScreen,
@@ -40,6 +42,7 @@ class Routes {
     newsScreen,
     newsItemScreen,
     gradesScreen,
+    notesListScreen,
   };
 }
 
@@ -56,6 +59,7 @@ class AkademikRouter extends RouterBase {
     RouteDef(Routes.newsScreen, page: NewsScreen),
     RouteDef(Routes.newsItemScreen, page: NewsItemScreen),
     RouteDef(Routes.gradesScreen, page: GradesScreen),
+    RouteDef(Routes.notesListScreen, page: NotesListScreen),
   ];
   @override
   Map<Type, AutoRouteFactory> get pagesMap => _pagesMap;
@@ -117,6 +121,12 @@ class AkademikRouter extends RouterBase {
     GradesScreen: (data) {
       return buildAdaptivePageRoute<dynamic>(
         builder: (context) => GradesScreen(),
+        settings: data,
+      );
+    },
+    NotesListScreen: (data) {
+      return buildAdaptivePageRoute<dynamic>(
+        builder: (context) => NotesListScreen(),
         settings: data,
       );
     },
