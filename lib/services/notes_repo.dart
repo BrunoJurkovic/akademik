@@ -6,4 +6,14 @@ class NotesRepository with ChangeNotifier {
   final List<AkademikNote> _notes = [];
   final CollectionReference reference =
       FirebaseFirestore.instance.collection('notes');
+
+  List<AkademikNote> get notes {
+    return _notes;
+  }
+
+  Future<void> fetchNotes(String userId) async {
+    final query = await reference.where('userId', isEqualTo: userId).get();
+
+    query.docs.forEach((doc) {});
+  }
 }
