@@ -18,6 +18,8 @@ class NotesRepository with ChangeNotifier {
       _notes.add(AkademikNote.fromDocument(doc));
     });
 
+    print('NOTES $notes');
+
     notifyListeners();
   }
 
