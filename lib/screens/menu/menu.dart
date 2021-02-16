@@ -113,7 +113,7 @@ class _MenuScreenState extends State<MenuScreen> {
                 AkademikGridItem(
                     text: 'Notes',
                     callback: () {
-                      ExtendedNavigator.of(context).push('/notes-screen');
+                      ExtendedNavigator.of(context).push('/notes-list-screen');
                     }),
                 AkademikGridItem(text: 'Profile', callback: () {}),
               ],
