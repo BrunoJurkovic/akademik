@@ -1,5 +1,7 @@
 import 'package:akademik/providers/notes.dart';
+import 'package:akademik/routes/akademik_router.gr.dart';
 import 'package:akademik/services/notes_repo.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -48,48 +50,54 @@ class _NotesListScreenState extends State<NotesListScreen> {
         child: ListView.builder(
           itemCount: notes.length,
           itemBuilder: (ctx, index) {
-            return Container(
-              decoration: BoxDecoration(
-                border: Border.symmetric(
-                  vertical: BorderSide(
-                    color: Colors.blueGrey.withOpacity(0.3),
+            return InkWell(
+              onTap: () {
+                ExtendedNavigator.root.push('/note-edit-screen',
+                    arguments: NoteEditScreenArguments(noteItem: notes[index]));
+              },
+              child: Container(
+                decoration: BoxDecoration(
+                  border: Border.symmetric(
+                    vertical: BorderSide(
+                      color: Colors.blueGrey.withOpacity(0.3),
+                    ),
                   ),
                 ),
-              ),
-              width: width,
-              height: height * 0.1,
-              child: Card(
-                elevation: 10,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Padding(
-                      padding: EdgeInsets.fromLTRB(
-                          width * 0.03, height * 0.015, 0, 0),
-                      child: Text(
-                        notes[index].className,
-                        style: GoogleFonts.montserrat(
-                          color: Colors.black,
-                          fontWeight: FontWeight.w600,
-                          fontSize: height * 0.023,
+                width: width,
+                height: height * 0.1,
+                child: Card(
+                  elevation: 10,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.fromLTRB(
+                            width * 0.03, height * 0.015, 0, 0),
+                        child: Text(
+                          notes[index].className,
+                          style: GoogleFonts.montserrat(
+                            color: Colors.black,
+                            fontWeight: FontWeight.w600,
+                            fontSize: height * 0.023,
+                          ),
                         ),
                       ),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.fromLTRB(
-                          width * 0.03, height * 0.01, 0, 0),
-                      child: Text(
-                        notes[index].note.trim(),
-                        maxLines: 1,
-                        overflow: TextOverflow.clip,
-                        style: GoogleFonts.montserrat(
-                          color: Colors.black.withOpacity(0.5),
-                          fontWeight: FontWeight.w400,
-                          fontSize: height * 0.018,
+                      Padding(
+                        padding: EdgeInsets.fromLTRB(
+                            width * 0.03, height * 0.01, 0, 0),
+                        child: Text(
+                          notes[index].note.trim(),
+                          maxLines: 1,
+                          overflow: TextOverflow.clip,
+                          style: GoogleFonts.montserrat(
+                            color: Colors.black.withOpacity(0.5),
+                            fontWeight: FontWeight.w400,
+                            fontSize: height * 0.018,
+                          ),
                         ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             );

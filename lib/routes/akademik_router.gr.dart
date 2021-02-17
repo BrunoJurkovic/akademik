@@ -10,6 +10,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 
 import '../providers/news.dart';
+import '../providers/notes.dart';
 import '../screens/attendance/attendance.dart';
 import '../screens/exams/exams.dart';
 import '../screens/grades/grades.dart';
@@ -19,6 +20,7 @@ import '../screens/login/login.dart';
 import '../screens/menu/menu.dart';
 import '../screens/news/news.dart';
 import '../screens/news/news_item_screen/news_item_screen.dart';
+import '../screens/notes/note_edit/note_edit_screen.dart';
 import '../screens/notes/notes_list.dart';
 
 class Routes {
@@ -32,6 +34,7 @@ class Routes {
   static const String newsItemScreen = '/news-item-screen';
   static const String gradesScreen = '/grades-screen';
   static const String notesListScreen = '/notes-list-screen';
+  static const String noteEditScreen = '/note-edit-screen';
   static const all = <String>{
     authScreen,
     homeScreen,
@@ -43,6 +46,7 @@ class Routes {
     newsItemScreen,
     gradesScreen,
     notesListScreen,
+    noteEditScreen,
   };
 }
 
@@ -60,6 +64,7 @@ class AkademikRouter extends RouterBase {
     RouteDef(Routes.newsItemScreen, page: NewsItemScreen),
     RouteDef(Routes.gradesScreen, page: GradesScreen),
     RouteDef(Routes.notesListScreen, page: NotesListScreen),
+    RouteDef(Routes.noteEditScreen, page: NoteEditScreen),
   ];
   @override
   Map<Type, AutoRouteFactory> get pagesMap => _pagesMap;
@@ -130,6 +135,18 @@ class AkademikRouter extends RouterBase {
         settings: data,
       );
     },
+    NoteEditScreen: (data) {
+      final args = data.getArgs<NoteEditScreenArguments>(
+        orElse: () => NoteEditScreenArguments(),
+      );
+      return buildAdaptivePageRoute<dynamic>(
+        builder: (context) => NoteEditScreen(
+          key: args.key,
+          noteItem: args.noteItem,
+        ),
+        settings: data,
+      );
+    },
   };
 }
 
@@ -142,4 +159,11 @@ class NewsItemScreenArguments {
   final Key key;
   final AkademikNews newsItem;
   NewsItemScreenArguments({this.key, this.newsItem});
+}
+
+/// NoteEditScreen arguments holder class
+class NoteEditScreenArguments {
+  final Key key;
+  final AkademikNote noteItem;
+  NoteEditScreenArguments({this.key, this.noteItem});
 }
