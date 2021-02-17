@@ -1,5 +1,6 @@
 import 'package:akademik/providers/notes.dart';
 import 'package:akademik/services/notes_repo.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
@@ -26,6 +27,12 @@ class _NotesListScreenState extends State<NotesListScreen> {
     final height = MediaQuery.of(context).size.height;
     return Scaffold(
       appBar: AppBar(
+        actions: [
+          IconButton(
+            icon: Icon(CupertinoIcons.add),
+            onPressed: () {},
+          ),
+        ],
         backgroundColor: Colors.deepPurpleAccent.withOpacity(0.85),
         title: Text(
           'Notes',
