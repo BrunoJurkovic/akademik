@@ -8,6 +8,7 @@ import 'package:akademik/services/exams_repo.dart';
 import 'package:akademik/services/grades_repo.dart';
 import 'package:akademik/services/homework_repo.dart';
 import 'package:akademik/services/news_repo.dart';
+import 'package:akademik/services/notes_repo.dart';
 import 'package:akademik/services/user_repo.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -46,6 +47,10 @@ class _HomeScreenState extends State<HomeScreen> {
               .currentUser
               .classId);
       await Provider.of<GradeRepository>(context, listen: false).fetchGrades(
+          Provider.of<UserRepository>(context, listen: false)
+              .currentUser
+              .userId);
+      await Provider.of<NotesRepository>(context, listen: false).fetchNotes(
           Provider.of<UserRepository>(context, listen: false)
               .currentUser
               .userId);

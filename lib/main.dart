@@ -4,6 +4,7 @@ import 'package:akademik/services/exams_repo.dart';
 import 'package:akademik/services/grades_repo.dart';
 import 'package:akademik/services/homework_repo.dart';
 import 'package:akademik/services/news_repo.dart';
+import 'package:akademik/services/notes_repo.dart';
 import 'package:akademik/services/user_repo.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -38,6 +39,9 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider(
           create: (ctx) => GradeRepository(),
+        ),
+        ChangeNotifierProvider(
+          create: (ctx) => NotesRepository(),
         ),
       ],
       child: const AppStart(),

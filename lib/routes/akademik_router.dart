@@ -7,6 +7,8 @@ import 'package:akademik/screens/login/login.dart';
 import 'package:akademik/screens/menu/menu.dart';
 import 'package:akademik/screens/news/news.dart';
 import 'package:akademik/screens/news/news_item_screen/news_item_screen.dart';
+import 'package:akademik/screens/notes/note_edit/note_edit_screen.dart';
+import 'package:akademik/screens/notes/notes_list.dart';
 import 'package:auto_route/auto_route_annotations.dart';
 
 @AdaptiveAutoRouter(routes: <AutoRoute>[
@@ -19,5 +21,7 @@ import 'package:auto_route/auto_route_annotations.dart';
   AdaptiveRoute(page: NewsScreen),
   AdaptiveRoute(page: NewsItemScreen),
   AdaptiveRoute(page: GradesScreen),
+  AdaptiveRoute(page: NotesListScreen),
+  AdaptiveRoute(page: NoteEditScreen)
 ])
 class $AkademikRouter {}
