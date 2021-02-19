@@ -25,7 +25,20 @@ class _NotesListScreenState extends State<NotesListScreen> {
         actions: [
           IconButton(
             icon: Icon(CupertinoIcons.add),
-            onPressed: () {},
+            onPressed: () {
+              ExtendedNavigator.root.push(
+                '/note-edit-screen',
+                arguments: NoteEditScreenArguments(
+                  noteItem: AkademikNote(
+                    className: null,
+                    dateModified: null,
+                    note: null,
+                    noteId: null,
+                    userId: null,
+                  ),
+                ),
+              );
+            },
           ),
         ],
         backgroundColor: Colors.deepPurpleAccent.withOpacity(0.85),
@@ -44,9 +57,8 @@ class _NotesListScreenState extends State<NotesListScreen> {
           itemCount: notes.length,
           itemBuilder: (ctx, index) {
             return InkWell(
-              onTap: () async {
-                var result = await ExtendedNavigator.root.push(
-                    '/note-edit-screen',
+              onTap: () {
+                ExtendedNavigator.root.push('/note-edit-screen',
                     arguments: NoteEditScreenArguments(noteItem: notes[index]));
               },
               child: Container(

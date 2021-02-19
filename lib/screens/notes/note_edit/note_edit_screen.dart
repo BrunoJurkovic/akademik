@@ -54,7 +54,13 @@ class _NoteEditScreenState extends State<NoteEditScreen> {
           ),
         ),
         actions: [
-          IconButton(icon: Icon(CupertinoIcons.trash), onPressed: () {})
+          IconButton(
+              icon: Icon(CupertinoIcons.trash),
+              onPressed: () async {
+                await Provider.of<NotesRepository>(context, listen: false)
+                    .deleteNote(returnable);
+                ExtendedNavigator.root.pop();
+              })
         ],
       ),
       body: FormBuilder(
