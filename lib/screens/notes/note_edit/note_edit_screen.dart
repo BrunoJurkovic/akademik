@@ -58,7 +58,7 @@ class _NoteEditScreenState extends State<NoteEditScreen> {
               icon: Icon(CupertinoIcons.trash),
               onPressed: () async {
                 await Provider.of<NotesRepository>(context, listen: false)
-                    .deleteNote(returnable);
+                    .deleteNote(widget.noteItem);
                 ExtendedNavigator.root.pop();
               })
         ],

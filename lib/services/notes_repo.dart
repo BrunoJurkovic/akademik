@@ -31,8 +31,9 @@ class NotesRepository with ChangeNotifier {
   }
 
   Future<void> deleteNote(AkademikNote note) async {
-    _notes.removeWhere((element) => element.noteId == note.noteId);
+    _notes.removeWhere((element) => element.noteId == note?.noteId);
     await reference.doc(note.noteId).delete();
+
     notifyListeners();
   }
 }
