@@ -1,8 +1,13 @@
 import 'package:akademik/providers/notes.dart';
+import 'package:akademik/services/notes_repo.dart';
+import 'package:akademik/services/user_repo.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
+import 'package:uuid/uuid.dart';
 
 class NoteEditScreen extends StatefulWidget {
   final AkademikNote noteItem;
@@ -19,7 +24,27 @@ class _NoteEditScreenState extends State<NoteEditScreen> {
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
     final _formKey = GlobalKey<FormBuilderState>();
+    AkademikNote returnable;
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: Colors.deepPurpleAccent,
+        child: Icon(CupertinoIcons.checkmark),
+        onPressed: () async {
+          _formKey.currentState.save();
+          returnable = AkademikNote(
+            className: _formKey.currentState.value['title'],
+            dateModified: DateTime.now(),
+            note: _formKey.currentState.value['note'],
+            userId: Provider.of<UserRepository>(context, listen: false)
+                .currentUser
+                .userId,
+            noteId: widget.noteItem.noteId ?? Uuid().v4(),
+          );
+          await Provider.of<NotesRepository>(context, listen: false)
+              .updateOrCreateNote(returnable);
+          ExtendedNavigator.root.pop();
+        },
+      ),
       appBar: AppBar(
         backgroundColor: Colors.deepPurpleAccent.withOpacity(0.85),
         shape: RoundedRectangleBorder(
@@ -33,12 +58,16 @@ class _NoteEditScreenState extends State<NoteEditScreen> {
         ],
       ),
       body: FormBuilder(
+        initialValue: <String, dynamic>{
+          'title': widget.noteItem.className,
+          'note': widget.noteItem.note,
+        },
         key: _formKey,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Container(
-              padding: EdgeInsets.symmetric(vertical: 20, horizontal: 10),
+              padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
               child: FormBuilderTextField(
                 attribute: 'title',
                 autocorrect: true,
@@ -63,7 +92,7 @@ class _NoteEditScreenState extends State<NoteEditScreen> {
               color: Colors.black26,
             ),
             Container(
-              padding: EdgeInsets.symmetric(vertical: 20, horizontal: 10),
+              padding: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
               width: width,
               child: FormBuilderTextField(
                 attribute: 'note',

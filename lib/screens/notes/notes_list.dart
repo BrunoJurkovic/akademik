@@ -16,17 +16,10 @@ class _NotesListScreenState extends State<NotesListScreen> {
   List<AkademikNote> notes = [];
 
   @override
-  void initState() {
-    Future.delayed(Duration.zero, () async {
-      notes = Provider.of<NotesRepository>(context, listen: false).notes;
-    });
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
+    notes = Provider.of<NotesRepository>(context, listen: true).notes;
     return Scaffold(
       appBar: AppBar(
         actions: [
@@ -51,8 +44,9 @@ class _NotesListScreenState extends State<NotesListScreen> {
           itemCount: notes.length,
           itemBuilder: (ctx, index) {
             return InkWell(
-              onTap: () {
-                ExtendedNavigator.root.push('/note-edit-screen',
+              onTap: () async {
+                var result = await ExtendedNavigator.root.push(
+                    '/note-edit-screen',
                     arguments: NoteEditScreenArguments(noteItem: notes[index]));
               },
               child: Container(

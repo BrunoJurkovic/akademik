@@ -27,6 +27,7 @@ dependencies:
   table_calendar: ^2.3.3
   share: ^0.6.5+4
   intl:
+  uuid: ^2.2.2
 
 dev_dependencies:
   auto_route_generator:
