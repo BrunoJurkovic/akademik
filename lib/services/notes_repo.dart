@@ -24,6 +24,7 @@ class NotesRepository with ChangeNotifier {
   }
 
   Future<void> updateOrCreateNote(AkademikNote note) async {
+    _notes.removeWhere((element) => element.noteId == note.noteId);
     _notes.add(note);
     await reference.doc(note.noteId).set(AkademikNote.noteToMap(note));
     notifyListeners();
