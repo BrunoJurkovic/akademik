@@ -45,7 +45,7 @@ class _MenuScreenState extends State<MenuScreen> {
                   ),
                 ),
                 Text(
-                  '3.C Razred',
+                  '${Provider.of<UserRepository>(context).currentUser.year}th grade',
                   style: GoogleFonts.montserrat(
                     color: Colors.white,
                     fontWeight: FontWeight.w400,
