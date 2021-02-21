@@ -80,10 +80,12 @@ class _MenuScreenState extends State<MenuScreen> {
               ),
               children: [
                 AkademikGridItem(
-                    text: 'Dashboard',
-                    callback: () {
-                      ExtendedNavigator.of(context).pop();
-                    }),
+                  text: 'Dashboard',
+                  callback: () {
+                    ExtendedNavigator.of(context).pop();
+                  },
+                  iconPath: 'assets/images/house.png',
+                ),
                 AkademikGridItem(
                     text: 'Homework',
                     callback: () {
@@ -91,35 +93,47 @@ class _MenuScreenState extends State<MenuScreen> {
                     },
                     iconPath: 'assets/images/homework_icon.png'),
                 AkademikGridItem(
-                    text: 'Attendance',
-                    callback: () {
-                      ExtendedNavigator.of(context).push('/attendance-screen');
-                    }),
+                  text: 'Attendance',
+                  callback: () {
+                    ExtendedNavigator.of(context).push('/attendance-screen');
+                  },
+                  iconPath: 'assets/images/note.png',
+                ),
                 AkademikGridItem(
-                    text: 'Exams',
-                    callback: () {
-                      ExtendedNavigator.of(context).push('/exams-screen');
-                    }),
+                  text: 'Exams',
+                  callback: () {
+                    ExtendedNavigator.of(context).push('/exams-screen');
+                  },
+                  iconPath: 'assets/images/exam.png',
+                ),
                 AkademikGridItem(
-                    text: 'News',
-                    callback: () {
-                      ExtendedNavigator.of(context).push('/news-screen');
-                    }),
+                  text: 'News',
+                  callback: () {
+                    ExtendedNavigator.of(context).push('/news-screen');
+                  },
+                  iconPath: 'assets/images/newspaper.png',
+                ),
                 AkademikGridItem(
-                    text: 'Grades',
-                    callback: () {
-                      ExtendedNavigator.of(context).push('/grades-screen');
-                    }),
+                  text: 'Grades',
+                  callback: () {
+                    ExtendedNavigator.of(context).push('/grades-screen');
+                  },
+                  iconPath: 'assets/images/test.png',
+                ),
                 AkademikGridItem(
-                    text: 'Notes',
-                    callback: () {
-                      ExtendedNavigator.of(context).push('/notes-list-screen');
-                    }),
+                  text: 'Notes',
+                  callback: () {
+                    ExtendedNavigator.of(context).push('/notes-list-screen');
+                  },
+                  iconPath: 'assets/images/notes.png',
+                ),
                 AkademikGridItem(
-                    text: 'Profile',
-                    callback: () {
-                      ExtendedNavigator.of(context).push('/profile-screen');
-                    }),
+                  text: 'Profile',
+                  callback: () {
+                    ExtendedNavigator.of(context).push('/profile-screen');
+                  },
+                  iconPath: 'assets/images/user.png',
+                ),
               ],
             ),
             SizedBox(

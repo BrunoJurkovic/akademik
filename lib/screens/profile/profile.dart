@@ -52,7 +52,33 @@ class _ProfileScreenState extends State<ProfileScreen> {
             height: height * 0.5,
             child: ListView(
               children: [
-                ProfileItem(width: width, height: height),
+                ProfileItem(
+                  width: width,
+                  height: height,
+                  item: 'Name',
+                  text: user.name,
+                ),
+                Divider(color: Colors.black26),
+                ProfileItem(
+                  width: width,
+                  height: height,
+                  item: 'Student ID',
+                  text: user.userId,
+                ),
+                Divider(color: Colors.black26),
+                ProfileItem(
+                  width: width,
+                  height: height,
+                  item: 'E-Mail',
+                  text: user.email,
+                ),
+                Divider(color: Colors.black26),
+                ProfileItem(
+                  width: width,
+                  height: height,
+                  item: 'Year',
+                  text: '${user.year}th grade',
+                ),
                 Divider(color: Colors.black26),
               ],
             ),
@@ -64,14 +90,18 @@ class _ProfileScreenState extends State<ProfileScreen> {
 }
 
 class ProfileItem extends StatelessWidget {
-  const ProfileItem({
-    Key key,
-    @required this.width,
-    @required this.height,
-  }) : super(key: key);
+  const ProfileItem(
+      {Key key,
+      @required this.width,
+      @required this.height,
+      @required this.text,
+      @required this.item})
+      : super(key: key);
 
   final double width;
   final double height;
+  final String item;
+  final String text;
 
   @override
   Widget build(BuildContext context) {
@@ -82,7 +112,7 @@ class ProfileItem extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(
-            'Name',
+            item,
             style: GoogleFonts.montserrat(
               color: Colors.black,
               fontWeight: FontWeight.w600,
@@ -90,7 +120,7 @@ class ProfileItem extends StatelessWidget {
             ),
           ),
           Text(
-            'Bruno Jurković',
+            text,
             style: GoogleFonts.montserrat(
               color: Colors.deepPurpleAccent.withOpacity(0.9),
               fontWeight: FontWeight.w500,
