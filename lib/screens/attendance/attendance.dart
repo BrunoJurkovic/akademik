@@ -13,25 +13,10 @@ class AttendanceScreen extends StatefulWidget {
 }
 
 class _AttendanceScreenState extends State<AttendanceScreen> {
-  List<AkademikAttendance> attendance = [];
-  @override
-  void initState() {
-    Future.delayed(Duration.zero, () async {
-      await Provider.of<AttendanceRepository>(context, listen: false)
-          .fetchAttendance(Provider.of<UserRepository>(context, listen: false)
-              .currentUser
-              .userId);
-      setState(() {
-        attendance = Provider.of<AttendanceRepository>(context, listen: false)
-            .getAttendanceList;
-      });
-      print(attendance.toString());
-    });
-    super.initState();
-  }
-
   @override
   Widget build(BuildContext context) {
+    final attendance = Provider.of<AttendanceRepository>(context, listen: true)
+        .getAttendanceList;
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
     return Scaffold(

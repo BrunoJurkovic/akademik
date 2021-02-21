@@ -18,24 +18,15 @@ class _HomeworkScreenState extends State<HomeworkScreen> {
   List<AkademikHomework> allHomework = [];
 
   @override
-  void initState() {
-    Future.delayed(Duration.zero, () async {
-      todaysHomework = Provider.of<HomeworkRepository>(context, listen: false)
-          .getTodayHomework;
-      tomorrowsHomework =
-          Provider.of<HomeworkRepository>(context, listen: false)
-              .getTomorrowHomework;
-
-      allHomework = Provider.of<HomeworkRepository>(context, listen: false)
-          .getOtherHomework;
-    });
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
+    todaysHomework =
+        Provider.of<HomeworkRepository>(context, listen: true).getTodayHomework;
+    tomorrowsHomework = Provider.of<HomeworkRepository>(context, listen: true)
+        .getTomorrowHomework;
+    allHomework =
+        Provider.of<HomeworkRepository>(context, listen: true).getOtherHomework;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.deepPurpleAccent.withOpacity(0.85),
@@ -60,38 +51,58 @@ class _HomeworkScreenState extends State<HomeworkScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              TitleWidget(text: 'Due today'),
-              Container(
-                width: width * 0.9,
-                height: height * 0.20,
-                padding: EdgeInsets.only(top: 25),
-                child: HomeworkList(
-                    homeworkList: todaysHomework, width: width, height: height),
-              ),
-              SizedBox(
-                height: 25,
-              ),
-              TitleWidget(text: 'Due tomorrow'),
-              Container(
-                width: width * 0.9,
-                height: height * 0.20,
-                padding: EdgeInsets.only(top: 25),
-                child: HomeworkList(
-                    homeworkList: tomorrowsHomework,
-                    width: width,
-                    height: height),
-              ),
-              SizedBox(
-                height: 25,
-              ),
-              TitleWidget(text: 'Due later'),
-              Container(
-                width: width * 0.9,
-                height: height * 0.20,
-                padding: EdgeInsets.only(top: 25),
-                child: HomeworkList(
-                    homeworkList: allHomework, width: width, height: height),
-              ),
+              todaysHomework.isEmpty
+                  ? Container()
+                  : TitleWidget(text: 'Due today'),
+              todaysHomework.isEmpty
+                  ? Container()
+                  : Container(
+                      width: width * 0.9,
+                      height: height * 0.20,
+                      padding: EdgeInsets.only(top: 25),
+                      child: HomeworkList(
+                          homeworkList: todaysHomework,
+                          width: width,
+                          height: height),
+                    ),
+              todaysHomework.isEmpty
+                  ? Container()
+                  : SizedBox(
+                      height: 25,
+                    ),
+              tomorrowsHomework.isEmpty
+                  ? Container()
+                  : TitleWidget(text: 'Due tomorrow'),
+              tomorrowsHomework.isEmpty
+                  ? Container()
+                  : Container(
+                      width: width * 0.9,
+                      height: height * 0.20,
+                      padding: EdgeInsets.only(top: 25),
+                      child: HomeworkList(
+                          homeworkList: tomorrowsHomework,
+                          width: width,
+                          height: height),
+                    ),
+              tomorrowsHomework.isEmpty
+                  ? Container()
+                  : SizedBox(
+                      height: 25,
+                    ),
+              allHomework.isEmpty
+                  ? Container()
+                  : TitleWidget(text: 'Due later'),
+              allHomework.isEmpty
+                  ? Container()
+                  : Container(
+                      width: width * 0.9,
+                      height: height * 0.20,
+                      padding: EdgeInsets.only(top: 25),
+                      child: HomeworkList(
+                          homeworkList: allHomework,
+                          width: width,
+                          height: height),
+                    ),
             ],
           ),
         ),
