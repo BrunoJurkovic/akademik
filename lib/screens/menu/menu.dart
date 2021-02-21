@@ -1,5 +1,6 @@
 import 'package:akademik/services/user_repo.dart';
 import 'package:auto_route/auto_route.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -57,7 +58,11 @@ class _MenuScreenState extends State<MenuScreen> {
           leading: Row(
             children: [
               Padding(
-                child: CircleAvatar(),
+                child: CircleAvatar(
+                  backgroundImage: CachedNetworkImageProvider(
+                    Provider.of<UserRepository>(context).currentUser.pictureUrl,
+                  ),
+                ),
                 padding: EdgeInsets.only(left: width * 0.035),
               ),
             ],
