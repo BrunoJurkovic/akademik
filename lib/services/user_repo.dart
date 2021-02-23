@@ -20,6 +20,10 @@ class UserRepository with ChangeNotifier {
             year: 0);
   }
 
+  bool get isUserAdmin {
+    return _currentUser.isAdmin;
+  }
+
   Future<void> getCurrentUser() async {
     QuerySnapshot query;
     query = await _firestoreInstance

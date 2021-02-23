@@ -9,6 +9,7 @@ class AkademikUser with ChangeNotifier {
   final String pictureUrl;
   final String userId;
   final String classId;
+  final bool isAdmin;
 
   factory AkademikUser.fromDocument(DocumentSnapshot doc) {
     print(doc.toString());
@@ -20,6 +21,7 @@ class AkademikUser with ChangeNotifier {
       year: doc['year'] as int,
       userId: doc.id,
       classId: doc['classId'] as String,
+      isAdmin: doc['isAdmin'] as bool,
     );
   }
 
@@ -41,5 +43,6 @@ class AkademikUser with ChangeNotifier {
     this.username,
     this.userId,
     this.classId,
+    this.isAdmin,
   });
 }
