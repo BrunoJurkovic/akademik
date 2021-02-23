@@ -11,6 +11,7 @@ import 'package:flutter/material.dart';
 
 import '../providers/news.dart';
 import '../providers/notes.dart';
+import '../screens/admin_menu/admin_menu.dart';
 import '../screens/attendance/attendance.dart';
 import '../screens/exams/exams.dart';
 import '../screens/grades/grades.dart';
@@ -28,6 +29,7 @@ class Routes {
   static const String authScreen = '/auth-screen';
   static const String homeScreen = '/home-screen';
   static const String menuScreen = '/menu-screen';
+  static const String adminMenuScreen = '/admin-menu-screen';
   static const String homeworkScreen = '/homework-screen';
   static const String attendanceScreen = '/attendance-screen';
   static const String examsScreen = '/exams-screen';
@@ -41,6 +43,7 @@ class Routes {
     authScreen,
     homeScreen,
     menuScreen,
+    adminMenuScreen,
     homeworkScreen,
     attendanceScreen,
     examsScreen,
@@ -60,6 +63,7 @@ class AkademikRouter extends RouterBase {
     RouteDef(Routes.authScreen, page: AuthScreen),
     RouteDef(Routes.homeScreen, page: HomeScreen),
     RouteDef(Routes.menuScreen, page: MenuScreen),
+    RouteDef(Routes.adminMenuScreen, page: AdminMenuScreen),
     RouteDef(Routes.homeworkScreen, page: HomeworkScreen),
     RouteDef(Routes.attendanceScreen, page: AttendanceScreen),
     RouteDef(Routes.examsScreen, page: ExamsScreen),
@@ -88,6 +92,12 @@ class AkademikRouter extends RouterBase {
     MenuScreen: (data) {
       return buildAdaptivePageRoute<dynamic>(
         builder: (context) => MenuScreen(),
+        settings: data,
+      );
+    },
+    AdminMenuScreen: (data) {
+      return buildAdaptivePageRoute<dynamic>(
+        builder: (context) => AdminMenuScreen(),
         settings: data,
       );
     },
