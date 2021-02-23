@@ -7,23 +7,23 @@
 // ignore_for_file: public_member_api_docs
 
 import 'package:auto_route/auto_route.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 
 import '../providers/news.dart';
 import '../providers/notes.dart';
-import '../screens/admin_menu/admin_menu.dart';
-import '../screens/attendance/attendance.dart';
-import '../screens/exams/exams.dart';
-import '../screens/grades/grades.dart';
-import '../screens/home/home.dart';
-import '../screens/homework/homework.dart';
-import '../screens/login/login.dart';
-import '../screens/menu/menu.dart';
-import '../screens/news/news.dart';
-import '../screens/news/news_item_screen/news_item_screen.dart';
-import '../screens/notes/note_edit/note_edit_screen.dart';
-import '../screens/notes/notes_list.dart';
-import '../screens/profile/profile.dart';
+import '../screens/admin/admin_menu/admin_menu.dart';
+import '../screens/user/attendance/attendance.dart';
+import '../screens/user/exams/exams.dart';
+import '../screens/user/grades/grades.dart';
+import '../screens/user/home/home.dart';
+import '../screens/user/homework/homework.dart';
+import '../screens/user/login/login.dart';
+import '../screens/user/menu/menu.dart';
+import '../screens/user/news/news.dart';
+import '../screens/user/news/news_item_screen/news_item_screen.dart';
+import '../screens/user/notes/note_edit/note_edit_screen.dart';
+import '../screens/user/notes/notes_list.dart';
+import '../screens/user/profile/profile.dart';
 
 class Routes {
   static const String authScreen = '/auth-screen';

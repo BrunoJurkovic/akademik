@@ -38,7 +38,7 @@ class _AdminMenuScreenState extends State<AdminMenuScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Bruno Jurković',
+                  'Teacher Menu',
                   style: GoogleFonts.montserrat(
                     color: Colors.white,
                     fontWeight: FontWeight.w500,
