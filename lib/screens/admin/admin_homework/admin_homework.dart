@@ -74,7 +74,11 @@ class _AdminHomeworkScreenState extends State<AdminHomeworkScreen> {
               height: height * 0.20,
               padding: EdgeInsets.only(top: 25),
               child: HomeworkList(
-                  homeworkList: allHomework, width: width, height: height),
+                homeworkList: allHomework,
+                width: width,
+                height: height,
+                isTeacherMode: true,
+              ),
             ),
           ],
         ),

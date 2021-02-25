@@ -1,4 +1,6 @@
 import 'package:akademik/providers/homework.dart';
+import 'package:akademik/routes/akademik_router.gr.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -10,36 +12,50 @@ class HomeworkList extends StatelessWidget {
     @required this.width,
     @required this.height,
     this.isTeacherMode = false,
+    this.callback,
   }) : super(key: key);
 
   final List<AkademikHomework> homeworkList;
   final double width;
   final double height;
   final bool isTeacherMode;
+  final Function callback;
 
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
       itemCount: homeworkList.length,
       itemBuilder: (BuildContext context, int index) {
-        return Column(
-          children: [
-            !isTeacherMode
-                ? TeacherHomeworkItem(
-                    width: width,
-                    height: height,
-                    homeworkList: homeworkList,
-                    index: index)
-                : StudentHomeworkItem(
-                    width: width,
-                    height: height,
-                    homeworkList: homeworkList,
-                    index: index,
-                  ),
-            SizedBox(
-              height: height * 0.010,
-            ),
-          ],
+        return InkWell(
+          onTap: isTeacherMode
+              ? () {
+                  ExtendedNavigator.root.push(
+                    Routes.homeworkDetailsScreen,
+                    arguments: HomeworkDetailsScreenArguments(
+                      homework: homeworkList[index],
+                    ),
+                  );
+                }
+              : () {},
+          child: Column(
+            children: [
+              isTeacherMode
+                  ? TeacherHomeworkItem(
+                      width: width,
+                      height: height,
+                      homeworkList: homeworkList,
+                      index: index)
+                  : StudentHomeworkItem(
+                      width: width,
+                      height: height,
+                      homeworkList: homeworkList,
+                      index: index,
+                    ),
+              SizedBox(
+                height: height * 0.010,
+              ),
+            ],
+          ),
         );
       },
     );
