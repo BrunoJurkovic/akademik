@@ -9,9 +9,11 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
 
+import '../providers/homework.dart';
 import '../providers/news.dart';
 import '../providers/notes.dart';
 import '../screens/admin/admin_homework/admin_homework.dart';
+import '../screens/admin/admin_homework/homework_details.dart';
 import '../screens/admin/admin_menu/admin_menu.dart';
 import '../screens/user/attendance/attendance.dart';
 import '../screens/user/exams/exams.dart';
@@ -41,6 +43,7 @@ class Routes {
   static const String noteEditScreen = '/note-edit-screen';
   static const String profileScreen = '/profile-screen';
   static const String adminHomeworkScreen = '/admin-homework-screen';
+  static const String homeworkDetailsScreen = '/homework-details-screen';
   static const all = <String>{
     authScreen,
     homeScreen,
@@ -56,6 +59,7 @@ class Routes {
     noteEditScreen,
     profileScreen,
     adminHomeworkScreen,
+    homeworkDetailsScreen,
   };
 }
 
@@ -77,6 +81,7 @@ class AkademikRouter extends RouterBase {
     RouteDef(Routes.noteEditScreen, page: NoteEditScreen),
     RouteDef(Routes.profileScreen, page: ProfileScreen),
     RouteDef(Routes.adminHomeworkScreen, page: AdminHomeworkScreen),
+    RouteDef(Routes.homeworkDetailsScreen, page: HomeworkDetailsScreen),
   ];
   @override
   Map<Type, AutoRouteFactory> get pagesMap => _pagesMap;
@@ -177,6 +182,18 @@ class AkademikRouter extends RouterBase {
         settings: data,
       );
     },
+    HomeworkDetailsScreen: (data) {
+      final args = data.getArgs<HomeworkDetailsScreenArguments>(
+        orElse: () => HomeworkDetailsScreenArguments(),
+      );
+      return buildAdaptivePageRoute<dynamic>(
+        builder: (context) => HomeworkDetailsScreen(
+          key: args.key,
+          homework: args.homework,
+        ),
+        settings: data,
+      );
+    },
   };
 }
 
@@ -196,4 +213,11 @@ class NoteEditScreenArguments {
   final Key key;
   final AkademikNote noteItem;
   NoteEditScreenArguments({this.key, this.noteItem});
+}
+
+/// HomeworkDetailsScreen arguments holder class
+class HomeworkDetailsScreenArguments {
+  final Key key;
+  final AkademikHomework homework;
+  HomeworkDetailsScreenArguments({this.key, this.homework});
 }

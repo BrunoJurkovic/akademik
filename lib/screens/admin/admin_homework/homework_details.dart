@@ -1,7 +1,12 @@
+import 'package:akademik/providers/homework.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class HomeworkDetailsScreen extends StatefulWidget {
+  final AkademikHomework homework;
+
+  const HomeworkDetailsScreen({Key key, this.homework}) : super(key: key);
+
   @override
   _HomeworkDetailsScreenState createState() => _HomeworkDetailsScreenState();
 }

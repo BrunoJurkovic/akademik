@@ -1,9 +1,12 @@
 import 'package:akademik/providers/homework.dart';
+import 'package:akademik/routes/akademik_router.gr.dart';
 import 'package:akademik/services/homework_repo.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+import 'package:uuid/uuid.dart';
 
 class AdminHomeworkScreen extends StatefulWidget {
   @override
@@ -28,7 +31,24 @@ class _AdminHomeworkScreenState extends State<AdminHomeworkScreen> {
       appBar: AppBar(
           backgroundColor: Colors.deepPurpleAccent.withOpacity(0.85),
           actions: [
-            IconButton(icon: Icon(CupertinoIcons.add), onPressed: () {})
+            IconButton(
+                icon: Icon(CupertinoIcons.add),
+                onPressed: () {
+                  ExtendedNavigator.root.push(
+                    Routes.homeworkDetailsScreen,
+                    arguments: HomeworkDetailsScreenArguments(
+                      homework: AkademikHomework(
+                        aclass: '',
+                        assignment: '',
+                        description: '',
+                        isFinished: false,
+                        timeAssigned: DateTime.now(),
+                        timeDue: DateTime.now(),
+                        userId: Uuid().v4(),
+                      ),
+                    ),
+                  );
+                })
           ],
           title: Text(
             'Homework',
