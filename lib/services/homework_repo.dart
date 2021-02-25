@@ -51,4 +51,9 @@ class HomeworkRepository with ChangeNotifier {
     });
     notifyListeners();
   }
+
+  Future<void> getListCompletedHomework(String homeworkId) async {
+    QuerySnapshot query;
+    query = await _instance.where('').get();
+  }
 }
