@@ -8,6 +8,11 @@ class UserRepository with ChangeNotifier {
   final CollectionReference _firestoreInstance =
       FirebaseFirestore.instance.collection('users');
   AkademikUser _currentUser;
+  final List<AkademikUser> _allUsers = [];
+
+  List<AkademikUser> get allUsers {
+    return _allUsers;
+  }
 
   AkademikUser get currentUser {
     return _currentUser ??
@@ -22,6 +27,15 @@ class UserRepository with ChangeNotifier {
 
   bool get isUserAdmin {
     return _currentUser.isAdmin;
+  }
+
+  Future<void> getAllUsers() async {
+    QuerySnapshot query;
+    query = await _firestoreInstance.get();
+    query.docs.forEach((doc) {
+      _allUsers.add(AkademikUser.fromDocument(doc));
+    });
+    notifyListeners();
   }
 
   Future<void> getCurrentUser() async {

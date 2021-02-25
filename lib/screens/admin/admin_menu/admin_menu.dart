@@ -95,7 +95,8 @@ class _AdminMenuScreenState extends State<AdminMenuScreen> {
                 AkademikGridItem(
                     text: 'Homework',
                     callback: () {
-                      ExtendedNavigator.of(context).push('/homework-screen');
+                      ExtendedNavigator.of(context)
+                          .push('/admin-homework-screen');
                     },
                     iconPath: 'assets/images/homework_icon.png'),
                 AkademikGridItem(

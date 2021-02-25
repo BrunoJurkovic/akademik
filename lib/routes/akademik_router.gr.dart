@@ -11,6 +11,7 @@ import 'package:flutter/cupertino.dart';
 
 import '../providers/news.dart';
 import '../providers/notes.dart';
+import '../screens/admin/admin_homework/admin_homework.dart';
 import '../screens/admin/admin_menu/admin_menu.dart';
 import '../screens/user/attendance/attendance.dart';
 import '../screens/user/exams/exams.dart';
@@ -39,6 +40,7 @@ class Routes {
   static const String notesListScreen = '/notes-list-screen';
   static const String noteEditScreen = '/note-edit-screen';
   static const String profileScreen = '/profile-screen';
+  static const String adminHomeworkScreen = '/admin-homework-screen';
   static const all = <String>{
     authScreen,
     homeScreen,
@@ -53,6 +55,7 @@ class Routes {
     notesListScreen,
     noteEditScreen,
     profileScreen,
+    adminHomeworkScreen,
   };
 }
 
@@ -73,6 +76,7 @@ class AkademikRouter extends RouterBase {
     RouteDef(Routes.notesListScreen, page: NotesListScreen),
     RouteDef(Routes.noteEditScreen, page: NoteEditScreen),
     RouteDef(Routes.profileScreen, page: ProfileScreen),
+    RouteDef(Routes.adminHomeworkScreen, page: AdminHomeworkScreen),
   ];
   @override
   Map<Type, AutoRouteFactory> get pagesMap => _pagesMap;
@@ -164,6 +168,12 @@ class AkademikRouter extends RouterBase {
     ProfileScreen: (data) {
       return buildAdaptivePageRoute<dynamic>(
         builder: (context) => ProfileScreen(),
+        settings: data,
+      );
+    },
+    AdminHomeworkScreen: (data) {
+      return buildAdaptivePageRoute<dynamic>(
+        builder: (context) => AdminHomeworkScreen(),
         settings: data,
       );
     },

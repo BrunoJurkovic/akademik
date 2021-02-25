@@ -1,5 +1,6 @@
 import 'package:akademik/providers/homework.dart';
 import 'package:akademik/services/homework_repo.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
@@ -26,6 +27,9 @@ class _AdminHomeworkScreenState extends State<AdminHomeworkScreen> {
     return Scaffold(
       appBar: AppBar(
           backgroundColor: Colors.deepPurpleAccent.withOpacity(0.85),
+          actions: [
+            IconButton(icon: Icon(CupertinoIcons.add), onPressed: () {})
+          ],
           title: Text(
             'Homework',
             style: GoogleFonts.montserrat(
