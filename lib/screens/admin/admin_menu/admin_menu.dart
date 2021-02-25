@@ -126,20 +126,6 @@ class _AdminMenuScreenState extends State<AdminMenuScreen> {
                   },
                   iconPath: 'assets/images/test.png',
                 ),
-                AkademikGridItem(
-                  text: 'Notes',
-                  callback: () {
-                    ExtendedNavigator.of(context).push('/notes-list-screen');
-                  },
-                  iconPath: 'assets/images/notes.png',
-                ),
-                AkademikGridItem(
-                  text: 'Profile',
-                  callback: () {
-                    ExtendedNavigator.of(context).push('/profile-screen');
-                  },
-                  iconPath: 'assets/images/user.png',
-                ),
               ],
             ),
             SizedBox(
