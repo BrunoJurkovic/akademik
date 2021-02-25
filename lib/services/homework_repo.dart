@@ -1,4 +1,6 @@
 import 'package:akademik/providers/homework.dart';
+import 'package:akademik/providers/user.dart';
+import 'package:akademik/services/user_repo.dart';
 import 'package:akademik/utils/dateutils.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -7,6 +9,12 @@ class HomeworkRepository with ChangeNotifier {
   final CollectionReference _instance =
       FirebaseFirestore.instance.collection('homework');
   final List<AkademikHomework> _homeworkList = [];
+  final List<AkademikUser> _finishedUsers = [];
+  final UserRepository _userRepository = UserRepository();
+
+  List<AkademikUser> get finishedUsers {
+    return _finishedUsers;
+  }
 
   List<AkademikHomework> get homework {
     return _homeworkList ?? [];
@@ -53,7 +61,12 @@ class HomeworkRepository with ChangeNotifier {
   }
 
   Future<void> getListCompletedHomework(String homeworkId) async {
-    QuerySnapshot query;
-    query = await _instance.where('').get();
+    DocumentSnapshot doc;
+
+    doc = await _instance.doc('homeworkId').get();
+    List<String> users = doc['finishedUsers'];
+    users.forEach((userId) {
+      _userRepository.getUserById(userId);
+    });
   }
 }

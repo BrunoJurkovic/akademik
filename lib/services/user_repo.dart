@@ -57,6 +57,8 @@ class UserRepository with ChangeNotifier {
     return _authInstance.signOut();
   }
 
+  Future<AkademikUser> getUserById(String id) async {}
+
   Future<UserCredential> signInToFirebase(String email, String password) async {
     try {
       UserCredential userCredential;

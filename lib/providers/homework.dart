@@ -9,6 +9,7 @@ class AkademikHomework with ChangeNotifier {
   final String userId;
   final DateTime timeAssigned;
   final DateTime timeDue;
+  final String homeworkId;
 
   factory AkademikHomework.fromDocument(DocumentSnapshot doc) {
     return AkademikHomework(
@@ -20,6 +21,7 @@ class AkademikHomework with ChangeNotifier {
           DateTime.fromMillisecondsSinceEpoch(doc['timeAssigned'] as int),
       timeDue: DateTime.fromMillisecondsSinceEpoch(doc['timeDue'] as int),
       userId: doc['userId'] as String,
+      homeworkId: doc.id,
     );
   }
 
@@ -34,13 +36,13 @@ class AkademikHomework with ChangeNotifier {
     };
   }
 
-  AkademikHomework({
-    this.aclass,
-    this.description,
-    this.userId,
-    this.isFinished,
-    this.assignment,
-    this.timeAssigned,
-    this.timeDue,
-  });
+  AkademikHomework(
+      {this.aclass,
+      this.description,
+      this.userId,
+      this.isFinished,
+      this.assignment,
+      this.timeAssigned,
+      this.timeDue,
+      this.homeworkId});
 }
