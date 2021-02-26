@@ -1,6 +1,5 @@
 import 'package:akademik/providers/news.dart';
 import 'package:akademik/routes/akademik_router.gr.dart';
-import 'package:akademik/screens/news/news_item_screen/news_item_screen.dart';
 import 'package:akademik/services/news_repo.dart';
 import 'package:akademik/utils/stroke_text.dart';
 import 'package:auto_route/auto_route.dart';

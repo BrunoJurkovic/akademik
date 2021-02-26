@@ -3,7 +3,6 @@ import 'package:akademik/components/title_widget.dart';
 import 'package:akademik/providers/homework.dart';
 import 'package:akademik/providers/news.dart';
 import 'package:akademik/routes/akademik_router.gr.dart';
-import 'package:akademik/screens/news/news_item_screen/news_item_screen.dart';
 import 'package:akademik/services/attendance_repo.dart';
 import 'package:akademik/services/exams_repo.dart';
 import 'package:akademik/services/grades_repo.dart';
@@ -33,7 +32,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   void initState() {
-    Future.delayed(Duration.zero, () async {
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
       setState(() {
         _isLoading = true;
       });
@@ -55,6 +54,7 @@ class _HomeScreenState extends State<HomeScreen> {
           Provider.of<UserRepository>(context, listen: false)
               .currentUser
               .userId);
+
       await Provider.of<AttendanceRepository>(context, listen: false)
           .fetchAttendance(Provider.of<UserRepository>(context, listen: false)
               .currentUser
@@ -127,7 +127,12 @@ class _HomeScreenState extends State<HomeScreen> {
               FontAwesomeIcons.bars,
             ),
             onPressed: () {
-              ExtendedNavigator.of(context).push('/menu-screen');
+              if (!Provider.of<UserRepository>(context, listen: false)
+                  .isUserAdmin) {
+                ExtendedNavigator.of(context).push('/menu-screen');
+              } else {
+                ExtendedNavigator.of(context).push(Routes.adminMenuScreen);
+              }
             },
           ),
         ),
