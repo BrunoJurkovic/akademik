@@ -8,6 +8,11 @@ class UserRepository with ChangeNotifier {
   final CollectionReference _firestoreInstance =
       FirebaseFirestore.instance.collection('users');
   AkademikUser _currentUser;
+  final List<AkademikUser> _allUsers = [];
+
+  List<AkademikUser> get allUsers {
+    return _allUsers;
+  }
 
   AkademikUser get currentUser {
     return _currentUser ??
@@ -18,6 +23,19 @@ class UserRepository with ChangeNotifier {
                 'https://upload.wikimedia.org/wikipedia/commons/9/99/Sample_User_Icon.png',
             username: '',
             year: 0);
+  }
+
+  bool get isUserAdmin {
+    return _currentUser.isAdmin;
+  }
+
+  Future<void> getAllUsers() async {
+    QuerySnapshot query;
+    query = await _firestoreInstance.get();
+    query.docs.forEach((doc) {
+      _allUsers.add(AkademikUser.fromDocument(doc));
+    });
+    notifyListeners();
   }
 
   Future<void> getCurrentUser() async {
@@ -39,13 +57,19 @@ class UserRepository with ChangeNotifier {
     return _authInstance.signOut();
   }
 
+  Future<AkademikUser> getUserById(String id) async {
+    DocumentSnapshot doc;
+    doc = await _firestoreInstance.doc(id).get();
+    return AkademikUser.fromDocument(doc);
+  }
+
   Future<UserCredential> signInToFirebase(String email, String password) async {
     try {
       UserCredential userCredential;
       userCredential = await _authInstance.signInWithEmailAndPassword(
           email: email, password: password);
       return userCredential;
-    } on FirebaseAuthException catch (e) {
+    } on FirebaseException catch (e) {
       if (e.code == 'user-not-found') {
         print('No user found for that email.');
       } else if (e.code == 'wrong-password') {

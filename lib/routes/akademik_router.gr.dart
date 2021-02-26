@@ -7,27 +7,32 @@
 // ignore_for_file: public_member_api_docs
 
 import 'package:auto_route/auto_route.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 
+import '../providers/homework.dart';
 import '../providers/news.dart';
 import '../providers/notes.dart';
-import '../screens/attendance/attendance.dart';
-import '../screens/exams/exams.dart';
-import '../screens/grades/grades.dart';
-import '../screens/home/home.dart';
-import '../screens/homework/homework.dart';
-import '../screens/login/login.dart';
-import '../screens/menu/menu.dart';
-import '../screens/news/news.dart';
-import '../screens/news/news_item_screen/news_item_screen.dart';
-import '../screens/notes/note_edit/note_edit_screen.dart';
-import '../screens/notes/notes_list.dart';
-import '../screens/profile/profile.dart';
+import '../screens/admin/admin_homework/admin_homework.dart';
+import '../screens/admin/admin_homework/homework_details.dart';
+import '../screens/admin/admin_menu/admin_menu.dart';
+import '../screens/user/attendance/attendance.dart';
+import '../screens/user/exams/exams.dart';
+import '../screens/user/grades/grades.dart';
+import '../screens/user/home/home.dart';
+import '../screens/user/homework/homework.dart';
+import '../screens/user/login/login.dart';
+import '../screens/user/menu/menu.dart';
+import '../screens/user/news/news.dart';
+import '../screens/user/news/news_item_screen/news_item_screen.dart';
+import '../screens/user/notes/note_edit/note_edit_screen.dart';
+import '../screens/user/notes/notes_list.dart';
+import '../screens/user/profile/profile.dart';
 
 class Routes {
   static const String authScreen = '/auth-screen';
   static const String homeScreen = '/home-screen';
   static const String menuScreen = '/menu-screen';
+  static const String adminMenuScreen = '/admin-menu-screen';
   static const String homeworkScreen = '/homework-screen';
   static const String attendanceScreen = '/attendance-screen';
   static const String examsScreen = '/exams-screen';
@@ -37,10 +42,13 @@ class Routes {
   static const String notesListScreen = '/notes-list-screen';
   static const String noteEditScreen = '/note-edit-screen';
   static const String profileScreen = '/profile-screen';
+  static const String adminHomeworkScreen = '/admin-homework-screen';
+  static const String homeworkDetailsScreen = '/homework-details-screen';
   static const all = <String>{
     authScreen,
     homeScreen,
     menuScreen,
+    adminMenuScreen,
     homeworkScreen,
     attendanceScreen,
     examsScreen,
@@ -50,6 +58,8 @@ class Routes {
     notesListScreen,
     noteEditScreen,
     profileScreen,
+    adminHomeworkScreen,
+    homeworkDetailsScreen,
   };
 }
 
@@ -60,6 +70,7 @@ class AkademikRouter extends RouterBase {
     RouteDef(Routes.authScreen, page: AuthScreen),
     RouteDef(Routes.homeScreen, page: HomeScreen),
     RouteDef(Routes.menuScreen, page: MenuScreen),
+    RouteDef(Routes.adminMenuScreen, page: AdminMenuScreen),
     RouteDef(Routes.homeworkScreen, page: HomeworkScreen),
     RouteDef(Routes.attendanceScreen, page: AttendanceScreen),
     RouteDef(Routes.examsScreen, page: ExamsScreen),
@@ -69,6 +80,8 @@ class AkademikRouter extends RouterBase {
     RouteDef(Routes.notesListScreen, page: NotesListScreen),
     RouteDef(Routes.noteEditScreen, page: NoteEditScreen),
     RouteDef(Routes.profileScreen, page: ProfileScreen),
+    RouteDef(Routes.adminHomeworkScreen, page: AdminHomeworkScreen),
+    RouteDef(Routes.homeworkDetailsScreen, page: HomeworkDetailsScreen),
   ];
   @override
   Map<Type, AutoRouteFactory> get pagesMap => _pagesMap;
@@ -88,6 +101,12 @@ class AkademikRouter extends RouterBase {
     MenuScreen: (data) {
       return buildAdaptivePageRoute<dynamic>(
         builder: (context) => MenuScreen(),
+        settings: data,
+      );
+    },
+    AdminMenuScreen: (data) {
+      return buildAdaptivePageRoute<dynamic>(
+        builder: (context) => AdminMenuScreen(),
         settings: data,
       );
     },
@@ -157,6 +176,24 @@ class AkademikRouter extends RouterBase {
         settings: data,
       );
     },
+    AdminHomeworkScreen: (data) {
+      return buildAdaptivePageRoute<dynamic>(
+        builder: (context) => AdminHomeworkScreen(),
+        settings: data,
+      );
+    },
+    HomeworkDetailsScreen: (data) {
+      final args = data.getArgs<HomeworkDetailsScreenArguments>(
+        orElse: () => HomeworkDetailsScreenArguments(),
+      );
+      return buildAdaptivePageRoute<dynamic>(
+        builder: (context) => HomeworkDetailsScreen(
+          key: args.key,
+          homework: args.homework,
+        ),
+        settings: data,
+      );
+    },
   };
 }
 
@@ -176,4 +213,11 @@ class NoteEditScreenArguments {
   final Key key;
   final AkademikNote noteItem;
   NoteEditScreenArguments({this.key, this.noteItem});
+}
+
+/// HomeworkDetailsScreen arguments holder class
+class HomeworkDetailsScreenArguments {
+  final Key key;
+  final AkademikHomework homework;
+  HomeworkDetailsScreenArguments({this.key, this.homework});
 }
