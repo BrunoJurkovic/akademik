@@ -3,6 +3,7 @@ import 'package:akademik/components/title_widget.dart';
 import 'package:akademik/providers/homework.dart';
 import 'package:akademik/routes/akademik_router.gr.dart';
 import 'package:akademik/services/homework_repo.dart';
+import 'package:akademik/services/user_repo.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -17,6 +18,15 @@ class AdminHomeworkScreen extends StatefulWidget {
 
 class _AdminHomeworkScreenState extends State<AdminHomeworkScreen> {
   List<AkademikHomework> allHomework = [];
+
+  @override
+  void initState() {
+    // WidgetsBinding.instance.addPostFrameCallback((_) async {
+    //   await Provider.of<UserRepository>(context, listen: false).getAllUsers();
+    // });
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;

@@ -66,9 +66,10 @@ class HomeworkRepository with ChangeNotifier {
     DocumentSnapshot doc;
 
     doc = await _instance.doc(homeworkId).get();
-    List<dynamic> finishedUsers = doc['finishedUsers'];
+    List<dynamic> finishedUsers = doc['finishedUsers'] ?? [];
     finishedUsers.forEach((userId) async {
-      _finishedUsers.add(await _userRepository.getUserById(userId));
+      var user = await _userRepository.getUserById(userId);
+      _finishedUsers.add(user);
     });
     notifyListeners();
   }

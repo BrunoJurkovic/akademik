@@ -1,6 +1,9 @@
+import 'package:akademik/components/title_widget.dart';
 import 'package:akademik/providers/homework.dart';
 import 'package:akademik/providers/user.dart';
 import 'package:akademik/services/homework_repo.dart';
+import 'package:akademik/services/user_repo.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -18,15 +21,21 @@ class HomeworkDetailsScreen extends StatefulWidget {
 class _HomeworkDetailsScreenState extends State<HomeworkDetailsScreen> {
   List<AkademikHomework> allHomework = [];
   List<AkademikUser> completedUsers = [];
+  List<AkademikUser> allUsers = [];
 
   @override
   void initState() {
-    Future.delayed(Duration.zero, () async {
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      await Provider.of<UserRepository>(context, listen: false).getAllUsers();
       await Provider.of<HomeworkRepository>(context, listen: false)
           .getListCompletedHomework(widget.homework.homeworkId);
     });
-    completedUsers = Provider.of<HomeworkRepository>(context).finishedUsers;
+
     super.initState();
+  }
+
+  bool isCurrentUserCompleted(int index) {
+    return completedUsers.contains(allUsers[index]);
   }
 
   @override
@@ -36,6 +45,8 @@ class _HomeworkDetailsScreenState extends State<HomeworkDetailsScreen> {
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
     final _formKey = GlobalKey<FormBuilderState>();
+    completedUsers = Provider.of<HomeworkRepository>(context).finishedUsers;
+    allUsers = Provider.of<UserRepository>(context).allUsers;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.deepPurpleAccent.withOpacity(0.85),
@@ -57,6 +68,7 @@ class _HomeworkDetailsScreenState extends State<HomeworkDetailsScreen> {
       body: FormBuilder(
         key: _formKey,
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Container(
               width: width * 0.95,
@@ -107,7 +119,7 @@ class _HomeworkDetailsScreenState extends State<HomeworkDetailsScreen> {
             ),
             Container(
               width: width * 0.95,
-              height: height * 0.3,
+              height: height * 0.125,
               padding: EdgeInsets.fromLTRB(10, 30, 0, 0),
               child: FormBuilderDateTimePicker(
                 attribute: 'timeDue',
@@ -128,24 +140,76 @@ class _HomeworkDetailsScreenState extends State<HomeworkDetailsScreen> {
                   ),
                 ),
               ),
-              // child: FormBuilderTextField(
-              //   attribute: 'description',
-              //   style: GoogleFonts.montserrat(
-              //     color: Colors.black.withOpacity(0.85),
-              //     fontWeight: FontWeight.w500,
-              //     fontSize: height * 0.025,
-              //   ),
-              //   decoration: InputDecoration(
-              //     border: InputBorder.none,
-              //     hintText: 'Description',
-              //     hintStyle: GoogleFonts.montserrat(
-              //       color: Colors.black.withOpacity(0.5),
-              //       fontWeight: FontWeight.w500,
-              //       fontSize: height * 0.025,
-              //     ),
-              //   ),
-              // ),
             ),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(15, 15, 0, 0),
+              child: TitleWidget(text: 'Status'),
+            ),
+            Container(
+              padding: EdgeInsets.fromLTRB(15, 15, 0, 0),
+              width: width * 0.95,
+              height: height * 0.35,
+              child: Center(
+                child: ListView.builder(
+                  itemCount: 1,
+                  itemBuilder: (ctx, index) {
+                    var completed = isCurrentUserCompleted(index);
+                    return Container(
+                      decoration:
+                          BoxDecoration(color: Colors.green.withOpacity(0.35)),
+                      width: width * 0.9,
+                      height: height * 0.06,
+                      child: Row(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(left: 10),
+                            child: CircleAvatar(
+                              backgroundImage: CachedNetworkImageProvider(
+                                  allUsers[index].pictureUrl),
+                            ),
+                          ),
+                          SizedBox(width: width * 0.03),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                allUsers[index].name,
+                                style: GoogleFonts.montserrat(
+                                  color: Colors.black.withOpacity(0.8),
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: height * 0.02,
+                                ),
+                              ),
+                              Text(
+                                '${allUsers[index].year}th grade',
+                                style: GoogleFonts.montserrat(
+                                  color: Colors.black.withOpacity(0.6),
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: height * 0.02,
+                                ),
+                              ),
+                            ],
+                          ),
+                          SizedBox(
+                            width: width * 0.3,
+                          ),
+                          Checkbox(
+                            value: completed,
+                            onChanged: (val) {
+                              setState(() {
+                                completed = val;
+                              });
+                            },
+                            activeColor:
+                                Colors.deepPurpleAccent.withOpacity(0.8),
+                          ),
+                        ],
+                      ),
+                    );
+                  },
+                ),
+              ),
+            )
           ],
         ),
       ),
