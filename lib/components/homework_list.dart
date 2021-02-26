@@ -101,24 +101,28 @@ class StudentHomeworkItem extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  homeworkList[index].assignment,
-                  overflow: TextOverflow.fade,
-                  style: GoogleFonts.montserrat(
-                    color: Colors.black87,
-                    fontWeight: FontWeight.w500,
-                    fontSize: height * 0.015,
+                Expanded(
+                  child: Text(
+                    homeworkList[index].assignment,
+                    overflow: TextOverflow.ellipsis,
+                    style: GoogleFonts.montserrat(
+                      color: Colors.black87,
+                      fontWeight: FontWeight.w500,
+                      fontSize: height * 0.015,
+                    ),
                   ),
                 ),
                 SizedBox(
                   height: height * 0.0075,
                 ),
-                Text(
-                  homeworkList[index].aclass,
-                  style: GoogleFonts.montserrat(
-                    color: Colors.black38,
-                    fontWeight: FontWeight.w500,
-                    fontSize: height * 0.013,
+                Expanded(
+                  child: Text(
+                    homeworkList[index].aclass,
+                    style: GoogleFonts.montserrat(
+                      color: Colors.black38,
+                      fontWeight: FontWeight.w500,
+                      fontSize: height * 0.013,
+                    ),
                   ),
                 ),
               ],
@@ -163,7 +167,7 @@ class TeacherHomeworkItem extends StatelessWidget {
               children: [
                 Text(
                   homeworkList[index].assignment,
-                  overflow: TextOverflow.fade,
+                  overflow: TextOverflow.ellipsis,
                   style: GoogleFonts.montserrat(
                     color: Colors.black87,
                     fontWeight: FontWeight.w500,

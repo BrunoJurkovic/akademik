@@ -3,12 +3,14 @@ import 'package:akademik/providers/homework.dart';
 import 'package:akademik/providers/user.dart';
 import 'package:akademik/services/homework_repo.dart';
 import 'package:akademik/services/user_repo.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+import 'package:uuid/uuid.dart';
 
 class HomeworkDetailsScreen extends StatefulWidget {
   final AkademikHomework homework;
@@ -54,8 +56,22 @@ class _HomeworkDetailsScreenState extends State<HomeworkDetailsScreen> {
         child: Icon(CupertinoIcons.check_mark),
         backgroundColor: Colors.deepPurpleAccent.withOpacity(0.8),
         onPressed: () async {
-          await Provider.of<HomeworkRepository>(context)
+          _formKey.currentState.save();
+          currentHomework = AkademikHomework(
+            aclass: _formKey.currentState.value['class'],
+            assignment: _formKey.currentState.value['description'],
+            description: _formKey.currentState.value['description'],
+            homeworkId: widget.homework.homeworkId ?? Uuid().v4(),
+            isFinished: true,
+            timeAssigned: DateTime.now(),
+            timeDue: _formKey.currentState.value['timeDue'],
+            userId: Provider.of<UserRepository>(context, listen: false)
+                .currentUser
+                .userId,
+          );
+          await Provider.of<HomeworkRepository>(context, listen: false)
               .createOrUpdateHomework(currentHomework);
+          ExtendedNavigator.root.pop();
         },
       ),
       appBar: AppBar(
@@ -77,6 +93,11 @@ class _HomeworkDetailsScreenState extends State<HomeworkDetailsScreen> {
       ),
       body: FormBuilder(
         key: _formKey,
+        initialValue: {
+          'class': widget.homework.aclass,
+          'description': widget.homework.description,
+          'timeDue': widget.homework.timeDue,
+        },
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [

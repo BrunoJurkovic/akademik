@@ -29,10 +29,12 @@ class AkademikHomework with ChangeNotifier {
     return <String, dynamic>{
       'assignment': assignment,
       'description': description,
+      'class': aclass,
       'isFinished': isFinished,
       'userId': userId,
       'timeAssigned': timeAssigned.millisecondsSinceEpoch,
       'timeDue': timeDue.millisecondsSinceEpoch,
+      'finishedUsers': [],
     };
   }
 
