@@ -25,8 +25,9 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(
           create: (ctx) => UserRepository(),
         ),
-        ChangeNotifierProvider(
-          create: (ctx) => HomeworkRepository(),
+        ChangeNotifierProxyProvider<UserRepository, HomeworkRepository>(
+          update: (ctx, users, previous) => HomeworkRepository(users),
+          create: (ctx) => HomeworkRepository(null),
         ),
         ChangeNotifierProvider(
           create: (ctx) => NewsRepository(),

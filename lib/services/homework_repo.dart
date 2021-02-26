@@ -10,7 +10,9 @@ class HomeworkRepository with ChangeNotifier {
       FirebaseFirestore.instance.collection('homework');
   final List<AkademikHomework> _homeworkList = [];
   final List<AkademikUser> _finishedUsers = [];
-  final UserRepository _userRepository = UserRepository();
+  final UserRepository _userRepository;
+
+  HomeworkRepository(this._userRepository);
 
   List<AkademikUser> get finishedUsers {
     return _finishedUsers;
@@ -63,10 +65,11 @@ class HomeworkRepository with ChangeNotifier {
   Future<void> getListCompletedHomework(String homeworkId) async {
     DocumentSnapshot doc;
 
-    doc = await _instance.doc('homeworkId').get();
-    List<String> users = doc['finishedUsers'];
-    users.forEach((userId) {
-      _userRepository.getUserById(userId);
+    doc = await _instance.doc(homeworkId).get();
+    List<dynamic> finishedUsers = doc['finishedUsers'];
+    finishedUsers.forEach((userId) async {
+      _finishedUsers.add(await _userRepository.getUserById(userId));
     });
+    notifyListeners();
   }
 }

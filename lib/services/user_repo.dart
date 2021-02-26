@@ -57,7 +57,11 @@ class UserRepository with ChangeNotifier {
     return _authInstance.signOut();
   }
 
-  Future<AkademikUser> getUserById(String id) async {}
+  Future<AkademikUser> getUserById(String id) async {
+    DocumentSnapshot doc;
+    doc = await _firestoreInstance.doc(id).get();
+    return AkademikUser.fromDocument(doc);
+  }
 
   Future<UserCredential> signInToFirebase(String email, String password) async {
     try {

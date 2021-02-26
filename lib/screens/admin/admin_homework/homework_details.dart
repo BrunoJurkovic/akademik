@@ -1,6 +1,5 @@
-import 'package:akademik/components/homework_list.dart';
-import 'package:akademik/components/title_widget.dart';
 import 'package:akademik/providers/homework.dart';
+import 'package:akademik/providers/user.dart';
 import 'package:akademik/services/homework_repo.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
@@ -18,6 +17,18 @@ class HomeworkDetailsScreen extends StatefulWidget {
 
 class _HomeworkDetailsScreenState extends State<HomeworkDetailsScreen> {
   List<AkademikHomework> allHomework = [];
+  List<AkademikUser> completedUsers = [];
+
+  @override
+  void initState() {
+    Future.delayed(Duration.zero, () async {
+      await Provider.of<HomeworkRepository>(context, listen: false)
+          .getListCompletedHomework(widget.homework.homeworkId);
+    });
+    completedUsers = Provider.of<HomeworkRepository>(context).finishedUsers;
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     allHomework =
