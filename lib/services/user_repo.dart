@@ -69,7 +69,7 @@ class UserRepository with ChangeNotifier {
       userCredential = await _authInstance.signInWithEmailAndPassword(
           email: email, password: password);
       return userCredential;
-    } on FirebaseAuthException catch (e) {
+    } on FirebaseException catch (e) {
       if (e.code == 'user-not-found') {
         print('No user found for that email.');
       } else if (e.code == 'wrong-password') {
