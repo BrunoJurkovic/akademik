@@ -4,6 +4,7 @@ import 'package:akademik/providers/user.dart';
 import 'package:akademik/services/homework_repo.dart';
 import 'package:akademik/services/user_repo.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -22,6 +23,7 @@ class _HomeworkDetailsScreenState extends State<HomeworkDetailsScreen> {
   List<AkademikHomework> allHomework = [];
   List<AkademikUser> completedUsers = [];
   List<AkademikUser> allUsers = [];
+  AkademikHomework currentHomework = AkademikHomework();
 
   @override
   void initState() {
@@ -48,6 +50,14 @@ class _HomeworkDetailsScreenState extends State<HomeworkDetailsScreen> {
     completedUsers = Provider.of<HomeworkRepository>(context).finishedUsers;
     allUsers = Provider.of<UserRepository>(context).allUsers;
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        child: Icon(CupertinoIcons.check_mark),
+        backgroundColor: Colors.deepPurpleAccent.withOpacity(0.8),
+        onPressed: () async {
+          await Provider.of<HomeworkRepository>(context)
+              .createOrUpdateHomework(currentHomework);
+        },
+      ),
       appBar: AppBar(
         backgroundColor: Colors.deepPurpleAccent.withOpacity(0.85),
         title: Text(

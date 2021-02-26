@@ -4,6 +4,7 @@ import 'package:akademik/services/user_repo.dart';
 import 'package:akademik/utils/dateutils.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:uuid/uuid.dart';
 
 class HomeworkRepository with ChangeNotifier {
   final CollectionReference _instance =
@@ -46,6 +47,16 @@ class HomeworkRepository with ChangeNotifier {
     }).toList();
     print('OTHER: $list');
     return list;
+  }
+
+  Future<void> createOrUpdateHomework(AkademikHomework homework) async {
+    _homeworkList
+        .removeWhere((element) => element.homeworkId == homework.homeworkId);
+    _homeworkList.add(homework);
+    await _instance
+        .doc(homework.homeworkId ?? Uuid().v4())
+        .set(homework.toJson());
+    notifyListeners();
   }
 
   Future<void> getHomeworkList() async {
