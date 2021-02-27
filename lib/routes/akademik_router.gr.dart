@@ -13,7 +13,7 @@ import '../providers/homework.dart';
 import '../providers/news.dart';
 import '../providers/notes.dart';
 import '../screens/admin/admin_attendance/admin_attendance.dart';
-import '../screens/admin/admin_exams/admin_attendance.dart';
+import '../screens/admin/admin_exams/admin_exams.dart';
 import '../screens/admin/admin_homework/admin_homework.dart';
 import '../screens/admin/admin_homework/homework_details.dart';
 import '../screens/admin/admin_menu/admin_menu.dart';

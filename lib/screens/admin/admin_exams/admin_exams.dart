@@ -55,16 +55,17 @@ class _AdminExamsScreenState extends State<AdminExamsScreen> {
           IconButton(
             icon: Icon(Icons.add),
             onPressed: () async {
-              DateTime result;
-              result = await DatePicker.showDatePicker(
+              var result = await DatePicker.showDatePicker(
                 context,
                 currentTime: DateTime.now(),
               );
-              print(result);
+
               var inputResult = await showTextInputDialog(
                 context: context,
+                title: 'Enter some info about the exam.',
                 textFields: [
-                  DialogTextField(hintText: 'English...'),
+                  DialogTextField(hintText: 'Subject...'),
+                  DialogTextField(hintText: 'Description...'),
                 ],
               );
             },
