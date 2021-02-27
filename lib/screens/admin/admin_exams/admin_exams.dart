@@ -1,12 +1,14 @@
 import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:akademik/providers/exams.dart';
 import 'package:akademik/services/exams_repo.dart';
+import 'package:akademik/services/user_repo.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:table_calendar/table_calendar.dart';
+import 'package:uuid/uuid.dart';
 
 class AdminExamsScreen extends StatefulWidget {
   @override
@@ -67,6 +69,16 @@ class _AdminExamsScreenState extends State<AdminExamsScreen> {
                   DialogTextField(hintText: 'Subject...'),
                   DialogTextField(hintText: 'Description...'),
                 ],
+              );
+              await Provider.of<ExamsRepository>(context, listen: false)
+                  .addOrUpdateExam(
+                classId: Provider.of<UserRepository>(context, listen: false)
+                    .currentUser
+                    .classId,
+                date: result,
+                description: inputResult[1],
+                examId: Uuid().v4(),
+                subject: inputResult[0],
               );
             },
           ),
