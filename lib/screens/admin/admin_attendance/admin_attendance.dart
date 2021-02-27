@@ -3,6 +3,7 @@ import 'package:akademik/providers/attendance.dart';
 import 'package:akademik/providers/user.dart';
 import 'package:akademik/services/attendance_repo.dart';
 import 'package:akademik/services/user_repo.dart';
+import 'package:cool_alert/cool_alert.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -56,6 +57,7 @@ class _AdminAttendanceScreenState extends State<AdminAttendanceScreen> {
                 context: context,
                 title: 'Which class is he missing from?',
                 actions: [
+                  AlertDialogAction(label: '0th class', key: '0'),
                   AlertDialogAction(label: '1st class', key: '1'),
                   AlertDialogAction(label: '2nd class', key: '2'),
                   AlertDialogAction(label: '3rd class', key: '3'),
@@ -67,6 +69,25 @@ class _AdminAttendanceScreenState extends State<AdminAttendanceScreen> {
                   AlertDialogAction(label: '9th class', key: '9'),
                 ],
               );
+              var subject = await showConfirmationDialog(
+                  context: context,
+                  title: 'What is the name of the class?',
+                  actions: [
+                    AlertDialogAction(label: 'English', key: 'English'),
+                    AlertDialogAction(label: 'Biology', key: 'Biology'),
+                    AlertDialogAction(label: 'PE', key: 'PE'),
+                    AlertDialogAction(
+                        label: 'Computer Science', key: 'Computer Science'),
+                    AlertDialogAction(label: 'Physics', key: 'Physics'),
+                    AlertDialogAction(label: 'Chemistry', key: 'Chemistry'),
+                  ]);
+              await Provider.of<AttendanceRepository>(context, listen: false)
+                  .updateOrCreateAttendance(
+                      userId, int.parse(classNumber), subject);
+              await CoolAlert.show(
+                  context: context,
+                  type: CoolAlertType.success,
+                  text: 'Added successfully.');
             },
           )
         ],
