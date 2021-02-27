@@ -1,3 +1,4 @@
+import 'package:akademik/screens/admin/admin_attendance/admin_attendance.dart';
 import 'package:akademik/screens/admin/admin_homework/admin_homework.dart';
 import 'package:akademik/screens/admin/admin_homework/homework_details.dart';
 import 'package:akademik/screens/admin/admin_menu/admin_menu.dart';
@@ -31,5 +32,6 @@ import 'package:auto_route/auto_route_annotations.dart';
   AdaptiveRoute(page: ProfileScreen),
   AdaptiveRoute(page: AdminHomeworkScreen),
   AdaptiveRoute(page: HomeworkDetailsScreen),
+  AdaptiveRoute(page: AdminAttendanceScreen),
 ])
 class $AkademikRouter {}

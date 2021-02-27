@@ -1,4 +1,5 @@
 import 'package:akademik/components/grid_item.dart';
+import 'package:akademik/routes/akademik_router.gr.dart';
 import 'package:akademik/services/user_repo.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -102,7 +103,8 @@ class _AdminMenuScreenState extends State<AdminMenuScreen> {
                 AkademikGridItem(
                   text: 'Attendance',
                   callback: () {
-                    ExtendedNavigator.of(context).push('/attendance-screen');
+                    ExtendedNavigator.of(context)
+                        .push(Routes.adminAttendanceScreen);
                   },
                   iconPath: 'assets/images/note.png',
                 ),
