@@ -1,7 +1,9 @@
+import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:akademik/providers/attendance.dart';
 import 'package:akademik/providers/user.dart';
 import 'package:akademik/services/attendance_repo.dart';
 import 'package:akademik/services/user_repo.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
@@ -40,6 +42,34 @@ class _AdminAttendanceScreenState extends State<AdminAttendanceScreen> {
             fontSize: height * 0.025,
           ),
         ),
+        actions: [
+          IconButton(
+            icon: Icon(CupertinoIcons.add),
+            onPressed: () async {
+              var userId = await showConfirmationDialog(
+                context: context,
+                title: 'Who is missing?',
+                message: 'Select a student',
+                actions: buildUserList(users),
+              );
+              var classNumber = await showConfirmationDialog(
+                context: context,
+                title: 'Which class is he missing from?',
+                actions: [
+                  AlertDialogAction(label: '1st class', key: '1'),
+                  AlertDialogAction(label: '2nd class', key: '2'),
+                  AlertDialogAction(label: '3rd class', key: '3'),
+                  AlertDialogAction(label: '4th class', key: '4'),
+                  AlertDialogAction(label: '5th class', key: '5'),
+                  AlertDialogAction(label: '6th class', key: '6'),
+                  AlertDialogAction(label: '7th class', key: '7'),
+                  AlertDialogAction(label: '8th class', key: '8'),
+                  AlertDialogAction(label: '9th class', key: '9'),
+                ],
+              );
+            },
+          )
+        ],
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.only(
             bottomLeft: Radius.circular(20),
@@ -104,6 +134,14 @@ class _AdminAttendanceScreenState extends State<AdminAttendanceScreen> {
         ],
       ),
     );
+  }
+
+  List<AlertDialogAction> buildUserList(List<AkademikUser> users) {
+    var returnable = <AlertDialogAction>[];
+    users.forEach((user) {
+      returnable.add(AlertDialogAction(label: user.name, key: user.userId));
+    });
+    return returnable;
   }
 
   List<TableRow> buildAttendanceFromList(
