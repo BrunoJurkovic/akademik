@@ -111,7 +111,7 @@ class _AdminMenuScreenState extends State<AdminMenuScreen> {
                 AkademikGridItem(
                   text: 'Exams',
                   callback: () {
-                    ExtendedNavigator.of(context).push('/exams-screen');
+                    ExtendedNavigator.of(context).push(Routes.adminExamsScreen);
                   },
                   iconPath: 'assets/images/exam.png',
                 ),

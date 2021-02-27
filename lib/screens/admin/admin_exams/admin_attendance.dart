@@ -6,12 +6,12 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:table_calendar/table_calendar.dart';
 
-class ExamsScreen extends StatefulWidget {
+class AdminExamsScreen extends StatefulWidget {
   @override
-  _ExamsScreenState createState() => _ExamsScreenState();
+  _AdminExamsScreenState createState() => _AdminExamsScreenState();
 }
 
-class _ExamsScreenState extends State<ExamsScreen> {
+class _AdminExamsScreenState extends State<AdminExamsScreen> {
   CalendarController _calendarController;
   List<AkademikExams> examList = [];
   Map<DateTime, List<dynamic>> eventMap = {};
@@ -22,8 +22,6 @@ class _ExamsScreenState extends State<ExamsScreen> {
   void initState() {
     _calendarController = CalendarController();
     Future.delayed(Duration.zero, () async {
-      examList = Provider.of<ExamsRepository>(context, listen: false).examList;
-      print(examList);
       buildEventMap();
     });
     super.initState();
@@ -39,11 +37,12 @@ class _ExamsScreenState extends State<ExamsScreen> {
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
+    examList = Provider.of<ExamsRepository>(context, listen: true).examList;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.deepPurpleAccent.withOpacity(0.85),
         title: Text(
-          'Exams',
+          'Exams.',
           style: GoogleFonts.montserrat(
             color: Colors.white,
             fontWeight: FontWeight.w600,
