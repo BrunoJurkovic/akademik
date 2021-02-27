@@ -14,6 +14,7 @@ import '../providers/news.dart';
 import '../providers/notes.dart';
 import '../screens/admin/admin_attendance/admin_attendance.dart';
 import '../screens/admin/admin_exams/admin_exams.dart';
+import '../screens/admin/admin_grades/grades_list.dart';
 import '../screens/admin/admin_homework/admin_homework.dart';
 import '../screens/admin/admin_homework/homework_details.dart';
 import '../screens/admin/admin_menu/admin_menu.dart';
@@ -48,6 +49,7 @@ class Routes {
   static const String homeworkDetailsScreen = '/homework-details-screen';
   static const String adminAttendanceScreen = '/admin-attendance-screen';
   static const String adminExamsScreen = '/admin-exams-screen';
+  static const String adminGradesList = '/admin-grades-list';
   static const all = <String>{
     authScreen,
     homeScreen,
@@ -66,6 +68,7 @@ class Routes {
     homeworkDetailsScreen,
     adminAttendanceScreen,
     adminExamsScreen,
+    adminGradesList,
   };
 }
 
@@ -90,6 +93,7 @@ class AkademikRouter extends RouterBase {
     RouteDef(Routes.homeworkDetailsScreen, page: HomeworkDetailsScreen),
     RouteDef(Routes.adminAttendanceScreen, page: AdminAttendanceScreen),
     RouteDef(Routes.adminExamsScreen, page: AdminExamsScreen),
+    RouteDef(Routes.adminGradesList, page: AdminGradesList),
   ];
   @override
   Map<Type, AutoRouteFactory> get pagesMap => _pagesMap;
@@ -211,6 +215,12 @@ class AkademikRouter extends RouterBase {
     AdminExamsScreen: (data) {
       return buildAdaptivePageRoute<dynamic>(
         builder: (context) => AdminExamsScreen(),
+        settings: data,
+      );
+    },
+    AdminGradesList: (data) {
+      return buildAdaptivePageRoute<dynamic>(
+        builder: (context) => AdminGradesList(),
         settings: data,
       );
     },
