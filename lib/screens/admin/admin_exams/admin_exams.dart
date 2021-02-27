@@ -1,17 +1,21 @@
+import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:akademik/providers/exams.dart';
 import 'package:akademik/services/exams_repo.dart';
+import 'package:akademik/services/user_repo.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:table_calendar/table_calendar.dart';
+import 'package:uuid/uuid.dart';
 
-class ExamsScreen extends StatefulWidget {
+class AdminExamsScreen extends StatefulWidget {
   @override
-  _ExamsScreenState createState() => _ExamsScreenState();
+  _AdminExamsScreenState createState() => _AdminExamsScreenState();
 }
 
-class _ExamsScreenState extends State<ExamsScreen> {
+class _AdminExamsScreenState extends State<AdminExamsScreen> {
   CalendarController _calendarController;
   List<AkademikExams> examList = [];
   Map<DateTime, List<dynamic>> eventMap = {};
@@ -22,8 +26,6 @@ class _ExamsScreenState extends State<ExamsScreen> {
   void initState() {
     _calendarController = CalendarController();
     Future.delayed(Duration.zero, () async {
-      examList = Provider.of<ExamsRepository>(context, listen: false).examList;
-      print(examList);
       buildEventMap();
     });
     super.initState();
@@ -39,6 +41,7 @@ class _ExamsScreenState extends State<ExamsScreen> {
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
+    examList = Provider.of<ExamsRepository>(context, listen: true).examList;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.deepPurpleAccent.withOpacity(0.85),
@@ -50,6 +53,36 @@ class _ExamsScreenState extends State<ExamsScreen> {
             fontSize: height * 0.025,
           ),
         ),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.add),
+            onPressed: () async {
+              var result = await DatePicker.showDatePicker(
+                context,
+                currentTime: DateTime.now(),
+              );
+
+              var inputResult = await showTextInputDialog(
+                context: context,
+                title: 'Enter some info about the exam.',
+                textFields: [
+                  DialogTextField(hintText: 'Subject...'),
+                  DialogTextField(hintText: 'Description...'),
+                ],
+              );
+              await Provider.of<ExamsRepository>(context, listen: false)
+                  .addOrUpdateExam(
+                classId: Provider.of<UserRepository>(context, listen: false)
+                    .currentUser
+                    .classId,
+                date: result,
+                description: inputResult[1],
+                examId: Uuid().v4(),
+                subject: inputResult[0],
+              );
+            },
+          ),
+        ],
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.only(
             bottomLeft: Radius.circular(20),
