@@ -1,4 +1,7 @@
+import 'package:akademik/providers/attendance.dart';
+import 'package:akademik/providers/user.dart';
 import 'package:akademik/services/attendance_repo.dart';
+import 'package:akademik/services/user_repo.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
@@ -11,12 +14,21 @@ class AdminAttendanceScreen extends StatefulWidget {
 
 class _AdminAttendanceScreenState extends State<AdminAttendanceScreen> {
   @override
+  void initState() {
+    Future.delayed(Duration.zero, () async {
+      await Provider.of<UserRepository>(context, listen: false).getAllUsers();
+    });
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
     final attendance = Provider.of<AttendanceRepository>(context, listen: true)
         .getAttendanceList;
     var currentDate = DateTime.now();
+    final users = Provider.of<UserRepository>(context).allUsers;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.deepPurpleAccent.withOpacity(0.85),
@@ -81,6 +93,10 @@ class _AdminAttendanceScreenState extends State<AdminAttendanceScreen> {
                   //   height: height,
                   //   width: width,
                   // ),
+                  ...buildAttendanceFromList(
+                      attendance: attendance,
+                      currentDate: currentDate,
+                      users: users),
                 ],
               ),
             ),
@@ -88,6 +104,151 @@ class _AdminAttendanceScreenState extends State<AdminAttendanceScreen> {
         ],
       ),
     );
+  }
+
+  List<TableRow> buildAttendanceFromList(
+      {List<AkademikUser> users,
+      List<AkademikAttendance> attendance,
+      DateTime currentDate}) {
+    var todaysAttendance = [];
+    todaysAttendance.addAll(
+      attendance.where((element) => element.timestamp.day == currentDate.day),
+    );
+    final width = MediaQuery.of(context).size.width;
+    final height = MediaQuery.of(context).size.height;
+    List<TableRow> returnables = [];
+    users.forEach((user) {
+      todaysAttendance.forEach((attendanceItem) {
+        if (user.userId == attendanceItem.userId) {
+          returnables.add(TableRow(
+            children: [
+              Padding(
+                padding: EdgeInsets.fromLTRB(10, 0, 5, 0),
+                child: Text(
+                  user.name,
+                  style: GoogleFonts.montserrat(
+                    color: Colors.black,
+                    fontWeight: FontWeight.w700,
+                    fontSize: height * 0.019,
+                  ),
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.fromLTRB(10, 0, 5, 0),
+                child: Text(
+                  attendanceItem.classTime == 0 ? '0' : '/',
+                  style: GoogleFonts.montserrat(
+                    color: Colors.black,
+                    fontWeight: FontWeight.w700,
+                    fontSize: height * 0.019,
+                  ),
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.fromLTRB(10, 0, 5, 0),
+                child: Text(
+                  attendanceItem.classTime == 1 ? '1' : '/',
+                  style: GoogleFonts.montserrat(
+                    color: Colors.black,
+                    fontWeight: FontWeight.w700,
+                    fontSize: height * 0.019,
+                  ),
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.fromLTRB(10, 0, 5, 0),
+                child: Text(
+                  attendanceItem.classTime == 2 ? '2' : '/',
+                  style: GoogleFonts.montserrat(
+                    color: Colors.black,
+                    fontWeight: FontWeight.w700,
+                    fontSize: height * 0.019,
+                  ),
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.fromLTRB(10, 0, 5, 0),
+                child: Text(
+                  attendanceItem.classTime == 3 ? '3' : '/',
+                  style: GoogleFonts.montserrat(
+                    color: Colors.black,
+                    fontWeight: FontWeight.w700,
+                    fontSize: height * 0.019,
+                  ),
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.fromLTRB(10, 0, 5, 0),
+                child: Text(
+                  attendanceItem.classTime == 4 ? '4' : '/',
+                  style: GoogleFonts.montserrat(
+                    color: Colors.black,
+                    fontWeight: FontWeight.w700,
+                    fontSize: height * 0.019,
+                  ),
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.fromLTRB(10, 0, 5, 0),
+                child: Text(
+                  attendanceItem.classTime == 5 ? '5' : '/',
+                  style: GoogleFonts.montserrat(
+                    color: Colors.black,
+                    fontWeight: FontWeight.w700,
+                    fontSize: height * 0.019,
+                  ),
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.fromLTRB(10, 0, 5, 0),
+                child: Text(
+                  attendanceItem.classTime == 6 ? '6' : '/',
+                  style: GoogleFonts.montserrat(
+                    color: Colors.black,
+                    fontWeight: FontWeight.w700,
+                    fontSize: height * 0.019,
+                  ),
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.fromLTRB(10, 0, 5, 0),
+                child: Text(
+                  attendanceItem.classTime == 7 ? '7' : '/',
+                  style: GoogleFonts.montserrat(
+                    color: Colors.black,
+                    fontWeight: FontWeight.w700,
+                    fontSize: height * 0.019,
+                  ),
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.fromLTRB(10, 0, 5, 0),
+                child: Text(
+                  attendanceItem.classTime == 8 ? '8' : '/',
+                  style: GoogleFonts.montserrat(
+                    color: Colors.black,
+                    fontWeight: FontWeight.w700,
+                    fontSize: height * 0.019,
+                  ),
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.fromLTRB(10, 0, 5, 0),
+                child: Text(
+                  attendanceItem.classTime == 9 ? '9' : '/',
+                  style: GoogleFonts.montserrat(
+                    color: Colors.black,
+                    fontWeight: FontWeight.w700,
+                    fontSize: height * 0.019,
+                  ),
+                ),
+              ),
+            ],
+          ));
+        }
+      });
+    });
+    return returnables;
   }
 
   TableRow buildInitalTableRow(double height) {
