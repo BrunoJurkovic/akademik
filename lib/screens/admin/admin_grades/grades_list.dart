@@ -1,4 +1,5 @@
 import 'package:akademik/components/title_widget.dart';
+import 'package:akademik/routes/akademik_router.gr.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -101,7 +102,8 @@ class GradeListItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () => ExtendedNavigator.root.push(''),
+      onTap: () => ExtendedNavigator.root.push(Routes.adminGradesScreen,
+          arguments: AdminGradesScreenArguments(subject: gradeName)),
       child: Container(
         padding: EdgeInsets.only(left: 5),
         width: width,

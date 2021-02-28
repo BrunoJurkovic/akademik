@@ -11,6 +11,10 @@ class GradeRepository with ChangeNotifier {
     return _grades;
   }
 
+  List<AkademikGrades> getGradesBySubject(String className) {
+    return _grades.where((element) => element.className == className).toList();
+  }
+
   Future<void> fetchGrades(String userId) async {
     final query = await _reference
         .where('userId', isEqualTo: userId)
