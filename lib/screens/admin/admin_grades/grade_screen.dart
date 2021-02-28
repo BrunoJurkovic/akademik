@@ -20,6 +20,14 @@ class AdminGradesScreen extends StatefulWidget {
 
 class _AdminGradesScreenState extends State<AdminGradesScreen> {
   @override
+  void initState() {
+    Future.delayed(Duration.zero, () async {
+      await Provider.of<UserRepository>(context, listen: false).getAllUsers();
+    });
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     var height = MediaQuery.of(context).size.height;
     var width = MediaQuery.of(context).size.width;
@@ -58,6 +66,8 @@ class _AdminGradesScreenState extends State<AdminGradesScreen> {
                     DialogTextField(hintText: 'Description...'),
                   ],
                 );
+                await Provider.of<GradeRepository>(context, listen: false)
+                    .addGrade(userId, widget.subject, inputResult[0], grade);
               }),
         ],
         title: Text(
