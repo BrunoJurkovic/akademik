@@ -1,6 +1,10 @@
+import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:akademik/components/title_widget.dart';
 import 'package:akademik/providers/grades.dart';
+import 'package:akademik/providers/user.dart';
 import 'package:akademik/services/grades_repo.dart';
+import 'package:akademik/services/user_repo.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
@@ -21,9 +25,41 @@ class _AdminGradesScreenState extends State<AdminGradesScreen> {
     var width = MediaQuery.of(context).size.width;
     final grades = Provider.of<GradeRepository>(context, listen: true)
         .getGradesBySubject(widget.subject);
+    final users = Provider.of<UserRepository>(context).allUsers;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.deepPurpleAccent.withOpacity(0.85),
+        actions: [
+          IconButton(
+              icon: Icon(CupertinoIcons.add),
+              onPressed: () async {
+                var userId = await showConfirmationDialog(
+                  context: context,
+                  title: 'Which student do you want to enter a grade for?',
+                  message: 'Select a student',
+                  actions: buildUserList(users),
+                );
+                var grade = await showConfirmationDialog(
+                  context: context,
+                  title: 'What grade did the student get?',
+                  message: 'Select a grade',
+                  actions: [
+                    AlertDialogAction(label: '1', key: 1),
+                    AlertDialogAction(label: '2', key: 2),
+                    AlertDialogAction(label: '3', key: 3),
+                    AlertDialogAction(label: '4', key: 4),
+                    AlertDialogAction(label: '5', key: 5),
+                  ],
+                );
+                var inputResult = await showTextInputDialog(
+                  context: context,
+                  title: 'Enter some info about the exam.',
+                  textFields: [
+                    DialogTextField(hintText: 'Description...'),
+                  ],
+                );
+              }),
+        ],
         title: Text(
           'Grades',
           style: GoogleFonts.montserrat(
@@ -71,6 +107,14 @@ class _AdminGradesScreenState extends State<AdminGradesScreen> {
         ],
       ),
     );
+  }
+
+  List<AlertDialogAction> buildUserList(List<AkademikUser> users) {
+    var returnable = <AlertDialogAction>[];
+    users.forEach((user) {
+      returnable.add(AlertDialogAction(label: user.name, key: user.userId));
+    });
+    return returnable;
   }
 
   List<TableRow> buildTableRowFromList(
