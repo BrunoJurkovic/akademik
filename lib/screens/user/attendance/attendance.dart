@@ -115,7 +115,7 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
               Padding(
                 padding: EdgeInsets.fromLTRB(10, 0, 5, 0),
                 child: Text(
-                  '${element.classTime}',
+                  '${element?.classTime}',
                   style: GoogleFonts.montserrat(
                     color: Colors.black,
                     fontWeight: FontWeight.w700,
@@ -126,7 +126,7 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
               Padding(
                 padding: EdgeInsets.fromLTRB(10, 0, 5, 0),
                 child: Text(
-                  element.aclass,
+                  element?.aclass,
                   style: GoogleFonts.montserrat(
                     color: Colors.black,
                     fontWeight: FontWeight.w700,
@@ -137,7 +137,7 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
               Padding(
                 padding: EdgeInsets.fromLTRB(10, 0, 5, 0),
                 child: Text(
-                  element.reason,
+                  element?.reason,
                   style: GoogleFonts.montserrat(
                     color: Colors.black,
                     fontWeight: FontWeight.w700,
@@ -149,7 +149,7 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
                 padding: EdgeInsets.fromLTRB(10, 0, 5, 0),
                 child: Center(
                   child: IndicatorWidget(
-                      color: getStatusColor(element.status), text: ''),
+                      color: getStatusColor(element.status), text: ' '),
                 ),
               ),
             ],
