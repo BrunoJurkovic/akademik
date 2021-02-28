@@ -14,6 +14,7 @@ import '../providers/news.dart';
 import '../providers/notes.dart';
 import '../screens/admin/admin_attendance/admin_attendance.dart';
 import '../screens/admin/admin_exams/admin_exams.dart';
+import '../screens/admin/admin_grades/grade_screen.dart';
 import '../screens/admin/admin_grades/grades_list.dart';
 import '../screens/admin/admin_homework/admin_homework.dart';
 import '../screens/admin/admin_homework/homework_details.dart';
@@ -50,6 +51,7 @@ class Routes {
   static const String adminAttendanceScreen = '/admin-attendance-screen';
   static const String adminExamsScreen = '/admin-exams-screen';
   static const String adminGradesList = '/admin-grades-list';
+  static const String adminGradesScreen = '/admin-grades-screen';
   static const all = <String>{
     authScreen,
     homeScreen,
@@ -69,6 +71,7 @@ class Routes {
     adminAttendanceScreen,
     adminExamsScreen,
     adminGradesList,
+    adminGradesScreen,
   };
 }
 
@@ -94,6 +97,7 @@ class AkademikRouter extends RouterBase {
     RouteDef(Routes.adminAttendanceScreen, page: AdminAttendanceScreen),
     RouteDef(Routes.adminExamsScreen, page: AdminExamsScreen),
     RouteDef(Routes.adminGradesList, page: AdminGradesList),
+    RouteDef(Routes.adminGradesScreen, page: AdminGradesScreen),
   ];
   @override
   Map<Type, AutoRouteFactory> get pagesMap => _pagesMap;
@@ -224,6 +228,18 @@ class AkademikRouter extends RouterBase {
         settings: data,
       );
     },
+    AdminGradesScreen: (data) {
+      final args = data.getArgs<AdminGradesScreenArguments>(
+        orElse: () => AdminGradesScreenArguments(),
+      );
+      return buildAdaptivePageRoute<dynamic>(
+        builder: (context) => AdminGradesScreen(
+          key: args.key,
+          subject: args.subject,
+        ),
+        settings: data,
+      );
+    },
   };
 }
 
@@ -250,4 +266,11 @@ class HomeworkDetailsScreenArguments {
   final Key key;
   final AkademikHomework homework;
   HomeworkDetailsScreenArguments({this.key, this.homework});
+}
+
+/// AdminGradesScreen arguments holder class
+class AdminGradesScreenArguments {
+  final Key key;
+  final String subject;
+  AdminGradesScreenArguments({this.key, this.subject});
 }
