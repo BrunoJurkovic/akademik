@@ -1,5 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.akademik">
+    package="com.remade.akademik">
+    <uses-permission android:name="android.permission.INTERNET"/>
    <application
         android:label="Akademik"
         android:icon="@mipmap/ic_launcher">
