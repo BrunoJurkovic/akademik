@@ -18,6 +18,31 @@ class AttendanceRepository with ChangeNotifier {
     notifyListeners();
   }
 
+  Future<void> updateOrCreateAttendance(
+    String userId,
+    int classTime,
+    String className,
+  ) async {
+    await _attendanceReference.add({
+      'class': className,
+      'classTime': classTime,
+      'reason': '',
+      'status': 'unapproved',
+      'timestamp': DateTime.now().millisecondsSinceEpoch,
+      'userId': userId,
+    });
+    _attendanceList.add(
+      AkademikAttendance(
+          aclass: className,
+          classTime: classTime,
+          reason: '',
+          status: 'unapproved',
+          timestamp: DateTime.now(),
+          userId: userId),
+    );
+    notifyListeners();
+  }
+
   List<AkademikAttendance> get getAttendanceList {
     return _attendanceList;
   }
