@@ -59,9 +59,7 @@ class _HomeScreenState extends State<HomeScreen> {
           .fetchAttendance(Provider.of<UserRepository>(context, listen: false)
               .currentUser
               .userId);
-      todaysHomework = Provider.of<HomeworkRepository>(context, listen: false)
-          .getTodayHomework;
-      news = Provider.of<NewsRepository>(context, listen: false).news;
+
       print(todaysHomework);
       print(news.toString());
       setState(() {
@@ -75,6 +73,9 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
+    todaysHomework =
+        Provider.of<HomeworkRepository>(context, listen: true).getTodayHomework;
+    news = Provider.of<NewsRepository>(context, listen: true).news;
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(height * 0.075),
@@ -205,7 +206,7 @@ class _SwiperCarouselState extends State<SwiperCarousel> {
         width: widget.width,
         height: widget.width * 0.45,
         child: Swiper(
-          itemCount: 3, //fix
+          itemCount: 3,
           viewportFraction: 0.8,
           scale: 0.9,
           outer: true,
