@@ -19,11 +19,12 @@ class NoteEditScreen extends StatefulWidget {
 }
 
 class _NoteEditScreenState extends State<NoteEditScreen> {
+  final _formKey = GlobalKey<FormBuilderState>();
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
-    final _formKey = GlobalKey<FormBuilderState>();
+
     AkademikNote returnable;
     return Scaffold(
       floatingActionButton: FloatingActionButton(

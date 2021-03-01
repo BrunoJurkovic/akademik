@@ -1,4 +1,4 @@
-package com.example.akademik
+package com.remade.akademik
 
 import io.flutter.embedding.android.FlutterActivity
 

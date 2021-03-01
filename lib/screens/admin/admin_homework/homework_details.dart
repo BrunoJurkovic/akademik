@@ -26,6 +26,7 @@ class _HomeworkDetailsScreenState extends State<HomeworkDetailsScreen> {
   List<AkademikUser> completedUsers = [];
   List<AkademikUser> allUsers = [];
   AkademikHomework currentHomework = AkademikHomework();
+  final _formKey = GlobalKey<FormBuilderState>();
 
   @override
   void initState() {
@@ -48,7 +49,7 @@ class _HomeworkDetailsScreenState extends State<HomeworkDetailsScreen> {
         Provider.of<HomeworkRepository>(context, listen: true).getOtherHomework;
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
-    final _formKey = GlobalKey<FormBuilderState>();
+
     completedUsers = Provider.of<HomeworkRepository>(context).finishedUsers;
     allUsers = Provider.of<UserRepository>(context).allUsers;
     return Scaffold(

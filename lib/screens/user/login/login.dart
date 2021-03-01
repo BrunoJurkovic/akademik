@@ -13,11 +13,11 @@ class AuthScreen extends StatefulWidget {
 }
 
 class _AuthScreenState extends State<AuthScreen> {
+  final _formKey = GlobalKey<FormBuilderState>();
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
-    final _formKey = GlobalKey<FormBuilderState>();
     return Scaffold(
       body: Column(
         // mainAxisAlignment: MainAxisAlignment.space,
