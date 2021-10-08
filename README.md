@@ -1,16 +1,23 @@
-# akademik
+# Akademik
 
-A new Flutter project.
+Akademik is a partly finished app I built for a software engineering competition in my country. The app got first place on the state level.
+ 
+## Installation
 
-## Getting Started
+Clone the repository, and run flutter run. Simple as that
 
-This project is a starting point for a Flutter application.
+```bash
+git clone https://github.com/BrunoJurkovic/akademik.git
+```
 
-A few resources to get you started if this is your first Flutter project:
+## Screenshots
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+![Home Page](https://i.imgur.com/24wQVZN.png)
+![Profile Page](https://i.imgur.com/EbiRRTt.png)
+ 
+## Contributing
+Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+
+## License
+[MIT](https://choosealicense.com/licenses/mit/)
