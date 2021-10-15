@@ -1,5 +1,5 @@
 # Akademik
-
+# ‼️PLEASE NOTE THAT THIS WAS BUILT FOR A HACKATHON UNDER A VERY STRICT DEADLINE, CODE WILL NOT BE PERFECT‼️
 Akademik is a partly finished app I built for a software engineering competition in my country. The app got first place on the state level.
  
 ## Installation
